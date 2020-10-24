@@ -137,7 +137,14 @@ public class Pengguna extends Authentikasi {
             if (isValidPassword(password) && isValidEmail(email)) {
                 password = hash(password);
                 modelPengguna.insertDataPengguna(nama, email, alamat, password);
-            } else {
+            }
+            else if(!isValidEmail(email)){
+                System.out.println("email sudah digunakan");
+            }
+            else if(!isValidPassword(password)){
+                System.out.println("password yang anda masukkan salah");
+            }
+            else {
                 System.out.println("email atau password salah");
             }
 
