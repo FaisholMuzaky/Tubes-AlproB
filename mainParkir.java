@@ -21,6 +21,7 @@ public class mainParkir {
                 Runtime.getRuntime().exec("clear");
 
         } catch (IOException | InterruptedException ex) {
+            
         }
 
     }
