@@ -3,6 +3,7 @@ import Database.Database;
 import java.io.IOException;
 import java.util.Scanner;
 
+import Controller.Area;
 import Controller.Pengguna;
 
 public class mainParkir {
@@ -49,7 +50,6 @@ public class mainParkir {
                 clrscr();
                 id = user.login();
                 break;
-
             default:
                 break;
         }

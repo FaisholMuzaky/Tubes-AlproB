@@ -1,14 +1,22 @@
 package Controller;
 
+import java.sql.ResultSet;
+import java.util.Scanner;
+
+import Model.modelArea;
+
 public class Area {
     private String namaArea;
     private Garage[] garages;
-    private int countGarage;
 
-    public Area(String namaArea, int countGarage) {
+    Scanner input = new Scanner(System.in);
+
+    public Area() {
+    }
+
+    public Area(String namaArea, Garage[] garages) {
         this.namaArea = namaArea;
-        this.countGarage = 0;
-        this.garages = new Garage[countGarage];
+        this.garages = garages;
     }
 
     public String getNamaArea() {
@@ -27,11 +35,46 @@ public class Area {
         this.garages = garages;
     }
 
-    public int getCountGarage() {
-        return this.countGarage;
+    public void addArea(){
+        System.out.println("Nama Area : ");
+        namaArea = input.next();
+        if(!namaArea.isEmpty()){
+            if(isValidnamaArea(namaArea)){
+                modelArea.insertArea(namaArea);
+            }
+            else{
+                System.out.println("nama area sudah digunakan");
+            }
+        } else{
+            System.out.println("nama area tidak boleh kosong");
+        }
     }
 
-    public void setCountGarage(int countGarage) {
-        this.countGarage = countGarage;
+    public boolean isValidnamaArea(String namaArea){
+        boolean valid = false;
+        try {
+            boolean status = modelArea.searchArea(namaArea).next();
+            if(!status){
+                valid = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return valid;
+    }
+
+    public void viewArea(String namaArea){
+        try {
+            ResultSet data = modelArea.searchArea(namaArea);
+            if(data != null){
+                while(data.next()){
+                    System.out.println("Nama Areea: " + data.getString("namaArea"));
+                }
+            } else{
+                System.out.println("Data tidak ditemukan");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
