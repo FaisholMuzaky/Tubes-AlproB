@@ -1,31 +1,11 @@
 import Database.Database;
-
-import java.io.IOException;
+import View.View;
 import java.util.Scanner;
 
 import Controller.Area;
 import Controller.Pengguna;
 
 public class mainParkir {
-    public static void clrscr() {
-
-        // Clears Screen in java
-
-        try {
-
-            if (System.getProperty("os.name").contains("Windows"))
-
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-
-            else
-
-                Runtime.getRuntime().exec("clear");
-
-        } catch (IOException | InterruptedException ex) {
-
-        }
-
-    }
 
     public static void main(String[] args) {
         int id = 0;
@@ -39,7 +19,7 @@ public class mainParkir {
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
-        clrscr();
+        View.clrscr();
         switch (pil) {
             case 1:
                 id = user.login();
@@ -47,7 +27,7 @@ public class mainParkir {
 
             case 2:
                 user.registrasi();
-                clrscr();
+                View.clrscr();
                 id = user.login();
                 break;
             default:

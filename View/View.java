@@ -1,6 +1,7 @@
 package View;
 
 import java.util.Scanner;
+import java.io.IOException;
 
 public class View {
     Scanner input = new Scanner(System.in);
@@ -24,14 +25,21 @@ public class View {
         }
     }
 
-    public void Login() {
-        int number = 10;
-        String judul = " Parkir ";
-        System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        System.out.print("Email" + " ".repeat(5) + ": ");
-        String email = input.next();
-        System.out.print("Password" + " ".repeat(2) + ": ");
-        String password = input.next();
-        System.out.println("=".repeat((number * 2) + judul.length()));
+    public static void clrscr() {
+
+        try {
+
+            if (System.getProperty("os.name").contains("Windows"))
+
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+
+            else
+
+                Runtime.getRuntime().exec("clear");
+
+        } catch (IOException | InterruptedException ex) {
+
+        }
+
     }
 }

@@ -16,8 +16,8 @@ public class Pengguna extends Authentikasi {
     private String alamat;
     private String username;
     private String password;
-    private Kendaraan[] kendaraan;
-    private int countKendaraan;
+    // private Kendaraan[] kendaraan;
+    // private int countKendaraan;
     // private boolean isAdmin;
 
     Scanner input = new Scanner(System.in);
@@ -32,8 +32,8 @@ public class Pengguna extends Authentikasi {
         this.alamat = alamat;
         this.username = username;
         this.password = password;
-        this.countKendaraan = 0;
-        this.kendaraan = new Kendaraan[countKendaraan];
+        // this.countKendaraan = 0;
+        // this.kendaraan = new Kendaraan[countKendaraan];
     }
 
     public Pengguna(String email, String password) {
@@ -137,14 +137,11 @@ public class Pengguna extends Authentikasi {
             if (isValidPassword(password) && isValidEmail(email)) {
                 password = hash(password);
                 modelPengguna.insertDataPengguna(nama, email, alamat, password);
-            }
-            else if(!isValidEmail(email)){
+            } else if (!isValidEmail(email)) {
                 System.out.println("email sudah digunakan");
-            }
-            else if(!isValidPassword(password)){
+            } else if (!isValidPassword(password)) {
                 System.out.println("password yang anda masukkan salah");
-            }
-            else {
+            } else {
                 System.out.println("email atau password salah");
             }
 
