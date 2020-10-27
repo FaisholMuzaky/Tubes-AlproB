@@ -68,7 +68,7 @@ public class Area {
             ResultSet data = modelArea.searchArea(namaArea);
             if(data != null){
                 while(data.next()){
-                    System.out.println("Nama Areea: " + data.getString("namaArea"));
+                    System.out.println("Nama Area: " + data.getString("namaArea"));
                 }
             } else{
                 System.out.println("Data tidak ditemukan");
