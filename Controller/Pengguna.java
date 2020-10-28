@@ -1,6 +1,8 @@
 package Controller;
 
 import Model.modelPengguna;
+import View.View;
+
 import java.sql.ResultSet;
 import java.util.Scanner;
 import java.util.regex.*;
@@ -10,7 +12,14 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Pengguna extends Authentikasi {
+public class Pengguna {
+    /*
+     * Data test
+     * 
+     * nama = "fadil"; email = "fadil@fadil.com"; alamat = "cikoneng"; username =
+     * "fadil"; password = "Fadil15";
+     */
+
     private String nama;
     private String email;
     private String alamat;
@@ -81,10 +90,9 @@ public class Pengguna extends Authentikasi {
         this.password = password;
     }
 
-    @Override
     public int login() {
         int id = 0;
-        int number = 10;
+        int number = 20;
         String judul = " Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         System.out.print("Email" + " ".repeat(5) + ": ");
@@ -114,9 +122,8 @@ public class Pengguna extends Authentikasi {
         return id;
     }
 
-    @Override
     public void registrasi() {
-        int number = 10;
+        int number = 20;
         String judul = " Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         System.out.print("Nama : ");
@@ -128,25 +135,36 @@ public class Pengguna extends Authentikasi {
         System.out.print("Password" + " ".repeat(2) + ": ");
         password = input.next();
         System.out.println("=".repeat((number * 2) + judul.length()));
-        // nama = "fadil";
-        // email = "fadil@fadil.com";
-        // alamat = "cikoneng";
-        // username = "fadil";
-        // password = "Fadil15";
+
         if (!nama.isEmpty() && !email.isEmpty() && !alamat.isEmpty() && !password.isEmpty()) {
             if (isValidPassword(password) && isValidEmail(email)) {
                 password = hash(password);
-                modelPengguna.insertDataPengguna(nama, email, alamat, password);
+                if (subscription()) {
+                    modelPengguna.insertDataPengguna(nama, email, alamat, password, "plus");
+                } else {
+                    modelPengguna.insertDataPengguna(nama, email, alamat, password, "easy");
+                }
+                View.pressAnyKey();
             } else if (!isValidEmail(email)) {
                 System.out.println("email sudah digunakan");
+                View.pressAnyKey();
+                View.clrscr();
+                registrasi();
             } else if (!isValidPassword(password)) {
                 System.out.println("password yang anda masukkan salah");
+                View.pressAnyKey();
+                View.clrscr();
+                registrasi();
             } else {
                 System.out.println("email atau password salah");
+                View.pressAnyKey();
+                View.clrscr();
+                registrasi();
             }
 
         } else {
             System.out.println("inputan tidak boleh kosong");
+            View.pressAnyKey();
         }
 
     }
@@ -178,9 +196,6 @@ public class Pengguna extends Authentikasi {
     public boolean isValidPassword(String password) {
         String passPattern = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=\\S+$).{6,}$";
         Pattern p = Pattern.compile(passPattern);
-        if (password == null) {
-            return false;
-        }
         Matcher m = p.matcher(password);
         return m.matches();
     }
@@ -218,11 +233,6 @@ public class Pengguna extends Authentikasi {
         }
     }
 
-    // public void addKendaraan(Kendaraan kendaraan) {
-    // this.kendaraan[countKendaraan] = kendaraan;
-    // this.countKendaraan++;
-    // }
-
     public void editAccount(int id) {
         String nama = "Walim";
         String alamat = "Bogor";
@@ -232,6 +242,20 @@ public class Pengguna extends Authentikasi {
         } else {
             System.out.println("Update Data Gagal");
         }
+    }
+
+    public boolean subscription() {
+        boolean subs = false;
+        System.out.println("Apakah anda ingin menggunakan paket PLUS");
+        System.out.println("Rp. 12000/bulan dan dikenakan pada setiap awal bulan ?");
+        System.out.println("1. Ya");
+        System.out.println("2. Tidak");
+        System.out.print("pilihan : ");
+        int pil = input.nextInt();
+        if (pil == 1) {
+            subs = true;
+        }
+        return subs;
     }
 
 }

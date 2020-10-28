@@ -24,12 +24,13 @@ public class modelPengguna {
         return rs;
     }
 
-    public static void insertDataPengguna(String nama, String email, String alamat, String password) {
+    public static void insertDataPengguna(String nama, String email, String alamat, String password,
+            String subscription) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "INSERT INTO PENGGUNA (NAMA, EMAIL, ALAMAT, PASSWORD) " + "VALUES ('" + nama + "','" + email
-                    + "','" + alamat + "','" + password + "')";
+            String query = "INSERT INTO PENGGUNA (NAMA, EMAIL, ALAMAT, PASSWORD, SUBSCRIPTION) " + "VALUES ('" + nama
+                    + "','" + email + "','" + alamat + "','" + password + "','" + subscription + "')";
 
             int rs = state.executeUpdate(query);
             if (rs == 1) {
@@ -82,8 +83,6 @@ public class modelPengguna {
             rs = state.executeUpdate(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e);
         }
         return rs;
     }

@@ -1,8 +1,25 @@
 package Controller;
 
+import java.util.Scanner;
+import java.util.regex.*;
+import java.sql.ResultSet;
+
+import Model.modelKendaraan;
+import View.View;
+
 public class Kendaraan {
     private String platNomor;
     private String tipeKendaraan;
+
+    Scanner input = new Scanner(System.in);
+
+    public Kendaraan() {
+    }
+
+    public Kendaraan(String platNomor, String tipeKendaraan) {
+        this.platNomor = platNomor;
+        this.tipeKendaraan = tipeKendaraan;
+    }
 
     public String getPlatNomor() {
         return this.platNomor;
@@ -18,6 +35,53 @@ public class Kendaraan {
 
     public void setTipeKendaraan(String tipeKendaraan) {
         this.tipeKendaraan = tipeKendaraan;
+    }
+
+    public void addKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
+        if (tipeKendaraan.toLowerCase().equals("mobil") && cekNomorKendaraanMobil(platNomor)) {
+            modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Mobil");
+            View.pressAnyKey();
+        }
+        if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
+            modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Motor");
+            View.pressAnyKey();
+        }
+    }
+
+    public void viewListKendaraan(int id) {
+        try {
+            ResultSet data = modelKendaraan.searchKendaraan(id);
+            boolean status = data.next();
+            if (data != null && status) {
+                System.out.println(id);
+                int i = 0;
+                while (status) {
+                    System.out.println(i + 1 + ". Nomor Kendaraan  : " + data.getString("nomorKendaraan"));
+                    System.out.println(" ".repeat(3) + " Jenis Kendaraan  :" + data.getString("tipeKendaraan"));
+                    i++;
+                }
+            } else {
+                System.out.println("Data kendaraan tidak ada");
+                System.out.println("Silahkan melakukan pendaftaran data kendaraan");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public boolean cekNomorKendaraanMotor(String platNomor) {
+        String motorPattern = "[A-Z]{2}+\s+[1-9]{3}+\s+[A-Z]{2}+";
+        Pattern p = Pattern.compile(motorPattern);
+        Matcher m = p.matcher(platNomor);
+        return m.matches();
+    }
+
+    public boolean cekNomorKendaraanMobil(String platNomor) {
+        String motorPattern = "[A-Z]{2}+\s+[1-9]{4}+\s+[A-Z]{1}+";
+        Pattern p = Pattern.compile(motorPattern);
+        Matcher m = p.matcher(platNomor);
+        return m.matches();
     }
 
 }
