@@ -1,6 +1,7 @@
 package Controller;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import Model.modelArea;
@@ -35,8 +36,35 @@ public class Area {
         this.garages = garages;
     }
 
+    public int garage(){
+        int idArea = 0;
+        int number = 20;
+        String judul = " Garage ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        System.out.print("Nama Area" + " ".repeat(5) + ": ");
+        String namaArea = input.next();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+
+        if(!namaArea.isEmpty()){
+            try {
+                ResultSet data = modelArea.garage(namaArea);
+                if(data.next()){
+                    System.out.println("Nama Area Tersedia");
+                    idArea = data.getInt("IdArea");
+                } else {
+                    System.out.println("nama area tidak tersedia");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("nama area tidak boleh kosong");
+        }
+        return idArea;
+    }
+
     public void addArea(){
-        System.out.println("Nama Area : ");
+        System.out.print("Nama Area : ");
         namaArea = input.next();
         if(!namaArea.isEmpty()){
             if(isValidnamaArea(namaArea)){

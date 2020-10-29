@@ -8,6 +8,22 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 public class modelArea {
+
+    public static ResultSet garage(String namaArea){
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM area WHERE namaArea ='" + namaArea + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
     public static void insertArea(String namaArea){
         try {
             Connection con = Database.getKoneksi();
@@ -34,6 +50,8 @@ public class modelArea {
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             String query = "SELECT * FROM area WHERE namaArea ='" + namaArea + "'";
             rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         } catch (Exception e) {
             System.out.println(e);
         }
