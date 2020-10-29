@@ -216,9 +216,8 @@ public class Pengguna {
             ResultSet data = modelPengguna.searchByID(id);
             if (data != null) {
                 while (data.next()) {
-                    System.out.println("Username : " + data.getString("username"));
-                    System.out.println("Nama : " + data.getString("nama"));
-                    System.out.println("Email : " + data.getString("email"));
+                    System.out.println("Nama   : " + data.getString("nama"));
+                    System.out.println("Email  : " + data.getString("email"));
                     System.out.println("Alamat : " + data.getString("Alamat"));
                 }
             } else {
@@ -230,14 +229,23 @@ public class Pengguna {
     }
 
     public void editAccount(int id) {
-        String nama = "Walim";
-        String alamat = "Bogor";
+        int number = 20;
+        String judul = " Edit Profile ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nama   : ");
+        String nama = sc.nextLine();
+        System.out.print("Alamat : ");
+        String alamat = sc.nextLine();
         int status = modelPengguna.updateDataPengguna(id, nama, alamat);
         if (status == 1) {
             System.out.println("Update Data Berhasil");
+            View.pressAnyKey();
         } else {
             System.out.println("Update Data Gagal");
+            View.pressAnyKey();
         }
+        sc.close();
     }
 
     public boolean subscription() {

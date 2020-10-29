@@ -42,11 +42,17 @@ public class Kendaraan {
             if (validasiNomorKendaraan(platNomor)) {
                 modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Mobil");
                 View.pressAnyKey();
+            } else {
+                System.out.println("Maaf, nomor Kendaraan sudah ada");
+                View.pressAnyKey();
             }
         }
         if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
             if (validasiNomorKendaraan(platNomor)) {
                 modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Motor");
+                View.pressAnyKey();
+            } else {
+                System.out.println("Maaf, nomor Kendaraan sudah ada");
                 View.pressAnyKey();
             }
         }
@@ -55,15 +61,12 @@ public class Kendaraan {
     public void viewListKendaraan(int id) {
         try {
             ResultSet data = modelKendaraan.searchKendaraan(id);
-            boolean status = data.next();
-            int row = data.getRow();
-            if (data != null && status) {
+            if (data != null) {
                 int i = 0;
-                while (i <= row) {
+                while (data.next()) {
                     System.out.println(i + 1 + ". Nomor Kendaraan  : " + data.getString("nomorKendaraan"));
                     System.out.println(" ".repeat(3) + "Jenis Kendaraan  : " + data.getString("tipeKendaraan"));
                     System.out.println();
-                    data.next();
                     i++;
                 }
             } else {
@@ -94,8 +97,7 @@ public class Kendaraan {
         boolean status = true;
         try {
             ResultSet data = modelKendaraan.searchNomorKendaraan(platNomor);
-            int row = data.getRow();
-            if (row > 0) {
+            if (data.next()) {
                 status = false;
             }
         } catch (Exception e) {

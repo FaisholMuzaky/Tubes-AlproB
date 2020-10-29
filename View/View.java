@@ -57,7 +57,7 @@ public class View {
         }
     }
 
-    public void areaAndGarage(){
+    public void areaAndGarage() {
         int number = 20;
         String judul = " Area dan Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -73,7 +73,7 @@ public class View {
                 clrscr();
                 IdArea = area.garage();
                 pressAnyKey();
-                if(IdArea > 0){
+                if (IdArea > 0) {
                     clrscr();
                     mainArea();
                 } else {
@@ -84,7 +84,7 @@ public class View {
             case 2:
                 IdArea = area.garage();
                 pressAnyKey();
-                if(IdArea > 0){
+                if (IdArea > 0) {
                     clrscr();
                     viewGarage();
                 } else {
@@ -128,7 +128,7 @@ public class View {
     public void mainArea() {
         int number = 20;
         String judul = " Area ";
-        System.out.println("=".repeat(number) + judul + "=".repeat(number));        
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
         System.out.println("1. Garage");
         System.out.println("2. Edit Area");
         System.out.println("3. Hapus Area");
@@ -141,7 +141,7 @@ public class View {
             case 1:
                 viewGarage();
                 break;
-        
+
             default:
                 break;
         }
@@ -173,17 +173,40 @@ public class View {
             // clrscr();
             // id = user.login();
             // break;
-            // case 4:
-            // user.registrasi();
-            // clrscr();
-            // id = user.login();
-            // break;
+            case 4:
+                viewProfile();
+                break;
             default:
                 break;
         }
     }
 
-    public void viewGarage(){
+    public void viewProfile() {
+        int number = 20;
+        String judul = " Profile ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        user.viewAccount(idPengguna);
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        System.out.println("1. Edit");
+        System.out.println("2. Kembali");
+        System.out.print("Pilihan : ");
+        int pil = input.nextInt();
+        switch (pil) {
+            case 1:
+                clrscr();
+                user.editAccount(idPengguna);
+                viewProfile();
+                break;
+            case 2:
+                clrscr();
+                mainPengguna();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void viewGarage() {
         int number = 20;
         String judul = " Daftar Garasi ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -200,7 +223,7 @@ public class View {
                 clrscr();
                 tambahGarage();
                 break;
-        
+
             default:
                 break;
         }
@@ -213,9 +236,8 @@ public class View {
         kendaraan.viewListKendaraan(4);
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Tambah Kendaraan");
-        System.out.println("2. Edit Kendaraan");
-        System.out.println("3. Hapus Kendaraan");
-        System.out.println("4. Kembali");
+        System.out.println("2. Hapus Kendaraan");
+        System.out.println("3. Kembali");
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         System.out.println("=".repeat((number * 2) + judul.length()));
@@ -224,7 +246,7 @@ public class View {
                 clrscr();
                 tambahKendaraan();
                 break;
-            case 4:
+            case 3:
                 clrscr();
                 mainPengguna();
                 break;
@@ -235,17 +257,19 @@ public class View {
     }
 
     public void tambahKendaraan() {
+        Scanner sc = new Scanner(System.in);
         int number = 20;
         String judul = " Tambah Kendaraan ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        System.out.print("Nomor Kendaraan : ");
-        String nomorKendaraan = input.next();
+        System.out.print("Nomor kendaraan : ");
+        String nomorKendaraan = sc.nextLine();
         System.out.println("Tipe Kendaraan : ");
         System.out.println("1. Mobil");
         System.out.println("2. Motor");
         System.out.print("Pilihan : ");
-        int pil = input.nextInt();
-        if (pil == 1) {
+        int tipe = sc.nextInt();
+        System.out.println(tipe);
+        if (tipe == 1) {
             kendaraan.addKendaraan(4, nomorKendaraan, "Mobil");
             clrscr();
             viewKendaraan();
@@ -254,6 +278,7 @@ public class View {
             clrscr();
             viewKendaraan();
         }
+        sc.close();
     }
 
     public void tambahGarage() {
