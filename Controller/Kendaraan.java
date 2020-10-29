@@ -39,12 +39,16 @@ public class Kendaraan {
 
     public void addKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
         if (tipeKendaraan.toLowerCase().equals("mobil") && cekNomorKendaraanMobil(platNomor)) {
-            modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Mobil");
-            View.pressAnyKey();
+            if (validasiNomorKendaraan(platNomor)) {
+                modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Mobil");
+                View.pressAnyKey();
+            }
         }
         if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
-            modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Motor");
-            View.pressAnyKey();
+            if (validasiNomorKendaraan(platNomor)) {
+                modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Motor");
+                View.pressAnyKey();
+            }
         }
     }
 
@@ -52,12 +56,14 @@ public class Kendaraan {
         try {
             ResultSet data = modelKendaraan.searchKendaraan(id);
             boolean status = data.next();
+            int row = data.getRow();
             if (data != null && status) {
-                System.out.println(id);
                 int i = 0;
-                while (status) {
+                while (i <= row) {
                     System.out.println(i + 1 + ". Nomor Kendaraan  : " + data.getString("nomorKendaraan"));
-                    System.out.println(" ".repeat(3) + " Jenis Kendaraan  :" + data.getString("tipeKendaraan"));
+                    System.out.println(" ".repeat(3) + "Jenis Kendaraan  : " + data.getString("tipeKendaraan"));
+                    System.out.println();
+                    data.next();
                     i++;
                 }
             } else {
@@ -84,4 +90,17 @@ public class Kendaraan {
         return m.matches();
     }
 
+    public boolean validasiNomorKendaraan(String platNomor) {
+        boolean status = true;
+        try {
+            ResultSet data = modelKendaraan.searchNomorKendaraan(platNomor);
+            int row = data.getRow();
+            if (row > 0) {
+                status = false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return status;
+    }
 }

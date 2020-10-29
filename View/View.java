@@ -120,11 +120,12 @@ public class View {
         int number = 20;
         String judul = " Daftar Kendaraan ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        kendaraan.viewListKendaraan(idPengguna);
+        kendaraan.viewListKendaraan(4);
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Tambah Kendaraan");
         System.out.println("2. Edit Kendaraan");
         System.out.println("3. Hapus Kendaraan");
+        System.out.println("4. Kembali");
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         System.out.println("=".repeat((number * 2) + judul.length()));
@@ -132,6 +133,10 @@ public class View {
             case 1:
                 clrscr();
                 tambahKendaraan();
+                break;
+            case 4:
+                clrscr();
+                mainPengguna();
                 break;
 
             default:
@@ -151,9 +156,13 @@ public class View {
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         if (pil == 1) {
-            kendaraan.addKendaraan(idPengguna, nomorKendaraan, "Mobil");
+            kendaraan.addKendaraan(4, nomorKendaraan, "Mobil");
+            clrscr();
+            viewKendaraan();
         } else {
-            kendaraan.addKendaraan(idPengguna, nomorKendaraan, "Motor");
+            kendaraan.addKendaraan(4, nomorKendaraan, "Motor");
+            clrscr();
+            viewKendaraan();
         }
     }
 }

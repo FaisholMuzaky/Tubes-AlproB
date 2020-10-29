@@ -7,7 +7,8 @@ public class mainParkir {
 
     public static void main(String[] args) {
         View view = new View();
-        view.auth();
+        // view.auth();
+        view.viewKendaraan();
 
         // Kendaraan kendaraan = new Kendaraan();
         // System.out.println(kendaraan.cekNomorKendaraanMotor("DC 123 ZR"));
