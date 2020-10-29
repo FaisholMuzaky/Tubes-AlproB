@@ -25,8 +25,6 @@ public class Pengguna {
     private String alamat;
     private String username;
     private String password;
-    // private Kendaraan[] kendaraan;
-    // private int countKendaraan;
     // private boolean isAdmin;
 
     Scanner input = new Scanner(System.in);
@@ -41,8 +39,6 @@ public class Pengguna {
         this.alamat = alamat;
         this.username = username;
         this.password = password;
-        // this.countKendaraan = 0;
-        // this.kendaraan = new Kendaraan[countKendaraan];
     }
 
     public Pengguna(String email, String password) {
