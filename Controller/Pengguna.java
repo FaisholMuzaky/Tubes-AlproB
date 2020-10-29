@@ -18,7 +18,7 @@ public class Pengguna extends Authentikasi {
     private String password;
     private Kendaraan[] kendaraan;
     private int countKendaraan;
-    // private boolean isAdmin;
+    private boolean isAdmin;
 
     Scanner input = new Scanner(System.in);
 
@@ -34,6 +34,7 @@ public class Pengguna extends Authentikasi {
         this.password = password;
         this.countKendaraan = 0;
         this.kendaraan = new Kendaraan[countKendaraan];
+        this.isAdmin = false;
     }
 
     public Pengguna(String email, String password) {
@@ -49,8 +50,26 @@ public class Pengguna extends Authentikasi {
         this.nama = nama;
     }
 
+    public Kendaraan[] getKendaraan() {
+        return this.kendaraan;
+    }
+
+    public void setKendaraan(Kendaraan[] kendaraan) {
+        this.kendaraan = kendaraan;
+    }
+
+
     public String getEmail() {
         return this.email;
+    }
+
+
+    public boolean getIsAdmin() {
+        return this.isAdmin;
+    }
+
+    public boolean isIsAdmin() {
+        return this.isAdmin;
     }
 
     public void setEmail(String email) {

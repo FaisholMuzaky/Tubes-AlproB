@@ -10,7 +10,7 @@ public class Database {
         try {
             String url = "jdbc:mysql://127.0.0.1:3306/parkir?serverTimezone=Asia/Jakarta";
             String user = "root";
-            String password = "";
+            String password = "Rahas1a!";
             con = DriverManager.getConnection(url, user, password);
             if (con == null) {
                 System.out.println("Failed to make connection!");
