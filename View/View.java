@@ -120,11 +120,12 @@ public class View {
         int number = 20;
         String judul = " Area ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        area.viewListArea();
+        System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Garasi");
         System.out.println("2. Tambah Area");
         System.out.println("3. Edit Area");
         System.out.println("4. Hapus Area");
-        System.out.println("5. Lihat Daftar Area");
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
@@ -153,6 +154,12 @@ public class View {
                     mainArea();
                 }
                 break;
+            case 4:
+                clrscr();
+                IdArea = area.deleteArea();
+                pressAnyKey();
+                clrscr();
+                mainArea();
             default:
                 break;
         }

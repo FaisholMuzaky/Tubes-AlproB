@@ -114,7 +114,7 @@ public class Garage {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("nama area tidak boleh kosong");
+            System.out.println("nama garasi tidak boleh kosong");
         }
         return idGarage;
     }
@@ -149,7 +149,7 @@ public class Garage {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("nama area tidak boleh kosong");
+            System.out.println("nama garasi tidak boleh kosong");
         }
         return idGarage;
     }

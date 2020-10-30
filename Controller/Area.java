@@ -97,15 +97,18 @@ public class Area {
         return valid;
     }
 
-    public void viewArea(String namaArea){
+    public void viewListArea() {
         try {
-            ResultSet data = modelArea.searchArea(namaArea);
+            ResultSet data = modelArea.searchIdArea();
             if(data != null){
+                int i = 0;
                 while(data.next()){
-                    System.out.println("Nama Area: " + data.getString("namaArea"));
+                    System.out.println(i + 1 + ". Nama Area  : " + data.getString("namaArea"));
+                    System.out.println();
+                    i++;
                 }
             } else{
-                System.out.println("Data tidak ditemukan");
+                System.out.println("Data area tidak ada");
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -127,5 +130,40 @@ public class Area {
             System.out.println("Update Data gagal");
             View.pressAnyKey();
         }
+    }
+
+    public int deleteArea(){
+        int IdArea = 0;
+        int number = 20;
+        String judul = " Delete Area ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        System.out.print("Nama Area" + " ".repeat(5) + ": ");
+        String namaArea = input.next();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+
+        if(!namaArea.isEmpty()){
+            try {
+                ResultSet data = modelArea.garage(namaArea);
+                if(data.next()){
+                    System.out.println("Nama Area Tersedia");
+                    IdArea = data.getInt("IdArea");
+                    int status = modelArea.deleteDataArea(IdArea, namaArea);
+                    if (status == 1){
+                        System.out.println("Delete Data Area Berhasil");
+                        View.pressAnyKey();
+                    } else {
+                        System.out.println(" Delete Data Gagal");
+                        View.pressAnyKey();
+                    }
+                } else {
+                    System.out.println("nama area tidak tersedia");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("nama area tidak boleh kosong");
+        }
+        return IdArea;
     }
 }
