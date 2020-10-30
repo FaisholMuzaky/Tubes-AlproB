@@ -19,6 +19,9 @@ public class Pengguna extends Authentikasi {
     private Kendaraan[] kendaraan;
     private int countKendaraan;
     private boolean isAdmin;
+    //USULAN TAMBAHAN
+    private int idPengguna;
+    private String subscription;
 
     Scanner input = new Scanner(System.in);
 
@@ -100,6 +103,16 @@ public class Pengguna extends Authentikasi {
         this.password = password;
     }
 
+
+    public int getIdPengguna() {
+        return this.idPengguna;
+    }
+
+
+    public String getSubscription() {
+        return this.subscription;
+    }
+
     @Override
     public int login() {
         int id = 0;
@@ -121,6 +134,12 @@ public class Pengguna extends Authentikasi {
                 if (data.next()) {
                     System.out.println("Login Berhasil");
                     id = data.getInt("idPengguna");
+                    //USULAN TAMBAHAN
+                    this.idPengguna = id;
+                    this.nama = data.getString("nama");
+                    this.email = data.getString("email");
+                    this.alamat = data.getString("alamat");
+                    this.subscription = data.getString("subscription");
                 } else {
                     System.out.println("email atau password salah");
                 }

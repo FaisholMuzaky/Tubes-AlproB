@@ -1,40 +1,64 @@
 package Controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import Model.modelParkir;
 
 public class Parkir {
-    private Pengguna admin;
-    private Kendaraan kendaraan;
-    private Area area;
-    private Date timeStart;
-    private Date timeStop;
+    private int idKendaraan;
+    private int idArea;
+    private int idGarage;
+    private LocalDateTime timeStart;
+    private LocalDateTime timeStop;
+    private LocalDate tanggal;
     private double totalTransaksi;
     private int durasi;
+    private modelParkir m;
 
-    //test
+
+    public Parkir() {
+        m = new modelParkir();
+    }
+
+    public LocalDate getTanggal() {
+        return this.tanggal;
+    }
+
+    public void setTanggal(LocalDate tanggal) {
+        this.tanggal = tanggal;
+    }
+
+    public int getIdArea() {
+        return this.idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
+    }
     
-    protected void setArea(Area area) {
-        this.area = area;
+    public int getIdGarage() {
+        return this.idGarage;
     }
 
-    protected void setKendaraan(Kendaraan kendaraan) {
-        this.kendaraan = kendaraan;
+    public void setIdGarage(int idGarage) {
+        this.idGarage = idGarage;
     }
 
 
-    public Pengguna getAdmin() {
-        return this.admin;
+    protected void setIdKendaraan(int idKendaraan) {
+        this.idKendaraan = idKendaraan;
     }
 
-    public Kendaraan getKendaraan() {
-        return this.kendaraan;
+    public int getIdKendaraan() {
+        return this.idKendaraan;
     }
 
-    public Date getTimeStart() {
+    public LocalDateTime getTimeStart() {
         return this.timeStart;
     }
 
-    public Date getTimeStop() {
+    public LocalDateTime getTimeStop() {
         return this.timeStop;
     }
 
@@ -42,11 +66,11 @@ public class Parkir {
         return this.durasi;
     }
 
-    protected void startParking(Date start) {
+    protected void startParking(LocalDateTime start) {
         timeStart = start;
     }
 
-    protected void stopParking(Date stop) {
+    protected void stopParking(LocalDateTime stop) {
         timeStop = stop;
     }
 
@@ -54,17 +78,33 @@ public class Parkir {
         durasi = timeStop.compareTo(timeStart);
     }
 
-    public Area getArea() {
-        return this.area;
-    }
-
-
     public double getTotalTransaksi() {
         return this.totalTransaksi;
     }
 
     public void setTotalTransaksi() {
         this.totalTransaksi = durasi * 2000;
+    }
+
+    public boolean addParkir() {
+        if(m.save(this))
+            return true;
+        else
+            return false;
+    }
+
+    public Parkir getParkir(int idParkir) {
+        return this;
+    }
+
+    public void showParkir() {
+        this.m.view(this);
+    }
+
+    public boolean isParking() {
+        if (this.m.isParking(this))
+            return true;
+        return false;
     }
 
 }

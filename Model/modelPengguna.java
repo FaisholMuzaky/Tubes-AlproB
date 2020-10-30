@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.mysql.cj.xdevapi.Result;
+
+import Controller.Pengguna;
+
 import java.sql.SQLException;
 
 public class modelPengguna {
@@ -80,6 +84,22 @@ public class modelPengguna {
             String query = "UPDATE pengguna SET nama = '" + nama + "', alamat = '" + alamat + "' WHERE idPengguna ='"
                     + id + "'";
             rs = state.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
+    public ResultSet getIdPengguna(Pengguna p) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "SELECT idPengguna WHERE nama='"+p.getNama()+
+                "AND email='"+p.getEmail();
+            rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         } catch (Exception e) {

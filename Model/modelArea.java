@@ -54,4 +54,20 @@ public class modelArea {
         }
         return rs;
     }
+
+    public static void viewArea() {
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "SELECT idArea, namaArea FROM area";
+            ResultSet rs = state.executeQuery(query);
+            while(rs.next()) {
+                System.out.println(rs.getInt("idArea")+". "+rs.getString("namaArea"));
+            }
+        }catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 }
