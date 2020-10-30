@@ -10,6 +10,7 @@ import java.io.IOException;
 public class View {
     private int idPengguna = 0;
     private int IdArea = 0;
+    private int IdGarage = 0;
 
     Scanner input = new Scanner(System.in);
     Pengguna user = new Pengguna();
@@ -61,35 +62,25 @@ public class View {
         int number = 20;
         String judul = " Area dan Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        System.out.println("1. Tambah Area");
-        System.out.println("2. Tambah Garasi");
+        System.out.println("1. Area");
+        System.out.println("2. Garasi");
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         clrscr();
         switch (pil) {
             case 1:
-                area.addArea();
-                clrscr();
-                IdArea = area.garage();
-                pressAnyKey();
-                if (IdArea > 0) {
-                    clrscr();
-                    mainArea();
-                } else {
-                    clrscr();
-                    auth();
-                }
+                mainArea();
                 break;
             case 2:
-                IdArea = area.garage();
+                IdArea = area.area();
                 pressAnyKey();
                 if (IdArea > 0) {
                     clrscr();
                     viewGarage();
                 } else {
                     clrscr();
-                    auth();
+                    areaAndGarage();
                 }
                 break;
             default:
@@ -129,10 +120,11 @@ public class View {
         int number = 20;
         String judul = " Area ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        System.out.println("1. Garage");
-        System.out.println("2. Edit Area");
-        System.out.println("3. Hapus Area");
-        System.out.println("4. Lihat Daftar Area");
+        System.out.println("1. Garasi");
+        System.out.println("2. Tambah Area");
+        System.out.println("3. Edit Area");
+        System.out.println("4. Hapus Area");
+        System.out.println("5. Lihat Daftar Area");
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
@@ -141,7 +133,26 @@ public class View {
             case 1:
                 viewGarage();
                 break;
-
+            case 2:
+                area.addArea();
+                pressAnyKey();
+                clrscr();
+                mainArea();
+                break;
+            case 3:
+                clrscr();
+                IdArea = area.area();
+                pressAnyKey();
+                if (IdArea > 0) {
+                    clrscr();
+                    area.editArea(IdArea);
+                    clrscr();
+                    mainArea();
+                } else {
+                    clrscr();
+                    mainArea();
+                }
+                break;
             default:
                 break;
         }
@@ -222,8 +233,26 @@ public class View {
             case 1:
                 clrscr();
                 tambahGarage();
+                viewGarage();
                 break;
-
+            case 2:
+                clrscr();
+                IdGarage = garage.garage();
+                pressAnyKey();
+                if (IdGarage > 0) {
+                    clrscr();
+                    garage.editGarage(IdGarage);
+                    viewGarage();
+                } else {
+                    clrscr();
+                    viewGarage();
+                }
+                break;
+            case 3:
+                clrscr();
+                IdGarage = garage.deleteGarage();
+                pressAnyKey();
+                viewGarage();
             default:
                 break;
         }

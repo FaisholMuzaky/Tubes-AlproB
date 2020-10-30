@@ -35,11 +35,55 @@ public class modelGarage {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT namaGarage FROM garage WHERE IdArea ='" + IdArea + "'";
+            String query = "SELECT * FROM garage WHERE IdArea ='" + IdArea + "'";
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         }
         return rs;
     }
+
+    public static ResultSet searchGarageforUpdate(String namaGarage){
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM garage WHERE namaGarage ='" + namaGarage + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
+	public static int updateDataGarage(int idGarage, String namaGarage, int tarif, int hariOperasi, int jamBuka,
+			int jamTutup) {
+        int rs = 0;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "UPDATE garage SET namaGarage = '" + namaGarage + "', tarif = '" + tarif + "', hariOperasi = '" + hariOperasi + "', jamBuka = '" + jamBuka + "', jamTutup = '" + jamTutup + "' WHERE IdGarage ='"
+            + idGarage + "'";
+            rs = state.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
+
+	public static int deleteDataGaragae(int idGarage, String namaGarage) {
+        int rs = 0;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "DELETE FROM garage WHERE IdGarage = '" + idGarage + "'";
+            rs = state.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+	}
 }
+
