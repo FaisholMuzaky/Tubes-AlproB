@@ -5,15 +5,16 @@ import java.util.regex.*;
 import java.sql.ResultSet;
 
 import Model.modelKendaraan;
-import View.View;
 
 public class Kendaraan {
     private String platNomor;
     private String tipeKendaraan;
+    private modelKendaraan k;
 
     Scanner input = new Scanner(System.in);
 
     public Kendaraan() {
+        this.k = new modelKendaraan();
     }
 
     public Kendaraan(String platNomor, String tipeKendaraan) {
@@ -40,28 +41,25 @@ public class Kendaraan {
     public void addKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
         if (tipeKendaraan.toLowerCase().equals("mobil") && cekNomorKendaraanMobil(platNomor)) {
             if (validasiNomorKendaraan(platNomor)) {
-                modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Mobil");
-                View.pressAnyKey();
+                k.insertDataKendaraan(idPengguna, platNomor, "Mobil");
             } else {
                 System.out.println("Maaf, nomor Kendaraan sudah ada");
-                View.pressAnyKey();
             }
-        }
-        if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
+        } else if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
             if (validasiNomorKendaraan(platNomor)) {
-                modelKendaraan.insertDataKendaraan(idPengguna, platNomor, "Motor");
-                View.pressAnyKey();
+                k.insertDataKendaraan(idPengguna, platNomor, "Motor");
             } else {
                 System.out.println("Maaf, nomor Kendaraan sudah ada");
-                View.pressAnyKey();
             }
+        } else {
+            System.out.println("Maaf, format nomor kendaraan salah");
         }
     }
 
     public void viewListKendaraan(int id) {
         try {
-            ResultSet data = modelKendaraan.searchKendaraan(id);
-            if (data != null) {
+            ResultSet data = k.searchKendaraan(id);
+            if (data != null && data.isBeforeFirst()) {
                 int i = 0;
                 while (data.next()) {
                     System.out.println(i + 1 + ". Nomor Kendaraan  : " + data.getString("nomorKendaraan"));
@@ -96,7 +94,7 @@ public class Kendaraan {
     public boolean validasiNomorKendaraan(String platNomor) {
         boolean status = true;
         try {
-            ResultSet data = modelKendaraan.searchNomorKendaraan(platNomor);
+            ResultSet data = k.searchNomorKendaraan(platNomor);
             if (data.next()) {
                 status = false;
             }

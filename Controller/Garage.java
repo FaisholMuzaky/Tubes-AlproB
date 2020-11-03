@@ -3,23 +3,23 @@ package Controller;
 import java.sql.ResultSet;
 
 import Model.modelGarage;
-import View.View;
 
 public class Garage {
     private String namaGarage;
     private int tarif;
-    private int hasilOperasi;
+    private int hariOperasi;
     private int jamBuka;
-    private int jamTutup;  
+    private int jamTutup;
+    private modelGarage g;
 
-    public Garage(){
-
+    public Garage() {
+        this.g = new modelGarage();
     }
 
-    public Garage(String namaGarage, int tarif, int hasilOperasi, int jamBuka, int jamTutup) {
+    public Garage(String namaGarage, int tarif, int hariOperasi, int jamBuka, int jamTutup) {
         this.namaGarage = namaGarage;
         this.tarif = tarif;
-        this.hasilOperasi = hasilOperasi;
+        this.hariOperasi = hariOperasi;
         this.jamBuka = jamBuka;
         this.jamTutup = jamTutup;
     }
@@ -40,12 +40,12 @@ public class Garage {
         this.tarif = tarif;
     }
 
-    public int getHasilOperasi() {
-        return this.hasilOperasi;
+    public int getHariOperasi() {
+        return this.hariOperasi;
     }
 
-    public void setHasilOperasi(int hasilOperasi) {
-        this.hasilOperasi = hasilOperasi;
+    public void setHasilOperasi(int hariOperasi) {
+        this.hariOperasi = hariOperasi;
     }
 
     public int getJamBuka() {
@@ -64,28 +64,117 @@ public class Garage {
         this.jamTutup = jamTutup;
     }
 
-    public void addGarage(int IdArea, String namaGarage, int tarif, int hariOperasi, int jamBuka, int jamTutup){
-        modelGarage.insertGarage(IdArea, namaGarage, tarif, hariOperasi, jamBuka, jamTutup);
-        View.pressAnyKey();
+    public void addGarage(int IdArea, Garage garage[]) {
+        g.insertGarage(IdArea, garage);
     }
 
-	public void viewListGarage(int idArea) {
+    public void viewListGarage(int idArea) {
         try {
-            ResultSet data = modelGarage.searchGarage(idArea);
-            boolean status = data.next();
-            int row = data.getRow();
-            if(data != null && status){
+            ResultSet data = g.searchGarage(idArea);
+            if (data != null && data.isBeforeFirst()) {
                 int i = 0;
-                while(i<=row){
-                    System.out.println(i + 1 + ". Nama Garasi  : " + data.getString("namaGarage"));
-                    data.next();
+                while (data.next()) {
+                    System.out.println(i + 1 + ". Nama Garasi             : " + data.getString("namaGarage"));
+                    System.out.println(" ".repeat(3) + "Tarif                   : Rp. " + data.getInt("tarif"));
+                    System.out.println(" ".repeat(3) + "Jumlah Hari Operasional : " + data.getInt("hariOperasi"));
+                    System.out.println(" ".repeat(3) + "Jam Buka                : " + data.getInt("jamBuka"));
+                    System.out.println(" ".repeat(3) + "Jam Tutup               : " + data.getInt("jamTutup"));
                     i++;
                 }
-            } else{
-                System.out.println("Data garasi tidak ada");
+            } else {
+                System.out.println("Tidak ada garasi yang terdaftar");
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-	}
+    }
+
+    public int countGarageArea(int IdArea) {
+        int jum = 0;
+        try {
+            ResultSet data = g.countGarages(IdArea);
+            if (data.next()) {
+                jum = data.getInt("COUNT(*)");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return jum;
+    }
+
+    public void listAllGarage() {
+        try {
+            ResultSet data = g.listAllGarage();
+            if (data != null && data.isBeforeFirst()) {
+                int i = 0;
+                while (data.next()) {
+                    System.out.println(i + 1 + ". Nama Garasi  : " + data.getString("namaGarage"));
+                    i++;
+                }
+            } else {
+                System.out.println("Tidak ada garasi yang terdaftar");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public int getIdGarage(String namaGarage) {
+        int idGarasi = 0;
+        try {
+            ResultSet data = g.searchGarage(namaGarage);
+            if (data.next()) {
+                idGarasi = data.getInt("idGarage");
+            } else {
+                System.out.println("Nama garasi tidak terdaftar");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return idGarasi;
+    }
+
+    public void detailGarageByName(String namaGarage) {
+        try {
+            ResultSet data = g.searchGarage(namaGarage);
+            if (data.next()) {
+                ResultSet result = g.getNamaArea(data.getInt("idArea"));
+                result.next();
+                System.out.println("Nama Area               : " + result.getString("namaArea"));
+                System.out.println("Nama Garasi             : " + data.getString("namaGarage"));
+                System.out.println("Tarif                   : Rp. " + data.getInt("tarif"));
+                System.out.println("Jumlah Hari Operasional : " + data.getInt("hariOperasi"));
+                System.out.println("Jam Buka                : " + data.getInt("jamBuka"));
+                System.out.println("Jam Tutup               : " + data.getInt("jamTutup"));
+            } else {
+                System.out.println("Data garasi tidak tersedia");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public boolean cekNamaGarage(String namaGarage) {
+        boolean valid = false;
+        try {
+            boolean status = g.searchGarage(namaGarage).next();
+            if (status) {
+                valid = true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return valid;
+    }
+
+    public void editGarage(int idGarage, String namaGarasi, int tarif, int hariOperasi, int jamBuka, int jamTutup) {
+        int status = g.updateGarage(idGarage, namaGarasi, tarif, hariOperasi, jamBuka, jamTutup);
+        if (status == 1) {
+            System.out.println("Update Data Berhasil");
+        } else {
+            System.out.println("Update Data Gagal");
+
+        }
+    }
 }

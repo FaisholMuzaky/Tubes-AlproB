@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class modelPengguna {
 
-    public static ResultSet login(String email, String password) {
+    public ResultSet login(String email, String password) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -24,8 +24,7 @@ public class modelPengguna {
         return rs;
     }
 
-    public static void insertDataPengguna(String nama, String email, String alamat, String password,
-            String subscription) {
+    public void insertDataPengguna(String nama, String email, String alamat, String password, String subscription) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
@@ -46,7 +45,7 @@ public class modelPengguna {
 
     }
 
-    public static ResultSet searchEmail(String email) {
+    public ResultSet searchEmail(String email) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -60,7 +59,7 @@ public class modelPengguna {
 
     }
 
-    public static ResultSet searchByID(int idPengguna) {
+    public ResultSet searchByID(int idPengguna) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -73,7 +72,7 @@ public class modelPengguna {
         return rs;
     }
 
-    public static int updateDataPengguna(int id, String nama, String alamat) {
+    public int updateDataPengguna(int id, String nama, String alamat) {
         int rs = 0;
         try {
             Connection con = Database.getKoneksi();
@@ -83,6 +82,19 @@ public class modelPengguna {
             rs = state.executeUpdate(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
+
+    public ResultSet rolePengguna(int idPengguna) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT role FROM pengguna WHERE idPengguna ='" + idPengguna + "'";
+            rs = state.executeQuery(query);
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return rs;
     }

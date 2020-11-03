@@ -9,41 +9,24 @@ import java.sql.SQLException;
 
 public class modelArea {
 
-    public static ResultSet garage(String namaArea){
-        ResultSet rs = null;
-        try {
-            Connection con = Database.getKoneksi();
-            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM area WHERE namaArea ='" + namaArea + "'";
-            rs = state.executeQuery(query);
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return rs;
-    }
-
-    public static void insertArea(String namaArea){
+    public void insertArea(String namaArea) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "INSERT INTO AREA(NAMAAREA)" + "VALUES ('"+ namaArea +"')";
+            String query = "INSERT INTO AREA(NAMAAREA)" + "VALUES ('" + namaArea + "')";
 
             int rs = state.executeUpdate(query);
-            if(rs == 1){
+            if (rs == 1) {
                 System.out.println("Tambah Area Berhasil");
-            } else{
+            } else {
                 System.out.println("Tambah Area Gagal");
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Tambah Area gagal");
         }
     }
 
-    public static ResultSet searchArea(String namaArea){
+    public ResultSet searchArea(String namaArea) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -58,16 +41,29 @@ public class modelArea {
         return rs;
     }
 
-    public static int updateArea(String namaArea){
+    public ResultSet listArea() {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM area";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
+
+    public int updateArea(String namaArea, String newNamaArea) {
         int rs = 0;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "UPDATE area SET namaArea = '" + namaArea + "'";
+            String query = "UPDATE area SET namaArea = '" + newNamaArea + "' WHERE namaArea = '" + namaArea + "'";
             rs = state.executeUpdate(query);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
         return rs;

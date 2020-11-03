@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 public class modelKendaraan {
-    public static void insertDataKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
+    public void insertDataKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
@@ -26,7 +26,7 @@ public class modelKendaraan {
         }
     }
 
-    public static ResultSet searchKendaraan(int idPengguna) {
+    public ResultSet searchKendaraan(int idPengguna) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -39,7 +39,7 @@ public class modelKendaraan {
         return rs;
     }
 
-    public static ResultSet searchNomorKendaraan(String nomorKendaraan) {
+    public ResultSet searchNomorKendaraan(String nomorKendaraan) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
