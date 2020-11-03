@@ -124,4 +124,16 @@ public class modelGarage {
         return rs;
     }
 
+    public static int deleteDataGaragae(int idGarage, String namaGarage) {
+        int rs = 0;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "DELETE FROM garage WHERE IdGarage = '" + idGarage + "'";
+            rs = state.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
 }

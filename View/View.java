@@ -11,6 +11,7 @@ import java.io.IOException;
 public class View {
     private int idPengguna = 0;
     private int IdArea = 0;
+    private int IdGarage = 0;
 
     private Pengguna user = new Pengguna();
     private Kendaraan kendaraan = new Kendaraan();
@@ -438,31 +439,6 @@ public class View {
         pressAnyKey();
         clrscr();
         mainArea();
-    }
-
-    public void viewGarage() {
-        Scanner input = new Scanner(System.in);
-        int number = 20;
-        String judul = " Daftar Garasi ";
-        System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        garage.viewListGarage(IdArea);
-        System.out.println("=".repeat((number * 2) + judul.length()));
-        System.out.println("1. Tambah Garasi");
-        System.out.println("2. Edit Garasi");
-        System.out.println("3. Hapus Garasi");
-        System.out.print("Pilihan : ");
-        int pil = input.nextInt();
-        System.out.println("=".repeat((number * 2) + judul.length()));
-        switch (pil) {
-            case 1:
-                clrscr();
-                tambahGarage();
-                break;
-
-            default:
-                break;
-        }
-        input.close();
     }
 
     public void mainGarage() {
