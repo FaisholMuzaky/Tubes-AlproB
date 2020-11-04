@@ -300,48 +300,6 @@ public class View {
         }
     }
 
-    // public void areaAndGarage() {
-    // Scanner input = new Scanner(System.in);
-    // int number = 20;
-    // String judul = " Area dan Garasi ";
-    // System.out.println("=".repeat(number) + judul + "=".repeat(number));
-    // System.out.println("1. Tambah Area");
-    // System.out.println("2. Tambah Garasi");
-    // System.out.println("=".repeat((number * 2) + judul.length()));
-    // System.out.print("Pilihan : ");
-    // int pil = input.nextInt();
-    // clrscr();
-    // switch (pil) {
-    // case 1:
-    // area.addArea();
-    // clrscr();
-    // IdArea = area.garage();
-    // pressAnyKey();
-    // if (IdArea > 0) {
-    // clrscr();
-    // mainArea();
-    // } else {
-    // clrscr();
-    // auth();
-    // }
-    // break;
-    // case 2:
-    // IdArea = area.garage();
-    // pressAnyKey();
-    // if (IdArea > 0) {
-    // clrscr();
-    // viewGarage();
-    // } else {
-    // clrscr();
-    // auth();
-    // }
-    // break;
-    // default:
-    // break;
-    // }
-    // input.close();
-    // }
-
     public void mainArea() {
         Scanner input = new Scanner(System.in);
         int number = 20;
