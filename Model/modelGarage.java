@@ -136,4 +136,42 @@ public class modelGarage {
         }
         return rs;
     }
+
+    public String getNamaGarage(int idGarage) {
+        String namaGarage = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT namaGarage FROM garage WHERE idGarage ='" + idGarage + "'";
+            ResultSet rs = state.executeQuery(query);
+            while(rs.next()) {
+                namaGarage = rs.getString("namaGarage");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return namaGarage;
+    }
+
+    public Garage getGarage(int idGarage) {
+        Garage garage = new Garage();
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT idGarage, idArea, namaGarage, tarif, hariOperasi, jamBuka, jamTutup"+
+                            " FROM garage WHERE idGarage ='" + idGarage + "'";
+            ResultSet rs = state.executeQuery(query);
+            while(rs.next()) {
+                garage.setIdGarage(rs.getInt("idGarage"));
+                garage.setNamaGarage(rs.getString("namaGarage"));
+                garage.setTarif(rs.getInt("tarif"));
+                garage.setHasilOperasi(rs.getInt("hariOperasi"));
+                garage.setJamBuka(rs.getInt("jamBuka"));
+                garage.setJamTutup(rs.getInt("jamTutup"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return garage;
+    }
 }

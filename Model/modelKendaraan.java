@@ -51,4 +51,17 @@ public class modelKendaraan {
         }
         return rs;
     }
+
+    public ResultSet getKendaraan(int idKendaraan) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement();
+            String query = "SELECT * FROM kendaraan WHERE idKendaraan ='" + idKendaraan + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
 }

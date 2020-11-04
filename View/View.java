@@ -1,18 +1,18 @@
 package View;
 
-import Controller.Kendaraan;
-import Controller.Pengguna;
-import Controller.Area;
-import Controller.Garage;
+import Controller.*;
 
 import java.util.Scanner;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
 
 public class View {
     private int idPengguna = 0;
     private int IdArea = 0;
     private int IdGarage = 0;
 
+    Scanner input = new Scanner(System.in);
     private Pengguna user = new Pengguna();
     private Kendaraan kendaraan = new Kendaraan();
     private Garage garage = new Garage();
@@ -40,7 +40,6 @@ public class View {
     }
 
     public void auth() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Sistem Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -83,7 +82,6 @@ public class View {
     }
 
     public void login() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Sistem Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -105,7 +103,6 @@ public class View {
     }
 
     public void registrasi() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Sistem Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -145,7 +142,6 @@ public class View {
     }
 
     public void mainPengguna() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Hai, " + user.getNama() + " ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -162,6 +158,9 @@ public class View {
             case 1:
                 viewKendaraan();
                 break;
+            case 2:
+                menuParkirArea();
+                break;
             case 4:
                 viewProfile();
                 break;
@@ -174,7 +173,6 @@ public class View {
     }
 
     public void viewKendaraan() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Daftar Kendaraan ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -202,7 +200,6 @@ public class View {
     }
 
     public void viewProfile() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Profile ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -273,7 +270,6 @@ public class View {
     }
 
     public void mainAdmin() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Sistem Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -301,7 +297,6 @@ public class View {
     }
 
     public void mainArea() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -339,7 +334,6 @@ public class View {
     }
 
     public void tambahArea() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Tambah Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -357,7 +351,6 @@ public class View {
     }
 
     public void editArea() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Edit Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -378,7 +371,6 @@ public class View {
     }
 
     public void detailArea() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Detail Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -400,7 +392,6 @@ public class View {
     }
 
     public void mainGarage() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Garasi ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -434,7 +425,6 @@ public class View {
     }
 
     public void tambahGarage() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Tambah Garasi ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -488,7 +478,6 @@ public class View {
     }
 
     public void editGarage() {
-        Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Edit Garasi ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
@@ -534,5 +523,126 @@ public class View {
         pressAnyKey();
         clrscr();
         mainGarage();
+    }
+
+    private void menuParkirArea() {
+        Parkir parkir = new Parkir();
+        parkir.setPengguna(user);
+        String judul = " Area Parkir ";
+        int number = 10;
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        area.viewArea_();
+        System.out.print("Pilih ID: ");
+        int idArea = input.nextInt();
+        String namaArea = area.searchNamaArea(idArea);
+        if (namaArea != null) {
+            Area newArea = new Area();
+            newArea.setIdArea(idArea);
+            newArea.setNamaArea(namaArea);
+            parkir.setArea(newArea);
+            menuParkirGarage(parkir, idArea);
+        } else {
+            System.out.println("Area parkir tidak tersedia");
+            menuParkirArea();
+        }
+    }
+
+    private void menuParkirGarage(Parkir parkir, int idArea) {
+        String judul = " Area "+ parkir.getArea().getNamaArea() +", silahkan pilih garage kami";
+        int number = 10;
+
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        int countGarage = garage.listGarage(idArea);
+        if (countGarage==0) {
+            menuParkirArea();
+        } else {
+            System.out.print("Pilih ID: ");
+
+            int idGarage = input.nextInt();
+            String namaGarage = garage.getNamaGarage_(idGarage);
+            if (namaGarage != null) {
+                parkir.setGarage(garage.getGarage(idGarage));
+                menuPilihKendaraan(parkir);
+            } else {
+                System.out.println("Garage tidak tersedia");
+                menuParkirGarage(parkir, idArea);
+            }
+        }
+    }
+
+    private void menuPilihKendaraan(Parkir parkir) {
+        String judul = " Garage "+ parkir.getGarage().getNamaGarage()  +", silahkan pilih kendaraan anda ";
+        int number = 10;
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        kendaraan.viewListKendaraan_(user.getIdPengguna());
+        System.out.println("[0] Tambah kendaraan");
+        System.out.print("Pilih ID: ");
+        int idKendaraan = input.nextInt();
+        if (idKendaraan==0) {
+            tambahKendaraan();
+        } else {
+            ResultSet kendaraans = kendaraan.searchKendaraan(user.getIdPengguna());
+            if (kendaraans!=null) {
+                try {
+                    Kendaraan newKendaraan = new Kendaraan();
+                    while(kendaraans.next()) {
+                        newKendaraan.setIdKendaraan(kendaraans.getInt("idKendaraan"));
+                        newKendaraan.setPlatNomor(kendaraans.getString("nomorKendaraan"));
+                        newKendaraan.setTipeKendaraan(kendaraans.getString("tipeKendaraan"));
+                    }
+                    parkir.setKendaraan(newKendaraan);
+                    toggleParkir(user,parkir,0);
+                } catch (Exception e) {
+                    //TODO: handle exception
+                }
+            } else {
+                System.out.println("Kendaraan tidak tersedia");
+                menuPilihKendaraan(parkir);
+            }
+        }
+    }
+
+    private void toggleParkir(Pengguna pengguna, Parkir parkir, int i) {
+        String judul = " Parkir " + parkir.getKendaraan().getTipeKendaraan() + " " + parkir.getKendaraan().getPlatNomor();
+        int number = 10;
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        if (i==0) {
+            System.out.println("1. Start parking");
+        } else {
+            System.out.println("2. Stop parking");
+        }
+        System.out.print("Pilih: ");
+        int pil = input.nextInt();
+        LocalDateTime date = LocalDateTime.now();
+        switch (pil) {
+            case 1:
+                if (parkir.getTimeStart()!=null) {
+                    System.out.println("Anda sudah start parking");
+                    toggleParkir(pengguna, parkir,1);
+                } else {
+                    parkir.startParking(date);
+                    System.out.println("Waktu parkir telah dimulai");
+                    toggleParkir(pengguna, parkir,1);
+                }
+                break;
+            case 2:
+                if(i==0) {
+                    toggleParkir(pengguna, parkir, i);
+                } else {
+                    parkir.stopParking(date);
+                    if(parkir.addParkir()) {
+                        parkir.showParkir();
+                        System.out.print("Home screen (enter): ");
+                        input.next();
+                        mainPengguna();
+                    } else {
+                        System.out.println("Simpan data parkir gagal");
+                    }
+                }
+                break;
+            default:
+                toggleParkir(pengguna, parkir, i);
+                break;
+        }
     }
 }

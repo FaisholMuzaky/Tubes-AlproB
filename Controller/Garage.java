@@ -13,6 +13,7 @@ public class Garage {
     private int jamBuka;
     private int jamTutup;
     private modelGarage g;
+    private int idGarage;
 
     public Garage() {
         this.g = new modelGarage();
@@ -178,5 +179,40 @@ public class Garage {
             System.out.println("Update Data Gagal");
 
         }
+    }
+
+    public int listGarage(int idArea) {
+        int countGarage = 0;
+        try {
+            ResultSet data = g.searchGarage(idArea);
+            if (data != null && data.isBeforeFirst()) {
+                System.out.println("ID\tGARAGE");
+                while (data.next()) {
+                    System.out.println(data.getInt("idGarage") +"\t" + data.getString("namaGarage"));
+                    countGarage++;
+                }
+            } else {
+                System.out.println("Tidak ada garasi yang terdaftar");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return countGarage;
+    }
+
+	public void setIdGarage(int idGarage) {
+        this.idGarage = idGarage;
+    }
+
+    public int getIdGarage_() {
+        return this.idGarage;
+    }
+
+    public String getNamaGarage_(int idGarage) {
+        return g.getNamaGarage(idGarage);
+    }
+
+    public Garage getGarage(int idGarage) {
+        return g.getGarage(idGarage);
     }
 }

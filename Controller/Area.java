@@ -9,6 +9,7 @@ public class Area {
     private Garage garages;
     private modelArea a;
     private Pengguna p;
+    private int idArea;
 
     public Area() {
         this.a = new modelArea();
@@ -41,6 +42,23 @@ public class Area {
                 while (data.next()) {
                     System.out.println(i + 1 + ". Nama Area : " + data.getString("namaArea"));
                     i++;
+                }
+            } else {
+                System.out.println("Data area parkir tidak ada");
+                System.out.println("Silahkan melakukan pendaftaran data area parkir");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void viewArea_() {
+        try {
+            ResultSet data = a.listArea();
+            if (data != null && data.isBeforeFirst()) {
+                System.out.println("ID\tNAMA AREA");
+                while (data.next()) {
+                    System.out.println(data.getInt("idArea") +"\t" + data.getString("namaArea"));
                 }
             } else {
                 System.out.println("Data area parkir tidak ada");
@@ -97,4 +115,36 @@ public class Area {
         }
         return idArea;
     }
+
+    public String searchNamaArea(int idArea) {
+        String namaArea = null;
+        try {
+            ResultSet rs = a.searchNamaArea(idArea);
+            if (rs.next()) {
+                namaArea = rs.getString("namaArea");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return namaArea;
+    }
+
+
+    public String getNamaArea() {
+        return this.namaArea;
+    }
+
+    public void setNamaArea(String namaArea) {
+        this.namaArea = namaArea;
+    }
+
+    public int getIdArea() {
+        return this.idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
+    }
+
 }
