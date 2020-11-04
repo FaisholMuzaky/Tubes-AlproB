@@ -2,6 +2,7 @@ package Controller;
 
 import java.util.Scanner;
 import java.util.regex.*;
+
 import java.sql.ResultSet;
 
 import Model.modelKendaraan;
@@ -10,6 +11,7 @@ public class Kendaraan {
     private String platNomor;
     private String tipeKendaraan;
     private modelKendaraan k;
+    private int idKendaraan;
 
     Scanner input = new Scanner(System.in);
 
@@ -103,4 +105,51 @@ public class Kendaraan {
         }
         return status;
     }
+
+    public ResultSet getKendaraan(int idKendaraan) {
+        ResultSet rs = null;
+        try {
+            rs = k.getKendaraan(idKendaraan);
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        return rs;
+    }
+
+    public ResultSet searchKendaraan(int idPengguna) {
+        ResultSet rs = null;
+        try {
+            rs = k.searchKendaraan(idPengguna);
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        return rs;
+    }
+
+    public void viewListKendaraan_(int idPengguna) {
+        try {
+            ResultSet data = searchKendaraan(idPengguna);
+            if (data != null && data.isBeforeFirst()) {
+                System.out.println("ID\tJENIS KENDARAAN\tPLAT NOMOR");
+                while (data.next()) {
+                    System.out.println(data.getInt("IdKendaraan")+ "\t" + data.getString("tipeKendaraan") + "\t" + data.getString("nomorKendaraan"));
+                }
+            } else {
+                System.out.println("Data kendaraan tidak ada");
+                System.out.println("Silahkan melakukan pendaftaran data kendaraan");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+
+    public int getIdKendaraan() {
+        return this.idKendaraan;
+    }
+
+    public void setIdKendaraan(int idKendaraan) {
+        this.idKendaraan = idKendaraan;
+    }
+
 }

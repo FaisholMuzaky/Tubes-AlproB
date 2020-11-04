@@ -41,6 +41,21 @@ public class modelArea {
         return rs;
     }
 
+    public ResultSet searchNamaArea(int idArea) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT namaArea FROM area WHERE idArea ='" + idArea + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
     public ResultSet listArea() {
         ResultSet rs = null;
         try {

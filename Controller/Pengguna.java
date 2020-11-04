@@ -100,6 +100,7 @@ public class Pengguna {
                 System.out.println("Login Berhasil");
                 this.IdPengguna = data.getInt("idPengguna");
                 this.nama = data.getString("nama");
+                this.subscription = data.getString("subscription");
             } else {
                 System.out.println("email atau password salah");
             }
