@@ -672,7 +672,7 @@ public class View {
                     toggleParkir(pengguna, parkir, i);
                 } else {
                     parkir.stopParking(date);
-                    if(parkir.addParkir()) {
+                    if (parkir.addParkir()) {
                         parkir.showParkir();
                         System.out.print("Home screen (enter): ");
                         input.next();

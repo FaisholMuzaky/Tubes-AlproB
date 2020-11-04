@@ -108,7 +108,7 @@ public class Parkir {
                 this.totalTransaksi = durasiJam * tarifGarage + 2000;
                 break;
             case "plus":
-                if(!checkThisMonth())
+                if(checkThisMonth())
                     this.totalTransaksi = durasiJam * tarifGarage + 12000;
                 else
                     this.totalTransaksi = durasiJam * tarifGarage;
@@ -135,7 +135,11 @@ public class Parkir {
     }
 
     public void showParkir() {
-        this.m.view(this);
+        try {
+            this.m.view(this);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean isParking() {
