@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Controller.Area;
+import Controller.Coloring;
 import Controller.Garage;
 import Controller.Parkir;
 import Controller.Pengguna;
@@ -92,8 +92,8 @@ public class modelParkir implements modelGeneric<Parkir> {
                                 "("+
                                 u.getKendaraan().getIdKendaraan()+","+
                                 u.getGarage().getIdGarage_()+","+
-                                "'"+u.getTimeStart()+"',"+
-                                "'"+u.getTimeStop()+"',"+
+                                "'"+u.getTimeStart().format(formatter)+"',"+
+                                "'"+u.getTimeStop().format(formatter)+"',"+
                                 u.getDurasi()+","+
                                 u.getTotalTransaksi()+
                                 ");";
@@ -152,7 +152,9 @@ public class modelParkir implements modelGeneric<Parkir> {
             int idParkir = getIdParkir(u);
             String query = "CALL viewParkir("+ idParkir +")";
             ResultSet rs = state.executeQuery(query);
-            System.out.println("=".repeat(40)+"\nPARKIR SUMMARY\n"+"=".repeat(40));
+            System.out.println("=".repeat(40));
+            System.out.println(Coloring.ANSI_BG_BLUE + Coloring.ANSI_WHITE + "PARKIR SUMMARY" + Coloring.ANSI_RESET);
+            System.out.println("=".repeat(40));
             while(rs.next()) {
                 System.out.println("PLAT NOMOR\t"+rs.getString("nomorKendaraan"));
                 System.out.println("TIPE KENDARAAN\t"+rs.getString("tipeKendaraan"));
@@ -163,7 +165,7 @@ public class modelParkir implements modelGeneric<Parkir> {
                 System.out.println("AREA\t\t"+rs.getString("namaArea"));
                 System.out.println("WAKTU MULAI\t"+rs.getString("timeStart"));
                 System.out.println("WAKTU SELESAI\t"+rs.getString("timeStop"));
-                System.out.println("MENIT\t\t"+ Math.round(rs.getDouble("durasi")));
+                System.out.println("DURASI\t\t"+ rs.getInt("durasi") + " JAM");
                 System.out.println("TOTAL (Rp)\t"+rs.getInt("totalTransaksi"));
             }
             System.out.println("=".repeat(40));

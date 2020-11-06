@@ -130,6 +130,20 @@ public class Area {
         return namaArea;
     }
 
+    public Area getArea(int idArea) {
+        Area area = null;
+        try {
+            ResultSet rs = a.searchNamaArea(idArea);
+            if (rs.next()) {
+                area = new Area();
+                area.setIdArea(idArea);
+                area.setNamaArea(rs.getString("namaArea"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return area;
+    }
 
     public String getNamaArea() {
         return this.namaArea;
@@ -143,7 +157,7 @@ public class Area {
         return this.idArea;
     }
 
-    public void setIdArea(int idArea) {
+    private void setIdArea(int idArea) {
         this.idArea = idArea;
     }
 

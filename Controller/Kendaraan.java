@@ -1,5 +1,6 @@
 package Controller;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.*;
 
@@ -12,6 +13,7 @@ public class Kendaraan {
     private String tipeKendaraan;
     private modelKendaraan k;
     private int idKendaraan;
+    private int idPengguna;
 
     Scanner input = new Scanner(System.in);
 
@@ -106,33 +108,51 @@ public class Kendaraan {
         return status;
     }
 
-    public ResultSet getKendaraan(int idKendaraan) {
-        ResultSet rs = null;
+    public Kendaraan getKendaraan(int idKendaraan, int idPengguna) {
+        Kendaraan kendaraan = null;
         try {
-            rs = k.getKendaraan(idKendaraan);
+            ResultSet rs = k.getKendaraan(idKendaraan);
+            while (rs.next()) {
+                if (rs.getInt("idPengguna") == idPengguna) {
+                    kendaraan = new Kendaraan();
+                    kendaraan.setIdKendaraan(rs.getInt("idKendaraan"));
+                    kendaraan.setPlatNomor(rs.getString("nomorKendaraan"));
+                    kendaraan.setTipeKendaraan(rs.getString("tipeKendaraan"));
+                    kendaraan.setIdPengguna(rs.getInt("idPengguna"));
+                }
+            }
         } catch (Exception e) {
             //TODO: handle exception
         }
-        return rs;
+        return kendaraan;
     }
 
-    public ResultSet searchKendaraan(int idPengguna) {
-        ResultSet rs = null;
+    public ArrayList<Kendaraan> searchKendaraan(int idPengguna) {
+        ArrayList<Kendaraan> kendaraans = new ArrayList<Kendaraan>();
         try {
-            rs = k.searchKendaraan(idPengguna);
+            ResultSet rs = k.searchKendaraan(idPengguna);
+            while (rs.next()) {
+                Kendaraan kendaraan = new Kendaraan();
+                kendaraan.setIdKendaraan(rs.getInt("idKendaraan"));
+                kendaraan.setPlatNomor(rs.getString("nomorKendaraan"));
+                kendaraan.setTipeKendaraan(rs.getString("tipeKendaraan"));
+                kendaraan.setIdPengguna(rs.getInt("idPengguna"));
+                kendaraans.add(kendaraan);
+            }
         } catch (Exception e) {
-            //TODO: handle exception
+            System.out.println(e.getMessage());
         }
-        return rs;
+        return kendaraans;
     }
 
     public void viewListKendaraan_(int idPengguna) {
         try {
-            ResultSet data = searchKendaraan(idPengguna);
-            if (data != null && data.isBeforeFirst()) {
+            ArrayList<Kendaraan> kendaraans = searchKendaraan(idPengguna);
+            if (kendaraans != null) {
                 System.out.println("ID\tJENIS KENDARAAN\tPLAT NOMOR");
-                while (data.next()) {
-                    System.out.println(data.getInt("IdKendaraan")+ "\t" + data.getString("tipeKendaraan") + "\t" + data.getString("nomorKendaraan"));
+                for (Kendaraan kendaraan : kendaraans) {
+                    System.out.println(kendaraan.getIdKendaraan()+ "\t" + kendaraan.getTipeKendaraan() + "\t" + 
+                    kendaraan.getPlatNomor());
                 }
             } else {
                 System.out.println("Data kendaraan tidak ada");
@@ -148,8 +168,11 @@ public class Kendaraan {
         return this.idKendaraan;
     }
 
-    public void setIdKendaraan(int idKendaraan) {
+    protected void setIdKendaraan(int idKendaraan) {
         this.idKendaraan = idKendaraan;
     }
 
+    protected void setIdPengguna(int idPengguna) {
+        this.idPengguna = idPengguna;
+    }
 }

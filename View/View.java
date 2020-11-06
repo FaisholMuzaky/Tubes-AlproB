@@ -4,13 +4,13 @@ import Controller.*;
 
 import java.util.Scanner;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class View {
     private int idPengguna = 0;
-    private int IdArea = 0;
-    private int IdGarage = 0;
 
     Scanner input = new Scanner(System.in);
     private Pengguna user = new Pengguna();
@@ -20,10 +20,11 @@ public class View {
 
     public static void clrscr() {
         try {
-            if (System.getProperty("os.name").contains("Windows"))
+            if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            else
+            } else {
                 Runtime.getRuntime().exec("clear");
+            }
         } catch (IOException | InterruptedException ex) {
 
         }
@@ -534,80 +535,85 @@ public class View {
         area.viewArea_();
         System.out.print("Pilih ID: ");
         int idArea = input.nextInt();
-        String namaArea = area.searchNamaArea(idArea);
-        if (namaArea != null) {
-            Area newArea = new Area();
-            newArea.setIdArea(idArea);
-            newArea.setNamaArea(namaArea);
+        Area newArea = area.getArea(idArea);
+        if (newArea != null) {
             parkir.setArea(newArea);
             menuParkirGarage(parkir, idArea);
         } else {
-            System.out.println("Area parkir tidak tersedia");
+            System.out.println(
+                    Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Area parkir tidak tersedia" + Coloring.ANSI_RESET);
             menuParkirArea();
         }
     }
 
     private void menuParkirGarage(Parkir parkir, int idArea) {
-        String judul = " Area "+ parkir.getArea().getNamaArea() +", silahkan pilih garage kami";
+        String judul = " Area " + parkir.getArea().getNamaArea() + ", silahkan pilih garage kami";
         int number = 10;
 
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         int countGarage = garage.listGarage(idArea);
-        if (countGarage==0) {
+        if (countGarage == 0) {
             menuParkirArea();
         } else {
+            System.out.println("[0]\tKembali");
             System.out.print("Pilih ID: ");
-
             int idGarage = input.nextInt();
-            String namaGarage = garage.getNamaGarage_(idGarage);
-            if (namaGarage != null) {
-                parkir.setGarage(garage.getGarage(idGarage));
-                menuPilihKendaraan(parkir);
+            Garage newGarage = garage.getGarage(idGarage, idArea);
+            if (newGarage.getNamaGarage() != null) {
+                if (newGarage.isGarageOpen()) {
+                    parkir.setGarage(newGarage);
+                    menuPilihKendaraan(parkir);
+                } else {
+                    System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE
+                            + "Garage tidak beroperasi silahkan pilih lainnya" + Coloring.ANSI_RESET);
+                }
             } else {
-                System.out.println("Garage tidak tersedia");
-                menuParkirGarage(parkir, idArea);
+                if (idGarage == 0) {
+                    menuParkirArea();
+                } else {
+                    System.out.println(
+                            Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Garage tidak tersedia" + Coloring.ANSI_RESET);
+                }
             }
         }
+        menuParkirGarage(parkir, idArea);
     }
 
     private void menuPilihKendaraan(Parkir parkir) {
-        String judul = " Garage "+ parkir.getGarage().getNamaGarage()  +", silahkan pilih kendaraan anda ";
+        String judul = " Garage " + parkir.getGarage().getNamaGarage() + ", silahkan pilih kendaraan anda ";
         int number = 10;
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         kendaraan.viewListKendaraan_(user.getIdPengguna());
         System.out.println("[0] Tambah kendaraan");
         System.out.print("Pilih ID: ");
         int idKendaraan = input.nextInt();
-        if (idKendaraan==0) {
+        if (idKendaraan == 0) {
             tambahKendaraan();
         } else {
-            ResultSet kendaraans = kendaraan.searchKendaraan(user.getIdPengguna());
-            if (kendaraans!=null) {
+            Kendaraan newKendaraan = kendaraan.getKendaraan(idKendaraan, user.getIdPengguna());
+            if (newKendaraan != null) {
                 try {
-                    Kendaraan newKendaraan = new Kendaraan();
-                    while(kendaraans.next()) {
-                        newKendaraan.setIdKendaraan(kendaraans.getInt("idKendaraan"));
-                        newKendaraan.setPlatNomor(kendaraans.getString("nomorKendaraan"));
-                        newKendaraan.setTipeKendaraan(kendaraans.getString("tipeKendaraan"));
-                    }
                     parkir.setKendaraan(newKendaraan);
-                    toggleParkir(user,parkir,0);
+                    toggleParkir(user, parkir, 0);
                 } catch (Exception e) {
-                    //TODO: handle exception
+                    // TODO: handle exception
                 }
             } else {
-                System.out.println("Kendaraan tidak tersedia");
+                System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Data kendaraan tidak tersedia"
+                        + Coloring.ANSI_RESET);
                 menuPilihKendaraan(parkir);
             }
         }
     }
 
     private void toggleParkir(Pengguna pengguna, Parkir parkir, int i) {
-        String judul = " Parkir " + parkir.getKendaraan().getTipeKendaraan() + " " + parkir.getKendaraan().getPlatNomor();
+        String judul = " Parkir " + parkir.getKendaraan().getTipeKendaraan() + " "
+                + parkir.getKendaraan().getPlatNomor();
         int number = 10;
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        if (i==0) {
+        if (i == 0) {
             System.out.println("1. Start parking");
+            System.out.println("0. Start manually");
         } else {
             System.out.println("2. Stop parking");
         }
@@ -616,29 +622,43 @@ public class View {
         LocalDateTime date = LocalDateTime.now();
         switch (pil) {
             case 1:
-                if (parkir.getTimeStart()!=null) {
-                    System.out.println("Anda sudah start parking");
-                    toggleParkir(pengguna, parkir,1);
+                if (parkir.getTimeStart() != null) {
+                    System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Anda sudah start parking"
+                            + Coloring.ANSI_RESET);
+                    toggleParkir(pengguna, parkir, 1);
                 } else {
                     parkir.startParking(date);
-                    System.out.println("Waktu parkir telah dimulai");
-                    toggleParkir(pengguna, parkir,1);
+                    toggleParkir(pengguna, parkir, 1);
                 }
                 break;
             case 2:
-                if(i==0) {
+                if (i == 0) {
                     toggleParkir(pengguna, parkir, i);
                 } else {
                     parkir.stopParking(date);
                     if (parkir.addParkir()) {
                         parkir.showParkir();
-                        System.out.print("Home screen (enter): ");
-                        input.next();
+                        System.out.print("Press any key to go to homepage..");
+                        try {
+                            System.in.read();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         mainPengguna();
                     } else {
                         System.out.println("Simpan data parkir gagal");
                     }
                 }
+                break;
+            case 0:
+                System.out.print("Start time (YYYY-MM-DD hh:mm:ss): ");
+                String tanggal = input.next();
+                String waktu = input.next();
+                String start = tanggal + " " + waktu;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime startTime = LocalDateTime.parse(start, formatter);
+                parkir.startParking(startTime);
+                toggleParkir(pengguna, parkir,1);
                 break;
             default:
                 toggleParkir(pengguna, parkir, i);

@@ -56,7 +56,7 @@ public class modelKendaraan {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
-            Statement state = con.createStatement();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             String query = "SELECT * FROM kendaraan WHERE idKendaraan ='" + idKendaraan + "'";
             rs = state.executeQuery(query);
         } catch (SQLException e) {

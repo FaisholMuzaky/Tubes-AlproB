@@ -153,13 +153,13 @@ public class modelGarage {
         return namaGarage;
     }
 
-    public Garage getGarage(int idGarage) {
+    public Garage getGarage(int idGarage, int idArea) {
         Garage garage = new Garage();
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             String query = "SELECT idGarage, idArea, namaGarage, tarif, hariOperasi, jamBuka, jamTutup"+
-                            " FROM garage WHERE idGarage ='" + idGarage + "'";
+                            " FROM garage WHERE idGarage =" + idGarage + " AND idArea="+idArea;
             ResultSet rs = state.executeQuery(query);
             while(rs.next()) {
                 garage.setIdGarage(rs.getInt("idGarage"));
@@ -174,4 +174,21 @@ public class modelGarage {
         }
         return garage;
     }
+
+	public int getIdArea(int idGarage) {
+        int idArea = 0;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT b.idArea FROM garage a INNER JOIN area b ON a.idArea = b.idArea "+
+                            "WHERE a.idGarage ='" + idGarage + "'";
+            ResultSet rs = state.executeQuery(query);
+            while(rs.next()) {
+                idArea = rs.getInt("idArea");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return idArea;
+	}
 }

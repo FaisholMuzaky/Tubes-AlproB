@@ -2,6 +2,8 @@ package Controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import Model.modelParkir;
 
 public class Parkir {
@@ -74,7 +76,9 @@ public class Parkir {
     }
 
     private void setDurasi() {
-        this.durasi = this.timeStop.getMinute() - this.timeStart.getMinute();
+        LocalDateTime startFrom = LocalDateTime.from(this.timeStart);
+        long minutes = startFrom.until(this.timeStop, ChronoUnit.MINUTES);
+        this.durasi = convertToHour(minutes);
     }
 
     public int getDurasi() {
@@ -82,7 +86,7 @@ public class Parkir {
     }
 
     public void startParking(LocalDateTime start) {
-        timeStart = start;
+        this.timeStart = start;
     }
 
     public void stopParking(LocalDateTime stop) {
@@ -96,24 +100,28 @@ public class Parkir {
     }
 
     private void setTotalTransaksi() {
-        double durasiJam = Math.ceil(this.durasi/60);
-        if (durasiJam<1.0) {
-            durasiJam += 1;
-        }
         int tarifGarage = garage.getTarif();
         // String tipeKendaraan = kendaraan.getTipeKendaraan();
         String subs = this.pengguna.getSubscription();
         switch (subs) {
             case "easy":
-                this.totalTransaksi = durasiJam * tarifGarage + 2000;
+                this.totalTransaksi = this.durasi * tarifGarage + 2000;
                 break;
             case "plus":
                 if(checkThisMonth())
-                    this.totalTransaksi = durasiJam * tarifGarage + 12000;
+                    this.totalTransaksi = this.durasi * tarifGarage + 12000;
                 else
-                    this.totalTransaksi = durasiJam * tarifGarage;
+                    this.totalTransaksi = this.durasi * tarifGarage;
                 break;
         }
+    }
+
+    private int convertToHour(long durasiMinutes) {
+        double durasiJam = Math.ceil(durasiMinutes/60);
+        if (durasiJam<1.0) {
+            durasiJam += 1;
+        }
+        return (int)durasiJam;
     }
 
     private boolean checkThisMonth() {

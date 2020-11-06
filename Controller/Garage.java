@@ -2,6 +2,9 @@ package Controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import Model.modelGarage;
@@ -14,6 +17,7 @@ public class Garage {
     private int jamTutup;
     private modelGarage g;
     private int idGarage;
+    private int idArea;
 
     public Garage() {
         this.g = new modelGarage();
@@ -115,7 +119,7 @@ public class Garage {
                     i++;
                 }
             } else {
-                System.out.println("Tidak ada garasi yang terdaftar");
+                System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Tidak ada garasi yang terdaftar" + Coloring.ANSI_RESET);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -136,6 +140,17 @@ public class Garage {
         }
         return idGarasi;
     }
+
+
+    public int getIdArea() {
+        setIdArea();
+        return this.idArea;
+    }
+
+    private void setIdArea() {
+        this.idArea = g.getIdArea(this.idGarage);
+    }
+
 
     public void detailGarageByName(String namaGarage) {
         try {
@@ -186,13 +201,20 @@ public class Garage {
         try {
             ResultSet data = g.searchGarage(idArea);
             if (data != null && data.isBeforeFirst()) {
-                System.out.println("ID\tGARAGE");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                System.out.println(LocalDateTime.now().format(formatter));
+                System.out.println("ID\tGARAGE\t\tTARIF (Rp)\tOPERASIONAL\tHARI OPERASI\tJAM BUKA\tJAM TUTUP");
                 while (data.next()) {
-                    System.out.println(data.getInt("idGarage") +"\t" + data.getString("namaGarage"));
+                    Garage g = new Garage(data.getString("namaGarage"), data.getInt("tarif"),
+                            data.getInt("hariOperasi"), data.getInt("jamBuka"), data.getInt("jamTutup"));
+                    g.setIdGarage(data.getInt("idGarage"));
+                    System.out.println(g.getIdGarage_() + "\t" + g.getNamaGarage() + "\t\t" + g.getTarif() + "\t" +
+                             "\t" + g.getOpenStatus() + "\t\t" + g.getHariOperasi() + "\t\t" + g.getJamBuka() + "\t\t" +
+                            g.getJamTutup());
                     countGarage++;
                 }
             } else {
-                System.out.println("Tidak ada garasi yang terdaftar");
+                System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Tidak ada garasi yang terdaftar" + Coloring.ANSI_RESET);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -200,7 +222,25 @@ public class Garage {
         return countGarage;
     }
 
-	public void setIdGarage(int idGarage) {
+	public boolean isGarageOpen() {
+        boolean status = false;
+        DayOfWeek dayOfWeek = LocalDateTime.now().getDayOfWeek();
+        int day = dayOfWeek.getValue();
+        int hour = LocalDateTime.now().getHour();
+        if (day<=this.hariOperasi && hour>this.jamBuka && hour<this.jamTutup) {
+            status = true;
+        }
+        return status;
+    }
+
+    private String getOpenStatus() {
+        if(isGarageOpen())
+            return "Open";
+        else
+            return "Close";
+    }
+
+    public void setIdGarage(int idGarage) {
         this.idGarage = idGarage;
     }
 
@@ -208,11 +248,7 @@ public class Garage {
         return this.idGarage;
     }
 
-    public String getNamaGarage_(int idGarage) {
-        return g.getNamaGarage(idGarage);
-    }
-
-    public Garage getGarage(int idGarage) {
-        return g.getGarage(idGarage);
+    public Garage getGarage(int idGarage, int idArea) {
+        return g.getGarage(idGarage, idArea);
     }
 }
