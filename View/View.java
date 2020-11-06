@@ -442,8 +442,10 @@ public class View {
                 for (int i = 0; i < jumGarage; i++) {
                     System.out.print(i + 1 + ". Nama Garasi : ");
                     String namaGarage = input.next();
-                    System.out.print(" ".repeat(3) + "Tarif : Rp. ");
-                    int tarif = input.nextInt();
+                    System.out.print(" ".repeat(3) + "Tarif Mobil : Rp. ");
+                    int tarifMobil = input.nextInt();
+                    System.out.print(" ".repeat(3) + "Tarif Motor : Rp. ");
+                    int tarifMotor = input.nextInt();
                     System.out.print(" ".repeat(3) + "Jumlah Hari Operasional (Seminggu) : ");
                     int hariOperasi = input.nextInt();
                     while (hariOperasi <= 0 || hariOperasi > 7) {
@@ -463,7 +465,7 @@ public class View {
                         jamBuka = input.nextInt();
                     }
                     System.out.println();
-                    garasi[i] = new Garage(namaGarage, tarif, hariOperasi, jamBuka, jamTutup);
+                    garasi[i] = new Garage(namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup);
                 }
                 garage.addGarage(IdArea, garasi);
             } else {
@@ -494,8 +496,10 @@ public class View {
                 System.out.println("=".repeat((number * 2) + judul.length()));
                 System.out.print("Nama Garasi : ");
                 namaGarage = input.next();
-                System.out.print("Tarif : Rp. ");
-                int tarif = input.nextInt();
+                System.out.print("Tarif Mobil : Rp. ");
+                int tarifMobil = input.nextInt();
+                System.out.print("Tarif Motor : Rp. ");
+                int tarifMotor = input.nextInt();
                 System.out.print("Jumlah Hari Operasional (Seminggu) : ");
                 int hariOperasi = input.nextInt();
                 while (hariOperasi <= 0 || hariOperasi > 7) {
@@ -514,7 +518,7 @@ public class View {
                     System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
                     jamBuka = input.nextInt();
                 }
-                garage.editGarage(idGarage, namaGarage, tarif, hariOperasi, jamBuka, jamTutup);
+                garage.editGarage(idGarage, namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup);
             }
 
         } else {

@@ -19,10 +19,10 @@ public class modelGarage {
             Statement state = con.createStatement();
             int count = 0;
             for (int i = 0; i < garage.length; i++) {
-                String query = "INSERT INTO GARAGE(IDAREA, NAMAGARAGE, TARIF, HARIOPERASI, JAMBUKA, JAMTUTUP)"
-                        + "VALUES ('" + IdArea + "','" + garage[i].getNamaGarage() + "','" + garage[i].getTarif()
-                        + "','" + garage[i].getHariOperasi() + "','" + garage[i].getJamBuka() + "','"
-                        + garage[i].getJamTutup() + "')";
+                String query = "INSERT INTO GARAGE(IDAREA, NAMAGARAGE, TARIFMOBIL, TARIFMOTOR, HARIOPERASI, JAMBUKA, JAMTUTUP)"
+                        + "VALUES ('" + IdArea + "','" + garage[i].getNamaGarage() + "','" + garage[i].getTarifMobil()
+                        + "','" + garage[i].getTarifMotor() + "','" + garage[i].getHariOperasi() + "','" 
+                        + garage[i].getJamBuka() + "','" + garage[i].getJamTutup() + "')";
                 state.executeUpdate(query);
                 count++;
             }
@@ -107,13 +107,13 @@ public class modelGarage {
         return rs;
     }
 
-    public int updateGarage(int idGarage, String namaGarasi, int tarif, int hariOperasi, int jamBuka, int jamTutup) {
+    public int updateGarage(int idGarage, String namaGarasi, int tarifMobil, int tarifMotor, int hariOperasi, int jamBuka, int jamTutup) {
         int rs = 0;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "UPDATE garage SET namaGarage = '" + namaGarasi + "', tarif = " + tarif + ", hariOperasi = "
-                    + hariOperasi + ", jamBuka = " + jamBuka + ", jamTutup = " + jamTutup + " WHERE idGarage = '"
+            String query = "UPDATE garage SET namaGarage = '" + namaGarasi + "', tarifMobil = " + tarifMobil + ", tarifMotor = " 
+                    + tarifMotor + ", hariOperasi = "+ hariOperasi + ", jamBuka = " + jamBuka + ", jamTutup = " + jamTutup + " WHERE idGarage = '"
                     + idGarage + "'";
             rs = state.executeUpdate(query);
         } catch (SQLException e) {
@@ -164,7 +164,8 @@ public class modelGarage {
             while(rs.next()) {
                 garage.setIdGarage(rs.getInt("idGarage"));
                 garage.setNamaGarage(rs.getString("namaGarage"));
-                garage.setTarif(rs.getInt("tarif"));
+                garage.setTarifMobil(rs.getInt("tarifMobil"));
+                garage.setTarifMotor(rs.getInt("tarifMotor"));
                 garage.setHasilOperasi(rs.getInt("hariOperasi"));
                 garage.setJamBuka(rs.getInt("jamBuka"));
                 garage.setJamTutup(rs.getInt("jamTutup"));

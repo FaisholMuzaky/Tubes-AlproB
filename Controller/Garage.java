@@ -8,7 +8,8 @@ import Model.modelGarage;
 
 public class Garage {
     private String namaGarage;
-    private int tarif;
+    private int tarifMobil;
+    private int tarifMotor;
     private int hariOperasi;
     private int jamBuka;
     private int jamTutup;
@@ -19,9 +20,10 @@ public class Garage {
         this.g = new modelGarage();
     }
 
-    public Garage(String namaGarage, int tarif, int hariOperasi, int jamBuka, int jamTutup) {
+    public Garage(String namaGarage, int tarifMobil, int tarifMotor, int hariOperasi, int jamBuka, int jamTutup) {
         this.namaGarage = namaGarage;
-        this.tarif = tarif;
+        this.tarifMobil = tarifMobil;
+        this.tarifMotor = tarifMotor;
         this.hariOperasi = hariOperasi;
         this.jamBuka = jamBuka;
         this.jamTutup = jamTutup;
@@ -35,12 +37,20 @@ public class Garage {
         this.namaGarage = namaGarage;
     }
 
-    public int getTarif() {
-        return this.tarif;
+    public int getTarifMobil() {
+        return this.tarifMobil;
     }
 
-    public void setTarif(int tarif) {
-        this.tarif = tarif;
+    public void setTarifMobil(int tarifMobil) {
+        this.tarifMobil = tarifMobil;
+    }
+
+    public int getTarifMotor() {
+        return this.tarifMotor;
+    }
+
+    public void setTarifMotor(int tarifMotor) {
+        this.tarifMotor = tarifMotor;
     }
 
     public int getHariOperasi() {
@@ -78,7 +88,8 @@ public class Garage {
                 int i = 0;
                 while (data.next()) {
                     System.out.println(i + 1 + ". Nama Garasi             : " + data.getString("namaGarage"));
-                    System.out.println(" ".repeat(3) + "Tarif                   : Rp. " + data.getInt("tarif"));
+                    System.out.println(" ".repeat(3) + "Tarif Mobil             : Rp. " + data.getInt("tarifMobil"));
+                    System.out.println(" ".repeat(3) + "Tarif Motor             : Rp. " + data.getInt("tarifMotor"));
                     System.out.println(" ".repeat(3) + "Jumlah Hari Operasional : " + data.getInt("hariOperasi"));
                     System.out.println(" ".repeat(3) + "Jam Buka                : " + data.getInt("jamBuka"));
                     System.out.println(" ".repeat(3) + "Jam Tutup               : " + data.getInt("jamTutup"));
@@ -145,7 +156,8 @@ public class Garage {
                 result.next();
                 System.out.println("Nama Area               : " + result.getString("namaArea"));
                 System.out.println("Nama Garasi             : " + data.getString("namaGarage"));
-                System.out.println("Tarif                   : Rp. " + data.getInt("tarif"));
+                System.out.println("Tarif Mobil             : Rp. " + data.getInt("tarifMobil"));
+                System.out.println("Tarif Motor             : Rp. " + data.getInt("tarifMotor"));
                 System.out.println("Jumlah Hari Operasional : " + data.getInt("hariOperasi"));
                 System.out.println("Jam Buka                : " + data.getInt("jamBuka"));
                 System.out.println("Jam Tutup               : " + data.getInt("jamTutup"));
@@ -171,8 +183,8 @@ public class Garage {
         return valid;
     }
 
-    public void editGarage(int idGarage, String namaGarasi, int tarif, int hariOperasi, int jamBuka, int jamTutup) {
-        int status = g.updateGarage(idGarage, namaGarasi, tarif, hariOperasi, jamBuka, jamTutup);
+    public void editGarage(int idGarage, String namaGarasi, int tarifMobil, int tarifMotor, int hariOperasi, int jamBuka, int jamTutup) {
+        int status = g.updateGarage(idGarage, namaGarasi, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup);
         if (status == 1) {
             System.out.println("Update Data Berhasil");
         } else {
