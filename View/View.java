@@ -17,6 +17,7 @@ public class View {
     private Kendaraan kendaraan = new Kendaraan();
     private Garage garage = new Garage();
     private Area area = new Area();
+    private History history = new History();
 
     public static void clrscr() {
         try {
@@ -292,6 +293,9 @@ public class View {
             case 2:
                 mainGarage();
                 break;
+            case 3:
+                menuLaporan();
+                break;
             case 4:
                 auth();
                 break;
@@ -534,12 +538,13 @@ public class View {
     }
 
     private void menuHistoryParkir() {
-        History history = new History();
         String judul = " Riwayat Parkir ";
         int number = 10;
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         history.pengguna(user);
         history.showParkirs();
+        pressAnyKey();
+        mainPengguna();
     }
 
     private void menuParkirArea() {
@@ -680,5 +685,51 @@ public class View {
                 toggleParkir(pengguna, parkir, i);
                 break;
         }
+    }
+
+    private void menuLaporan() {
+        int number = 20;
+        String judul = " Laporan Transaksi ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        System.out.println("1. Laporan Harian");
+        System.out.println("2. Laporan Mingguan");
+        System.out.println("3. Laporan Bulanan");
+        System.out.println("[0] Kembali");
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        System.out.print("Pilihan : ");
+        int pil = input.nextInt();
+        clrscr();
+        switch (pil) {
+            case 1:
+                laporanHarian();
+                break;
+            case 2:
+                laporanMingguan();
+                break;
+            case 3:
+                laporanBulanan();
+                break;
+            default:
+                mainAdmin();
+                break;
+        }
+    }
+
+    private void laporanBulanan() {
+        history.showLaporanBulanan();
+        pressAnyKey();
+        menuLaporan();
+    }
+
+    private void laporanMingguan() {
+        history.showLaporanMingguan();
+        pressAnyKey();
+        menuLaporan();
+    }
+
+    private void laporanHarian() {
+        history.showLaporanHarian();
+        pressAnyKey();
+        menuLaporan();
     }
 }

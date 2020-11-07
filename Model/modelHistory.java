@@ -18,15 +18,17 @@ import Controller.Pengguna;
 import Database.Database;
 
 public class modelHistory {
+    private ResultSet rs = null;
+    private Connection con = Database.getKoneksi();
+    private Statement state = null;
+
     public History getHistory(int idPengguna) {
         History history = null;
-        ResultSet rs = null;
         try {
             history = new History();
             ArrayList<Parkir> parkirs = new ArrayList<>();
-            Connection con = Database.getKoneksi();
-            Statement state = con.createStatement();
             String sql = "CALL getHistory("+idPengguna+")";
+            state = con.createStatement();
             rs = state.executeQuery(sql);
             while(rs.next()) {
                 Kendaraan kendaraan = new Kendaraan();
@@ -72,5 +74,16 @@ public class modelHistory {
             //TODO: handle exception
         }
 		return history;
+	}
+
+	public ResultSet getLaporan(int i) {
+        try {
+            String sql = "CALL laporanTransaksi("+i+")";
+            state = con.createStatement();
+            rs = state.executeQuery(sql);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return rs;
 	}
 }
