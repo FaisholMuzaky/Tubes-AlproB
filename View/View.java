@@ -162,6 +162,9 @@ public class View {
             case 2:
                 menuParkirArea();
                 break;
+            case 3:
+                menuHistoryParkir();
+                break;
             case 4:
                 viewProfile();
                 break;
@@ -528,6 +531,15 @@ public class View {
         pressAnyKey();
         clrscr();
         mainGarage();
+    }
+
+    private void menuHistoryParkir() {
+        History history = new History();
+        String judul = " Riwayat Parkir ";
+        int number = 10;
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        history.pengguna(user);
+        history.showParkirs();
     }
 
     private void menuParkirArea() {

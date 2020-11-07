@@ -168,7 +168,7 @@ public class Kendaraan {
         return this.idKendaraan;
     }
 
-    protected void setIdKendaraan(int idKendaraan) {
+    public void setIdKendaraan(int idKendaraan) {
         this.idKendaraan = idKendaraan;
     }
 

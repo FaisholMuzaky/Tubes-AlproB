@@ -157,7 +157,7 @@ public class Area {
         return this.idArea;
     }
 
-    private void setIdArea(int idArea) {
+    public void setIdArea(int idArea) {
         this.idArea = idArea;
     }
 

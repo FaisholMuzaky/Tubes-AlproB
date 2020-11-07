@@ -85,6 +85,14 @@ public class Parkir {
         return this.durasi;
     }
 
+    public void setDurasi(int durasi) {
+        this.durasi = durasi;
+    }
+
+    public void setTotalTransaksi(double total) {
+        this.totalTransaksi = total;
+    }
+
     public void startParking(LocalDateTime start) {
         this.timeStart = start;
     }
@@ -159,6 +167,13 @@ public class Parkir {
         if (this.m.isParking(this))
             return true;
         return false;
+    }
+
+	public void setTimeStart(LocalDateTime timeStart) {
+        this.timeStart = timeStart;
+    }
+    public void setTimeStop(LocalDateTime timeStop) {
+        this.timeStop = timeStop;
     }
 
 }

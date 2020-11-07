@@ -221,4 +221,7 @@ public class Pengguna {
         return status;
     }
 
+    public void setIdPengguna(int idPengguna) {
+        this.IdPengguna = idPengguna;
+    }
 }
