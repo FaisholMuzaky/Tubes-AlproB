@@ -100,7 +100,12 @@ public class Parkir {
     }
 
     private void setTotalTransaksi() {
-        int tarifGarage = garage.getTarif();
+        int tarifGarage = 0;
+        if (this.kendaraan.getTipeKendaraan()=="Motor") {
+            tarifGarage = this.getGarage().getTarifMobil();
+        } else if ((this.kendaraan.getTipeKendaraan()=="Mobil")) {
+            tarifGarage = this.getGarage().getTarifMotor();
+        }
         // String tipeKendaraan = kendaraan.getTipeKendaraan();
         String subs = this.pengguna.getSubscription();
         switch (subs) {

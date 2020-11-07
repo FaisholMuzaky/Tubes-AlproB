@@ -215,12 +215,12 @@ public class Garage {
             if (data != null && data.isBeforeFirst()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 System.out.println(LocalDateTime.now().format(formatter));
-                System.out.println("ID\tGARAGE\t\tTARIF (Rp)\tOPERASIONAL\tHARI OPERASI\tJAM BUKA\tJAM TUTUP");
+                System.out.println("ID\tGARAGE\t\tMOBIL (Rp)\tMOTOR (Rp)\tOPERASIONAL\tHARI OPERASI\tJAM BUKA\tJAM TUTUP");
                 while (data.next()) {
-                    Garage g = new Garage(data.getString("namaGarage"), data.getInt("tarif"),
+                    Garage g = new Garage(data.getString("namaGarage"), data.getInt("tarifMotor"),data.getInt("tarifMobil"),
                             data.getInt("hariOperasi"), data.getInt("jamBuka"), data.getInt("jamTutup"));
                     g.setIdGarage(data.getInt("idGarage"));
-                    System.out.println(g.getIdGarage_() + "\t" + g.getNamaGarage() + "\t\t" + g.getTarif() + "\t" +
+                    System.out.println(g.getIdGarage_() + "\t" + g.getNamaGarage() + "\t\t" + g.getTarifMobil() + "\t\t" + g.getTarifMotor() + "\t" +
                              "\t" + g.getOpenStatus() + "\t\t" + g.getHariOperasi() + "\t\t" + g.getJamBuka() + "\t\t" +
                             g.getJamTutup());
                     countGarage++;

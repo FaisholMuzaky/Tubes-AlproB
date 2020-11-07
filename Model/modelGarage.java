@@ -3,8 +3,6 @@ package Model;
 import java.sql.Connection;
 
 import Database.Database;
-import Database.Database;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -158,7 +156,7 @@ public class modelGarage {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT idGarage, idArea, namaGarage, tarif, hariOperasi, jamBuka, jamTutup"+
+            String query = "SELECT idGarage, idArea, namaGarage, tarifMotor, tarifMobil, hariOperasi, jamBuka, jamTutup"+
                             " FROM garage WHERE idGarage =" + idGarage + " AND idArea="+idArea;
             ResultSet rs = state.executeQuery(query);
             while(rs.next()) {
