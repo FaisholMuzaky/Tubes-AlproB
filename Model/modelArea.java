@@ -26,12 +26,27 @@ public class modelArea {
         }
     }
 
+    public ResultSet searchAreaByID(int idArea) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM area WHERE idArea ='" + idArea + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return rs;
+    }
+
     public ResultSet searchArea(String namaArea) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM area WHERE namaArea ='" + namaArea + "'";
+            String query = "SELECT * FROM area WHERE idArea ='" + namaArea + "'";
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -69,12 +84,12 @@ public class modelArea {
         return rs;
     }
 
-    public int updateArea(String namaArea, String newNamaArea) {
+    public int updateArea(int idArea, String newNamaArea) {
         int rs = 0;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "UPDATE area SET namaArea = '" + newNamaArea + "' WHERE namaArea = '" + namaArea + "'";
+            String query = "UPDATE area SET namaArea = '" + newNamaArea + "' WHERE idArea = '" + idArea + "'";
             rs = state.executeUpdate(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -109,8 +124,8 @@ public class modelArea {
         }
         return rs;
     }
-    
-    public static ResultSet searchIdArea(){
+
+    public static ResultSet searchIdArea() {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();

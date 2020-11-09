@@ -117,7 +117,6 @@ public class Pengguna {
             } else {
                 p.insertDataPengguna(nama, email, alamat, password, "easy");
             }
-            View.pressAnyKey();
         }
     }
 
