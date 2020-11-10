@@ -261,9 +261,22 @@ public class Garage {
                             data.getInt("tarifMobil"), data.getInt("hariOperasi"), data.getInt("jamBuka"),
                             data.getInt("jamTutup"));
                     g.setIdGarage(data.getInt("idGarage"));
+                    String jamBuka = String.valueOf(g.getJamBuka());
+                    String jamTutup = String.valueOf(g.getJamTutup());
+                    if (jamBuka.length() == 1) {
+                        jamBuka = "0" + jamBuka + ":00";
+                    } else {
+                        jamBuka = jamBuka + ":00";
+                    }
+
+                    if (jamTutup.length() == 1) {
+                        jamTutup = "0" + jamTutup + ":00";
+                    } else {
+                        jamTutup = jamTutup + ":00";
+                    }
                     System.out.println(g.getIdGarage_() + "\t" + g.getNamaGarage() + "\t\t" + g.getTarifMobil() + "\t\t"
                             + g.getTarifMotor() + "\t" + "\t" + g.getOpenStatus() + "\t\t" + g.getHariOperasi() + "\t\t"
-                            + g.getJamBuka() + "\t\t" + g.getJamTutup());
+                            + jamBuka + "\t\t" + jamTutup);
                     countGarage++;
                 }
             } else {
