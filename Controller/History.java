@@ -10,7 +10,6 @@ public class History {
     private ArrayList<Parkir> parkirs;
     private Pengguna pengguna;
     private modelHistory model = new modelHistory();
-    private Table st = new Table();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public History() {
@@ -54,6 +53,7 @@ public class History {
     }
 
 	public void showParkirs() {
+        Table st = new Table();
         st.setShowVerticalLines(true);
         st.setHeaders("AREA", "GARAGE", "NOMOR KENDARAAN", "TIPE KENDARAAN", "WAKTU MULAI", "WAKTU SELESAI", "DURASI (JAM)", "TOTAL (Rp)");
         for (Parkir parkir : this.parkirs) {
@@ -71,6 +71,7 @@ public class History {
     }
     
     public void showLaporanHarian() {
+        Table st = new Table();
         try {
             ResultSet rs = model.getLaporan(0);
             st.setShowVerticalLines(true);
@@ -91,6 +92,7 @@ public class History {
     }
 
     public void showLaporanMingguan() {
+        Table st = new Table();
         try {
             ResultSet rsM = model.getLaporan(1);
             st.setShowVerticalLines(true);
@@ -112,6 +114,7 @@ public class History {
     }
 
     public void showLaporanBulanan() {
+        Table st = new Table();
         try {
             ResultSet rsB = model.getLaporan(2);
             st.setShowVerticalLines(true);

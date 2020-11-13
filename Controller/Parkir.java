@@ -78,7 +78,13 @@ public class Parkir {
     private void setDurasi() {
         LocalDateTime startFrom = LocalDateTime.from(this.timeStart);
         long minutes = startFrom.until(this.timeStop, ChronoUnit.MINUTES);
-        this.durasi = convertToHour(minutes);
+        int addition = (int) (minutes % 60);
+        long jam = convertToHour(minutes);
+        if(addition>0) {
+            this.durasi = (int) (jam + 1);
+        } else {
+            this.durasi = (int) jam;
+        }
     }
 
     public int getDurasi() {
@@ -109,10 +115,10 @@ public class Parkir {
 
     private void setTotalTransaksi() {
         int tarifGarage = 0;
-        if (this.kendaraan.getTipeKendaraan()=="Motor") {
-            tarifGarage = this.getGarage().getTarifMobil();
-        } else if ((this.kendaraan.getTipeKendaraan()=="Mobil")) {
+        if (this.kendaraan.getTipeKendaraan().equals("Motor")) {
             tarifGarage = this.getGarage().getTarifMotor();
+        } else if (this.kendaraan.getTipeKendaraan().equals("Mobil")) {
+            tarifGarage = this.getGarage().getTarifMobil();
         }
         // String tipeKendaraan = kendaraan.getTipeKendaraan();
         String subs = this.pengguna.getSubscription();
@@ -138,7 +144,8 @@ public class Parkir {
     }
 
     private boolean checkThisMonth() {
-        if(m.getCountMonthly(LocalDate.now(), this.pengguna)>0)
+        int t = m.getCountMonthly(LocalDate.now(), this.pengguna);
+        if(t>0)
             return false;
         else
             return true;

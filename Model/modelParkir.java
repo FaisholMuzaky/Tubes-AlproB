@@ -161,7 +161,8 @@ public class modelParkir implements modelGeneric<Parkir> {
                 System.out.println("PEMILIK\t\t"+rs.getString("nama"));
                 System.out.println("SUBSCRIPTION\t"+rs.getString("subscription"));
                 System.out.println("GARAGE\t\t"+rs.getString("namaGarage"));
-                System.out.println("TARIF\t\t"+rs.getString("tarif"));
+                System.out.println("TARIF MOTOR\t"+rs.getString("tarifMotor"));
+                System.out.println("TARIF MOBIL\t"+rs.getString("tarifMobil"));
                 System.out.println("AREA\t\t"+rs.getString("namaArea"));
                 System.out.println("WAKTU MULAI\t"+rs.getString("timeStart"));
                 System.out.println("WAKTU SELESAI\t"+rs.getString("timeStop"));
@@ -179,14 +180,14 @@ public class modelParkir implements modelGeneric<Parkir> {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String queryIdParkir = "SELECT COUNT(*) as JUMLAH FROM parkir a"+
-                "LEFT JOIN kendaraan b on a.idKendaraan = b.idKendaraan"+
+            String queryIdParkir = "SELECT COUNT(*) as JUMLAH FROM parkir a "+
+                "LEFT JOIN kendaraan b on a.idKendaraan = b.idKendaraan "+
                 "LEFT JOIN pengguna c on b.idPengguna = c.idPengguna "+
                 "WHERE c.idPengguna = "+pengguna.getIdPengguna()+" and "+
-                    "CONCAT(YEAR(a.timeStart),MONTH(a.timeStart))=CONCAT(YEAR(NOW()),MONTH(NOW()))"+
-                "GROUP BY"+
-                    "c.idPengguna,"+
-                    "CONCAT(YEAR(a.timeStart),MONTH(a.timeStart))";
+                    "CONCAT(YEAR(a.timeStart),MONTH(a.timeStart))=CONCAT(YEAR(NOW()),MONTH(NOW())) "+
+                "GROUP BY "+
+                    "c.idPengguna, "+
+                    "CONCAT(YEAR(a.timeStart),MONTH(a.timeStart)) ";
             ResultSet rs = state.executeQuery(queryIdParkir);
             
             rs = state.executeQuery(queryIdParkir);
