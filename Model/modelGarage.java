@@ -19,7 +19,7 @@ public class modelGarage {
             for (int i = 0; i < garage.length; i++) {
                 String query = "INSERT INTO GARAGE(IDAREA, NAMAGARAGE, TARIFMOBIL, TARIFMOTOR, HARIOPERASI, JAMBUKA, JAMTUTUP)"
                         + "VALUES ('" + IdArea + "','" + garage[i].getNamaGarage() + "','" + garage[i].getTarifMobil()
-                        + "','" + garage[i].getTarifMotor() + "','" + garage[i].getHariOperasi() + "','" 
+                        + "','" + garage[i].getTarifMotor() + "','" + garage[i].getHariOperasi() + "','"
                         + garage[i].getJamBuka() + "','" + garage[i].getJamTutup() + "')";
                 state.executeUpdate(query);
                 count++;
@@ -36,12 +36,25 @@ public class modelGarage {
         }
     }
 
-    public ResultSet searchGarage(int IdArea) {
+    public ResultSet searchGarage(int idGarage) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM garage WHERE IdArea ='" + IdArea + "'";
+            String query = "SELECT * FROM garage WHERE IdGarage ='" + idGarage + "'";
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
+
+    public ResultSet searchGarageByIdArea(int idArea) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM garage WHERE IdArea ='" + idArea + "'";
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -75,7 +88,8 @@ public class modelGarage {
         return rs;
     }
 
-    public ResultSet searchGarage(String namaGarage) {
+    // tidak digunakan
+    public ResultSet searchGarageByName(String namaGarage) {
         ResultSet rs = null;
         try {
             Connection con = Database.getKoneksi();
@@ -105,14 +119,15 @@ public class modelGarage {
         return rs;
     }
 
-    public int updateGarage(int idGarage, String namaGarasi, int tarifMobil, int tarifMotor, int hariOperasi, int jamBuka, int jamTutup) {
+    public int updateGarage(int idGarage, String namaGarasi, int tarifMobil, int tarifMotor, int hariOperasi,
+            int jamBuka, int jamTutup) {
         int rs = 0;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "UPDATE garage SET namaGarage = '" + namaGarasi + "', tarifMobil = " + tarifMobil + ", tarifMotor = " 
-                    + tarifMotor + ", hariOperasi = "+ hariOperasi + ", jamBuka = " + jamBuka + ", jamTutup = " + jamTutup + " WHERE idGarage = '"
-                    + idGarage + "'";
+            String query = "UPDATE garage SET namaGarage = '" + namaGarasi + "', tarifMobil = " + tarifMobil
+                    + ", tarifMotor = " + tarifMotor + ", hariOperasi = " + hariOperasi + ", jamBuka = " + jamBuka
+                    + ", jamTutup = " + jamTutup + " WHERE idGarage = '" + idGarage + "'";
             rs = state.executeUpdate(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -142,7 +157,7 @@ public class modelGarage {
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             String query = "SELECT namaGarage FROM garage WHERE idGarage ='" + idGarage + "'";
             ResultSet rs = state.executeQuery(query);
-            while(rs.next()) {
+            while (rs.next()) {
                 namaGarage = rs.getString("namaGarage");
             }
         } catch (Exception e) {
@@ -156,10 +171,10 @@ public class modelGarage {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT idGarage, idArea, namaGarage, tarifMotor, tarifMobil, hariOperasi, jamBuka, jamTutup"+
-                            " FROM garage WHERE idGarage =" + idGarage + " AND idArea="+idArea;
+            String query = "SELECT idGarage, idArea, namaGarage, tarifMotor, tarifMobil, hariOperasi, jamBuka, jamTutup"
+                    + " FROM garage WHERE idGarage =" + idGarage + " AND idArea=" + idArea;
             ResultSet rs = state.executeQuery(query);
-            while(rs.next()) {
+            while (rs.next()) {
                 garage.setIdGarage(rs.getInt("idGarage"));
                 garage.setNamaGarage(rs.getString("namaGarage"));
                 garage.setTarifMobil(rs.getInt("tarifMobil"));
@@ -174,20 +189,20 @@ public class modelGarage {
         return garage;
     }
 
-	public int getIdArea(int idGarage) {
+    public int getIdArea(int idGarage) {
         int idArea = 0;
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT b.idArea FROM garage a INNER JOIN area b ON a.idArea = b.idArea "+
-                            "WHERE a.idGarage ='" + idGarage + "'";
+            String query = "SELECT b.idArea FROM garage a INNER JOIN area b ON a.idArea = b.idArea "
+                    + "WHERE a.idGarage ='" + idGarage + "'";
             ResultSet rs = state.executeQuery(query);
-            while(rs.next()) {
+            while (rs.next()) {
                 idArea = rs.getInt("idArea");
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return idArea;
-	}
+    }
 }

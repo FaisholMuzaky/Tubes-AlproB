@@ -17,6 +17,22 @@ public class Area {
         this.garages = new Garage();
     }
 
+    public String getNamaArea() {
+        return this.namaArea;
+    }
+
+    public void setNamaArea(String namaArea) {
+        this.namaArea = namaArea;
+    }
+
+    public int getIdArea() {
+        return this.idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
+    }
+
     public void addArea(String namaArea) {
         if (isValidnamaArea(namaArea)) {
             a.insertArea(namaArea);
@@ -25,8 +41,8 @@ public class Area {
         }
     }
 
-    public void editArea(String namaArea, String newNamaArea) {
-        int status = a.updateArea(namaArea, newNamaArea);
+    public void editArea(int idArea, String newNamaArea) {
+        int status = a.updateArea(idArea, newNamaArea);
         if (status == 1) {
             System.out.println("Update Data Berhasil");
         } else {
@@ -34,23 +50,23 @@ public class Area {
         }
     }
 
-    public void viewArea() {
-        try {
-            ResultSet data = a.listArea();
-            if (data != null && data.isBeforeFirst()) {
-                int i = 0;
-                while (data.next()) {
-                    System.out.println(i + 1 + ". Nama Area : " + data.getString("namaArea"));
-                    i++;
-                }
-            } else {
-                System.out.println("Data area parkir tidak ada");
-                System.out.println("Silahkan melakukan pendaftaran data area parkir");
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    // public void viewArea() {
+    // try {
+    // ResultSet data = a.listArea();
+    // if (data != null && data.isBeforeFirst()) {
+    // int i = 0;
+    // while (data.next()) {
+    // System.out.println(i + 1 + ". Nama Area : " + data.getString("namaArea"));
+    // i++;
+    // }
+    // } else {
+    // System.out.println("Data area parkir tidak ada");
+    // System.out.println("Silahkan melakukan pendaftaran data area parkir");
+    // }
+    // } catch (Exception e) {
+    // System.out.println(e);
+    // }
+    // }
 
     public void viewArea_() {
         try {
@@ -58,8 +74,10 @@ public class Area {
             if (data != null && data.isBeforeFirst()) {
                 System.out.println("ID\tNAMA AREA");
                 while (data.next()) {
-                    System.out.println(data.getInt("idArea") +"\t" + data.getString("namaArea"));
+                    System.out.println(data.getInt("idArea") + "\t" + data.getString("namaArea"));
                 }
+            } else if (!p.isAdmin(p.getIdPengguna())) {
+                System.out.println("Maaf data area parkir tidak ada");
             } else {
                 System.out.println("Data area parkir tidak ada");
                 System.out.println("Silahkan melakukan pendaftaran data area parkir");
@@ -82,15 +100,14 @@ public class Area {
         return valid;
     }
 
-    public void detailArea(String namaArea) {
+    public void detailArea(int IdArea) {
         try {
-            ResultSet rs = a.searchArea(namaArea);
+            ResultSet rs = a.searchAreaByID(IdArea);
             if (rs.next()) {
-                int IdArea = rs.getInt("idArea");
                 int jumGarasi = garages.countGarageArea(IdArea);
-                System.out.println("Nama Area Parkir : " + namaArea);
+                System.out.println("Nama Area Parkir : " + rs.getString("namaArea"));
                 System.out.println("Jumlah Garasi    : " + jumGarasi);
-                garages.viewListGarage(IdArea);
+                garages.viewListGarageByIdArea(IdArea);
                 if (jumGarasi == 0) {
                     System.out.println("Silahkan melakukan penambahan data garasi");
                 }
@@ -143,22 +160,6 @@ public class Area {
             System.out.println(e);
         }
         return area;
-    }
-
-    public String getNamaArea() {
-        return this.namaArea;
-    }
-
-    public void setNamaArea(String namaArea) {
-        this.namaArea = namaArea;
-    }
-
-    public int getIdArea() {
-        return this.idArea;
-    }
-
-    public void setIdArea(int idArea) {
-        this.idArea = idArea;
     }
 
 }
