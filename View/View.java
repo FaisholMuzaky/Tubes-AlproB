@@ -751,37 +751,44 @@ public class View {
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         clrscr();
-        switch (pil) {
-            case 1:
-                laporanHarian();
-                break;
-            case 2:
-                laporanMingguan();
-                break;
-            case 3:
-                laporanBulanan();
-                break;
-            default:
-                mainAdmin();
-                break;
+        if(pil==0) {
+            mainAdmin();
+        } else if(pil>0 && pil<=3) {
+            history.showLaporan(pil-1);
+        } else {
+            menuLaporan();
         }
+        // switch (pil) {
+        //     case 1:
+        //         laporanHarian();
+        //         break;
+        //     case 2:
+        //         laporanMingguan();
+        //         break;
+        //     case 3:
+        //         laporanBulanan();
+        //         break;
+        //     default:
+        //         mainAdmin();
+        //         break;
+        // }
     }
 
-    private void laporanBulanan() {
-        history.showLaporanBulanan();
-        pressAnyKey();
-        menuLaporan();
-    }
+    // private void laporanBulanan() {
+    //     history.showLaporanBulanan();
+    //     pressAnyKey();
+    //     menuLaporan();
+    // }
 
-    private void laporanMingguan() {
-        history.showLaporanMingguan();
-        pressAnyKey();
-        menuLaporan();
-    }
+    // private void laporanMingguan() {
+    //     history.showLaporanMingguan();
+    //     pressAnyKey();
+    //     menuLaporan();
+    // }
 
-    private void laporanHarian() {
-        history.showLaporanHarian();
-        pressAnyKey();
-        menuLaporan();
-    }
+    // private void laporanHarian() {
+    //     history.showLaporanHarian();
+    //     pressAnyKey();
+    //     menuLaporan();
+    // }
 }

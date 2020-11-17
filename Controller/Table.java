@@ -90,7 +90,7 @@ public class Table {
         }
         System.out.println();
     }
-
+    
     public static void main(String[] args) {
         //test code
         Table st = new Table();

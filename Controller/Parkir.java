@@ -78,13 +78,14 @@ public class Parkir {
     private void setDurasi() {
         LocalDateTime startFrom = LocalDateTime.from(this.timeStart);
         long minutes = startFrom.until(this.timeStop, ChronoUnit.MINUTES);
-        int addition = (int) (minutes % 60);
-        long jam = convertToHour(minutes);
-        if(addition>0) {
-            this.durasi = (int) (jam + 1);
-        } else {
-            this.durasi = (int) jam;
-        }
+        this.durasi = (int)minutes;
+        // int addition = (int) (minutes % 60);
+        // long jam = convertToHour(minutes);
+        // if(addition>0) {
+        //     this.durasi = (int) (jam + 1);
+        // } else {
+        //     this.durasi = (int) jam;
+        // }
     }
 
     public int getDurasi() {
@@ -120,22 +121,26 @@ public class Parkir {
         } else if (this.kendaraan.getTipeKendaraan().equals("Mobil")) {
             tarifGarage = this.getGarage().getTarifMobil();
         }
-        // String tipeKendaraan = kendaraan.getTipeKendaraan();
+        // int addition = (int) (this.durasi % 60);
+        long jam = convertToHour(this.durasi);
+        // if(addition>0) {
+        //     jam += 1;
+        // } 
         String subs = this.pengguna.getSubscription();
         switch (subs) {
             case "easy":
-                this.totalTransaksi = this.durasi * tarifGarage + 2000;
+                this.totalTransaksi = jam * tarifGarage + 2000;
                 break;
             case "plus":
                 if(checkThisMonth())
-                    this.totalTransaksi = this.durasi * tarifGarage + 12000;
+                    this.totalTransaksi = jam * tarifGarage + 12000;
                 else
-                    this.totalTransaksi = this.durasi * tarifGarage;
+                    this.totalTransaksi = jam * tarifGarage;
                 break;
         }
     }
 
-    private int convertToHour(long durasiMinutes) {
+    public int convertToHour(long durasiMinutes) {
         double durasiJam = Math.ceil(durasiMinutes/60);
         if (durasiJam<1.0) {
             durasiJam += 1;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import Model.modelHistory;
 
-public class History {
+public class History implements Laporan {
     private ArrayList<Parkir> parkirs;
     private Pengguna pengguna;
     private modelHistory model = new modelHistory();
@@ -70,7 +70,7 @@ public class History {
         st.print();
     }
     
-    public void showLaporanHarian() {
+    private void showLaporanHarian() {
         Table st = new Table();
         try {
             ResultSet rs = model.getLaporan(0);
@@ -91,7 +91,7 @@ public class History {
         }
     }
 
-    public void showLaporanMingguan() {
+    private void showLaporanMingguan() {
         Table st = new Table();
         try {
             ResultSet rsM = model.getLaporan(1);
@@ -113,7 +113,7 @@ public class History {
         }
     }
 
-    public void showLaporanBulanan() {
+    private void showLaporanBulanan() {
         Table st = new Table();
         try {
             ResultSet rsB = model.getLaporan(2);
@@ -132,6 +132,21 @@ public class History {
             st.print();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void showLaporan(int i) {
+        switch (i) {
+            case 0:
+                showLaporanHarian();
+                break;
+            case 1:
+                showLaporanMingguan();
+                break;
+            case 2:
+                showLaporanBulanan();
+                break;
         }
     }
 }

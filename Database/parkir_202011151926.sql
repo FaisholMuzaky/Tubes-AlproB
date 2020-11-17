@@ -43,7 +43,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -80,7 +80,7 @@ CREATE TABLE `garage` (
 
 LOCK TABLES `garage` WRITE;
 /*!40000 ALTER TABLE `garage` DISABLE KEYS */;
-INSERT INTO `garage` VALUES (7,10,'garasi1',3500,2000,3,8,17),(8,11,'garasi2',3000,2000,2,7,12),(9,18,'asd',3300,2200,4,4,4),(9,19,'awe',3400,1850,4,3,5),(11,20,'parki1',2000,1900,5,5,17),(12,21,'asd',2000,1400,5,7,15),(12,22,'awe',2000,1000,5,7,12);
+INSERT INTO `garage` VALUES (7,10,'xGarage',4000,3000,7,8,23),(8,11,'garasi2',3000,2000,2,7,12),(9,18,'asd',3300,2200,4,4,4),(9,19,'awe',3400,1850,4,3,5),(11,20,'parki1',2000,1900,5,5,17),(12,21,'asd',2000,1400,5,7,15),(12,22,'awe',2000,1000,5,7,12);
 /*!40000 ALTER TABLE `garage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +97,7 @@ CREATE TABLE `kendaraan` (
   `nomorKendaraan` varchar(255) NOT NULL,
   `tipeKendaraan` varchar(255) NOT NULL,
   PRIMARY KEY (`idKendaraan`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE `kendaraan` (
 
 LOCK TABLES `kendaraan` WRITE;
 /*!40000 ALTER TABLE `kendaraan` DISABLE KEYS */;
-INSERT INTO `kendaraan` VALUES (1,4,'DC 1234 Z','Mobil'),(2,4,'DC 1252 A','Mobil'),(4,4,'DC 123 ZR','Motor'),(5,4,'DC 221 CD','Motor'),(7,4,'BD 5571 C','Mobil'),(9,4,'CD 123 CV','Motor'),(11,7,'BD 1884 C','Mobil'),(12,9,'TB 2314 R','Mobil'),(13,9,'TT 1234 B','Mobil');
+INSERT INTO `kendaraan` VALUES (1,4,'DC 1234 Z','Mobil'),(2,4,'DC 1252 A','Mobil'),(4,4,'DC 123 ZR','Motor'),(5,4,'DC 221 CD','Motor'),(7,4,'BD 5571 C','Mobil'),(9,4,'CD 123 CV','Motor'),(11,7,'BD 1884 C','Mobil'),(12,9,'TB 2314 R','Mobil'),(13,9,'TT 1234 B','Mobil'),(14,9,'BB 341 AB','Motor');
 /*!40000 ALTER TABLE `kendaraan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `parkir` (
   KEY `parkir_FK_1` (`idKendaraan`),
   CONSTRAINT `parkir_FK` FOREIGN KEY (`idGarage`) REFERENCES `garage` (`idgarage`),
   CONSTRAINT `parkir_FK_1` FOREIGN KEY (`idKendaraan`) REFERENCES `kendaraan` (`idkendaraan`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `parkir` (
 
 LOCK TABLES `parkir` WRITE;
 /*!40000 ALTER TABLE `parkir` DISABLE KEYS */;
-INSERT INTO `parkir` VALUES (24,13,10,'2020-11-03 21:55:49','2020-11-03 21:56:10',0.3499999940395355,2000),(25,13,20,'2020-11-03 22:04:54','2020-11-03 22:05:10',0.2666666805744171,2000),(26,13,19,'2020-11-03 22:13:39','2020-11-03 22:14:13',0.5666666626930237,2000),(27,13,21,'2020-11-03 22:16:25','2020-11-03 22:16:32',0.11666666716337204,2000),(28,13,18,'2020-11-04 01:56:18','2020-11-04 01:56:28',0.1666666716337204,2000),(29,13,11,'2020-11-04 02:11:03','2020-11-04 02:11:11',0.13333334028720856,2000),(30,13,11,'2020-11-04 02:16:02','2020-11-04 02:16:26',0.4000000059604645,2000),(31,13,19,'2020-11-04 04:54:47','2020-11-04 04:55:01',1,2012),(32,13,20,'2020-11-04 04:57:31','2020-11-04 04:57:39',0,4000),(33,13,11,'2020-11-04 09:34:35','2020-11-04 09:35:05',1,3000),(34,13,10,'2020-11-04 09:35:59','2020-11-04 09:36:06',1,3500),(35,13,10,'2020-11-04 09:37:38','2020-11-04 09:37:41',0,3500),(36,13,20,'2020-11-04 09:38:46','2020-11-04 09:38:50',0,4000),(37,13,10,'2020-11-04 09:42:32','2020-11-04 09:42:36',0,3500),(38,13,10,'2020-11-04 09:46:03','2020-11-04 09:46:08',0,3500),(39,13,22,'2020-11-04 09:48:20','2020-11-04 09:48:26',0,4000),(40,13,21,'2020-11-04 09:53:30','2020-11-04 09:53:39',0,4000),(41,13,22,'2020-11-05 02:01:30','2020-11-05 02:01:42',0,4000),(42,13,22,'2020-11-05 02:02:16','2020-11-05 02:02:31',0,4000),(43,13,10,'2020-11-05 02:02:42','2020-11-05 02:02:46',0,3500),(44,13,10,'2020-11-05 02:03:12','2020-11-05 02:03:15',0,3500),(45,13,10,'2020-11-05 02:04:13','2020-11-05 02:04:17',0,3500),(46,13,18,'2020-11-05 03:09:57','2020-11-05 03:10:04',1,2002),(47,13,18,'2020-11-05 03:18:37','2020-11-05 03:18:41',0,2002),(48,13,11,'2020-11-05 03:30:11','2020-11-05 03:30:20',0,3000),(49,13,20,'2020-11-05 03:30:48','2020-11-05 03:30:56',0,4000),(50,13,11,'2020-11-06 00:36:00','2020-11-06 00:36:05',0,3000),(51,12,20,'2020-11-06 04:04:37','2020-11-06 04:04:44',0,4000),(52,13,20,'2020-09-02 02:20:13','2020-11-06 04:33:53',13,4000),(53,12,21,'2020-11-06 03:00:00','2020-11-06 05:38:10',38,4000),(54,13,21,'2020-11-05 16:59:00','2020-11-06 05:52:40',12,26000),(55,13,20,'2020-11-05 05:00:00','2020-11-06 05:59:55',1499,50000),(56,12,21,'2020-11-04 01:34:12','2020-11-06 06:03:22',3149,106000),(57,12,20,'2020-11-06 00:00:00','2020-11-06 08:02:00',482,18000),(58,13,20,'2020-11-06 01:00:00','2020-11-06 08:11:10',431,16000),(59,13,20,'2020-11-06 01:00:00','2020-11-06 08:16:34',436,16000),(60,12,20,'2020-11-06 01:00:00','2020-11-06 08:19:18',439,16000),(61,12,20,'2020-11-06 01:00:00','2020-11-06 08:27:57',7,16000),(62,13,20,'2020-11-06 00:30:00','2020-11-06 08:31:13',8,18000),(63,13,20,'2020-11-06 00:30:00','2020-11-06 08:32:27',8,18000);
+INSERT INTO `parkir` VALUES (24,13,10,'2020-11-03 21:55:49','2020-11-03 21:56:10',0.3499999940395355,2000),(25,13,20,'2020-11-03 22:04:54','2020-11-03 22:05:10',0.2666666805744171,2000),(26,13,19,'2020-11-03 22:13:39','2020-11-03 22:14:13',0.5666666626930237,2000),(27,13,21,'2020-11-03 22:16:25','2020-11-03 22:16:32',0.11666666716337204,2000),(28,13,18,'2020-11-04 01:56:18','2020-11-04 01:56:28',0.1666666716337204,2000),(29,13,11,'2020-11-04 02:11:03','2020-11-04 02:11:11',0.13333334028720856,2000),(30,13,11,'2020-11-04 02:16:02','2020-11-04 02:16:26',0.4000000059604645,2000),(31,13,19,'2020-11-04 04:54:47','2020-11-04 04:55:01',1,2012),(32,13,20,'2020-11-04 04:57:31','2020-11-04 04:57:39',0,4000),(33,13,11,'2020-11-04 09:34:35','2020-11-04 09:35:05',1,3000),(34,13,10,'2020-11-04 09:35:59','2020-11-04 09:36:06',1,3500),(35,13,10,'2020-11-04 09:37:38','2020-11-04 09:37:41',0,3500),(36,13,20,'2020-11-04 09:38:46','2020-11-04 09:38:50',0,4000),(37,13,10,'2020-11-04 09:42:32','2020-11-04 09:42:36',0,3500),(38,13,10,'2020-11-04 09:46:03','2020-11-04 09:46:08',0,3500),(39,13,22,'2020-11-04 09:48:20','2020-11-04 09:48:26',0,4000),(40,13,21,'2020-11-04 09:53:30','2020-11-04 09:53:39',0,4000),(41,13,22,'2020-11-05 02:01:30','2020-11-05 02:01:42',0,4000),(42,13,22,'2020-11-05 02:02:16','2020-11-05 02:02:31',0,4000),(43,13,10,'2020-11-05 02:02:42','2020-11-05 02:02:46',0,3500),(44,13,10,'2020-11-05 02:03:12','2020-11-05 02:03:15',0,3500),(45,13,10,'2020-11-05 02:04:13','2020-11-05 02:04:17',0,3500),(46,13,18,'2020-11-05 03:09:57','2020-11-05 03:10:04',1,2002),(47,13,18,'2020-11-05 03:18:37','2020-11-05 03:18:41',0,2002),(48,13,11,'2020-11-05 03:30:11','2020-11-05 03:30:20',0,3000),(49,13,20,'2020-11-05 03:30:48','2020-11-05 03:30:56',0,4000),(50,13,11,'2020-11-06 00:36:00','2020-11-06 00:36:05',0,3000),(51,12,20,'2020-11-06 04:04:37','2020-11-06 04:04:44',0,4000),(52,13,20,'2020-09-02 02:20:13','2020-11-06 04:33:53',13,4000),(53,12,21,'2020-11-06 03:00:00','2020-11-06 05:38:10',38,4000),(54,13,21,'2020-11-05 16:59:00','2020-11-06 05:52:40',12,26000),(55,13,20,'2020-11-05 05:00:00','2020-11-06 05:59:55',1499,50000),(56,12,21,'2020-11-04 01:34:12','2020-11-06 06:03:22',3149,106000),(57,12,20,'2020-11-06 00:00:00','2020-11-06 08:02:00',482,18000),(58,13,20,'2020-11-06 01:00:00','2020-11-06 08:11:10',431,16000),(59,13,20,'2020-11-06 01:00:00','2020-11-06 08:16:34',436,16000),(60,12,20,'2020-11-06 01:00:00','2020-11-06 08:19:18',439,16000),(61,12,20,'2020-11-06 01:00:00','2020-11-06 08:27:57',7,16000),(62,13,20,'2020-11-06 00:30:00','2020-11-06 08:31:13',8,18000),(63,13,20,'2020-11-06 00:30:00','2020-11-06 08:32:27',8,18000),(64,12,10,'2020-11-10 05:18:13','2020-11-10 05:19:02',1,2000),(65,13,20,'2020-11-10 05:22:23','2020-11-10 05:23:17',1,2000),(66,13,20,'2020-11-10 02:00:00','2020-11-10 05:25:52',3,2000),(67,12,10,'2020-11-10 05:26:47','2020-11-10 05:26:56',1,2000),(68,12,20,'2020-11-10 05:30:03','2020-11-10 05:30:10',1,2000),(69,13,21,'2020-11-10 05:41:29','2020-11-10 05:41:34',1,2000),(70,12,10,'2020-11-10 05:56:53','2020-11-10 05:56:57',1,5500),(71,14,10,'2020-11-10 03:15:00','2020-11-10 05:58:53',3,8000),(72,9,20,'2020-11-10 06:00:18','2020-11-10 06:00:23',1,13900),(73,2,20,'2020-11-10 06:00:57','2020-11-10 06:01:01',1,14000),(74,1,10,'2020-11-10 06:01:34','2020-11-10 06:01:38',1,15500),(75,7,10,'2020-11-10 06:06:42','2020-11-10 06:06:45',1,15500),(76,1,20,'2020-11-10 06:27:01','2020-11-10 06:27:05',1,2000),(77,12,21,'2020-11-10 07:30:15','2020-11-10 07:30:24',1,4000),(78,12,21,'2020-11-13 05:33:21','2020-11-13 05:33:24',1,4000),(79,14,10,'2020-11-14 01:00:00','2020-11-14 01:53:27',53,8000);
 /*!40000 ALTER TABLE `parkir` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,9 +157,9 @@ CREATE TABLE `pengguna` (
   `alamat` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `subscription` varchar(255) NOT NULL DEFAULT 'easy',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'user',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user',
   PRIMARY KEY (`idPengguna`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -199,10 +199,10 @@ BEGIN
 -- 		a.totalTransaksi AS total
 		*
 	FROM parkir a
-	LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan 
-	LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna 
-	LEFT JOIN garage g ON a.idGarage = g.IdGarage 
-	LEFT JOIN area h ON g.IdArea = h.IdArea 
+	LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan
+	LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna
+	LEFT JOIN garage g ON a.idGarage = g.IdGarage
+	LEFT JOIN area h ON g.IdArea = h.IdArea
 	WHERE c.idPengguna = _idPengguna;
 END ;;
 DELIMITER ;
@@ -216,7 +216,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -231,10 +231,11 @@ BEGIN
 			SUM(a.durasi) as durasi ,
 			SUM(a.totalTransaksi) as totalTransaksi
 		FROM parkir a
-		LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan 
-		LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna 
-		LEFT JOIN garage g ON a.idGarage = g.IdGarage 
+		LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan
+		LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna
+		LEFT JOIN garage g ON a.idGarage = g.IdGarage
 		LEFT JOIN area h ON g.IdArea = h.IdArea
+		WHERE DATE(a.timeStart) = DATE(NOW())
 		GROUP BY
 			DATE(a.timeStart),
 			c.idPengguna ,
@@ -245,20 +246,20 @@ BEGIN
 			g.namaGarage
 		ORDER BY
 			DATE(a.timeStart);
-	ELSE 
+	ELSE
 		IF periode=1 THEN
 			SELECT
 				YEAR(a.timeStart) as tahun,
-				WEEK(a.timeStart) as minggu, 
+				WEEK(a.timeStart) as minggu,
 				c.nama ,
 				h.namaArea,
 				g.namaGarage ,
 				SUM(a.durasi) as durasi,
-				SUM(a.totalTransaksi) as totalTransaksi 
+				SUM(a.totalTransaksi) as totalTransaksi
 			FROM parkir a
-			LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan 
-			LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna 
-			LEFT JOIN garage g ON a.idGarage = g.IdGarage 
+			LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan
+			LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna
+			LEFT JOIN garage g ON a.idGarage = g.IdGarage
 			LEFT JOIN area h ON g.IdArea = h.IdArea
 			GROUP BY
 				YEAR(a.timeStart),
@@ -275,16 +276,16 @@ BEGIN
 		ELSE
 			SELECT
 				YEAR(a.timeStart) as tahun,
-				MONTH(a.timeStart) as bulan, 
+				MONTH(a.timeStart) as bulan,
 				c.nama ,
 				h.namaArea,
 				g.namaGarage ,
 				SUM(a.durasi) as durasi ,
 				SUM(a.totalTransaksi) as totalTransaksi
 			FROM parkir a
-			LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan 
-			LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna 
-			LEFT JOIN garage g ON a.idGarage = g.IdGarage 
+			LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan
+			LEFT JOIN pengguna c ON b.idPengguna = c.idPengguna
+			LEFT JOIN garage g ON a.idGarage = g.IdGarage
 			LEFT JOIN area h ON g.IdArea = h.IdArea
 			GROUP BY
 				YEAR(a.timeStart),
@@ -312,7 +313,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -323,14 +324,14 @@ BEGIN
 	DECLARE _subscription varchar(30);
 	DECLARE _totalTransaksi INT;
 	DECLARE _hoursInterval FLOAT;
-	
-	SET _subscription = (SELECT p.subscription 
-	FROM kendaraan k 
-	JOIN pengguna p ON k.idPengguna = p.idPengguna 
+
+	SET _subscription = (SELECT p.subscription
+	FROM kendaraan k
+	JOIN pengguna p ON k.idPengguna = p.idPengguna
 	WHERE k.idKendaraan = _idKendaraan);
-	
+
 	SET _hoursInterval = TIME_TO_SEC(TIMEDIFF(_timeStop,_timeStart))/60;
-	
+
 	IF UPPER(_subscription)=UPPER('easy') THEN
 		IF _hoursInterval<1 THEN
 			SET _totalTransaksi = 2000;
@@ -338,12 +339,12 @@ BEGIN
 			SET _totalTransaksi = _hoursInterval*2000;
 		END IF;
 	END IF;
-	
+
 	INSERT INTO parkir
 		(idKendaraan,idGarage,timeStart,timeStop,durasi,totalTransaksi)
 	VALUES
 		(_idKendaraan,_idGarage,_timeStart,_timeStop,_hoursInterval,_totalTransaksi);
-		
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -356,7 +357,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -382,7 +383,7 @@ DELIMITER ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
 /*!50003 SET character_set_client  = utf8mb4 */ ;
 /*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -398,13 +399,14 @@ BEGIN
 		e.nama ,
 		e.subscription ,
 		c.namaGarage ,
-		c.tarif ,
-		d.namaArea 
+		c.tarifMotor ,
+		c.tarifMobil ,
+		d.namaArea
 	FROM
 		parkir a
-	LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan 
-	LEFT JOIN garage c ON a.idGarage = c.idGarage 
-	LEFT JOIN area d ON c.idArea = d.idArea 
+	LEFT JOIN kendaraan b ON a.idKendaraan = b.idKendaraan
+	LEFT JOIN garage c ON a.idGarage = c.idGarage
+	LEFT JOIN area d ON c.idArea = d.idArea
 	LEFT JOIN pengguna e ON b.idPengguna = e.idPengguna
 	WHERE a.idParkir = _idParkir;
 END ;;
@@ -423,4 +425,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-07 21:28:36
+-- Dump completed on 2020-11-15 19:26:21
