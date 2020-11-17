@@ -5,21 +5,25 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import Controller.Area;
 import java.sql.SQLException;
 
 public class modelArea {
 
-    public void insertArea(String namaArea) {
+    public void insertArea(Area area[]) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "INSERT INTO AREA(NAMAAREA)" + "VALUES ('" + namaArea + "')";
-
-            int rs = state.executeUpdate(query);
-            if (rs == 1) {
-                System.out.println("Tambah Area Berhasil");
+            int count = 0;
+            for (int i = 0; i < area.length; i++) {
+                String query = "INSERT INTO area(namaArea)" + "VALUES ('" + area[i].getNamaArea() + "')";
+                state.executeUpdate(query);
+                count++;
+            }
+            if (count == area.length) {
+                System.out.println("Tambah Area Berhasil Dilakukan");
             } else {
-                System.out.println("Tambah Area Gagal");
+                System.out.println("Tambah Area Gagal Dilakukan");
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

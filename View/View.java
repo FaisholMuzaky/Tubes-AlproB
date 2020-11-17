@@ -95,9 +95,11 @@ public class View {
         System.out.println("=".repeat((number * 2) + judul.length()));
         if (!email.isEmpty() && !password.isEmpty()) {
             password = user.hash(password);
-            user.login(email, password);
-            if (user.getIdPengguna() > 0) {
-                idPengguna = user.getIdPengguna();
+            idPengguna = user.login(email, password);
+            if (idPengguna > 0) {
+                System.out.println("Login Berhasil");
+            } else {
+                System.out.println("Email atau Password Salah");
             }
         } else {
             System.out.println("Email atau password tidak boleh kosong");
@@ -154,7 +156,7 @@ public class View {
         System.out.println("2. Parkir");
         System.out.println("3. History Parkir");
         System.out.println("4. Profil");
-        System.out.println("5. Keluar");
+        System.out.println("0. Keluar");
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
@@ -172,10 +174,9 @@ public class View {
             case 4:
                 viewProfile();
                 break;
-            case 5:
-                auth();
-                break;
             default:
+                user.empty();
+                auth();
                 break;
         }
     }
@@ -188,7 +189,8 @@ public class View {
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Tambah Kendaraan");
         System.out.println("2. Hapus Kendaraan");
-        System.out.println("3. Kembali");
+        System.out.println("0. Kembali");
+        System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         System.out.println("=".repeat((number * 2) + judul.length()));
@@ -197,12 +199,14 @@ public class View {
                 clrscr();
                 tambahKendaraan();
                 break;
-            case 3:
-                clrscr();
-                mainPengguna();
-                break;
+            // case 0:
+            // clrscr();
+            // mainPengguna();
+            // break;
 
             default:
+                clrscr();
+                mainPengguna();
                 break;
         }
     }
@@ -214,7 +218,8 @@ public class View {
         user.viewAccount(idPengguna);
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Edit");
-        System.out.println("2. Kembali");
+        System.out.println("0. Kembali");
+        System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         switch (pil) {
@@ -224,11 +229,9 @@ public class View {
                 clrscr();
                 viewProfile();
                 break;
-            case 2:
+            default:
                 clrscr();
                 mainPengguna();
-                break;
-            default:
                 break;
         }
     }
@@ -241,15 +244,15 @@ public class View {
         System.out.println("Contoh Format Mobil :  DC 1234 Z");
         System.out.println("Contoh Format Motor :  DC 123 ZR");
         System.out.println("=".repeat((number * 2) + judul.length()));
-        System.out.print("Nomor kendaraan : ");
-        String nomorKendaraan = sc.nextLine().toUpperCase();
         System.out.println("Tipe Kendaraan : ");
         System.out.println("1. Mobil");
         System.out.println("2. Motor");
         System.out.print("Pilihan : ");
-        int tipe = sc.nextInt();
+        String tipe = sc.nextLine();
+        System.out.print("Nomor kendaraan : ");
+        String nomorKendaraan = sc.nextLine().toUpperCase();
         System.out.println("=".repeat((number * 2) + judul.length()));
-        if (tipe == 1) {
+        if (tipe.equals("1")) {
             kendaraan.addKendaraan(idPengguna, nomorKendaraan, "Mobil");
             pressAnyKey();
             clrscr();
@@ -304,6 +307,7 @@ public class View {
                 menuLaporan();
                 break;
             case 4:
+                user.empty();
                 auth();
                 break;
             default:
@@ -316,14 +320,15 @@ public class View {
         int number = 20;
         String judul = " Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        area.viewArea_();
+        area.viewArea();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("1. Tambah Area");
         System.out.println("2. Edit Area");
         System.out.println("3. Hapus Area");
         System.out.println("4. Tambah Garasi");
         System.out.println("5. Lihat Detail Area");
-        System.out.println("6. Kembali");
+        System.out.println("0. Kembali");
+        System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         clrscr();
@@ -340,27 +345,33 @@ public class View {
             case 5:
                 detailArea();
                 break;
-            case 6:
-                mainAdmin();
-                break;
-
             default:
+                mainAdmin();
                 break;
         }
     }
 
     public void tambahArea() {
         Scanner input = new Scanner(System.in);
+        String namaArea;
         int number = 20;
         String judul = " Tambah Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        System.out.print("Nama Area : ");
-        String namaArea = input.nextLine();
-        System.out.println("=".repeat((number * 2) + judul.length()));
-        if (!namaArea.isEmpty()) {
-            area.addArea(namaArea);
+        System.out.print("Jumlah Area\t: ");
+        int jumArea = input.nextInt();
+        Area[] listArea = new Area[jumArea];
+        if (jumArea > 0) {
+            for (int i = 0; i < listArea.length; i++) {
+                System.out.print(i + 1 + ". Nama Area : ");
+                namaArea = input.next();
+                System.out.println("");
+                listArea[i] = new Area(namaArea);
+            }
+            System.out.println("=".repeat((number * 2) + judul.length()));
+            area.addArea(listArea);
         } else {
-            System.out.println("Field nama area tidak boleh kosong");
+            System.out.println("Field jumlah area tidak boleh kosong atau 0");
+
         }
         pressAnyKey();
         clrscr();
@@ -372,16 +383,16 @@ public class View {
         int number = 20;
         String judul = " Edit Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        area.viewArea_();
+        area.viewArea();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Masukan ID Area : ");
-        int idArea = input.nextInt();
+        String idArea = input.next();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Masukan Nama Area Baru : ");
         String newNamaArea = input.next();
-        System.out.println(newNamaArea);
-        if (idArea > 0 && !newNamaArea.isEmpty()) {
-            area.editArea(idArea, newNamaArea);
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        if (Integer.parseInt(idArea) > 0 && !newNamaArea.isEmpty()) {
+            area.editArea(Integer.parseInt(idArea), newNamaArea);
         } else {
             System.out.println("Field nama area tidak boleh kosong");
         }
@@ -395,7 +406,7 @@ public class View {
         int number = 20;
         String judul = " Detail Area Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        area.viewArea_();
+        area.viewArea();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Masukan ID Area : ");
         int idArea = input.nextInt();
@@ -447,11 +458,15 @@ public class View {
     }
 
     public void tambahGarage() {
+        int hariOperasi = 0;
+        String[] namaHari = new String[hariOperasi];
+        int[] jamBuka = new int[hariOperasi];
+        int[] jamTutup = new int[hariOperasi];
         Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Tambah Garasi ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        area.viewArea_();
+        area.viewArea();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.print("Masukan ID Area : ");
         int IdArea = input.nextInt();
@@ -468,25 +483,33 @@ public class View {
                 System.out.print(" ".repeat(3) + "Tarif Motor : Rp. ");
                 int tarifMotor = input.nextInt();
                 System.out.print(" ".repeat(3) + "Jumlah Hari Operasional (Seminggu) : ");
-                int hariOperasi = input.nextInt();
+                hariOperasi = input.nextInt();
+                jamBuka = new int[hariOperasi];
+                jamTutup = new int[hariOperasi];
+                namaHari = new String[hariOperasi];
                 while (hariOperasi <= 0 || hariOperasi > 7) {
                     System.out.print(" ".repeat(3) + "Jumlah Hari Operasional (Seminggu) : ");
                     hariOperasi = input.nextInt();
                 }
-                System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
-                int jamBuka = input.nextInt();
-                while (jamBuka < 0 || jamBuka > 24) {
+                for (int j = 0; j < hariOperasi; j++) {
+                    System.out.print(" ".repeat(3) + "Nama Hari : ");
+                    namaHari[j] = input.next();
                     System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
-                    jamBuka = input.nextInt();
-                }
-                System.out.print(" ".repeat(3) + "Jam Tutup (Format Waktu 24 Jam) : ");
-                int jamTutup = input.nextInt();
-                while (jamTutup < 0 || jamTutup > 24) {
-                    System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
-                    jamBuka = input.nextInt();
+                    jamBuka[j] = input.nextInt();
+                    while (jamBuka[j] < 0 || jamBuka[j] > 24) {
+                        System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
+                        jamBuka[j] = input.nextInt();
+                    }
+                    System.out.print(" ".repeat(3) + "Jam Tutup (Format Waktu 24 Jam) : ");
+                    jamTutup[j] = input.nextInt();
+                    while (jamTutup[j] < 0 || jamTutup[j] > 24) {
+                        System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
+                        jamBuka[j] = input.nextInt();
+                    }
+                    System.out.println("");
                 }
                 System.out.println();
-                garasi[i] = new Garage(namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup);
+                garasi[i] = new Garage(namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup, namaHari);
             }
             garage.addGarage(IdArea, garasi);
         } else {
@@ -498,6 +521,10 @@ public class View {
     }
 
     public void editGarage() {
+        int hariOperasi = 0;
+        String[] namaHari = new String[hariOperasi];
+        int[] jamBuka = new int[hariOperasi];
+        int[] jamTutup = new int[hariOperasi];
         Scanner input = new Scanner(System.in);
         int number = 20;
         String judul = " Edit Garasi ";
@@ -508,7 +535,6 @@ public class View {
         int idGarage = input.nextInt();
         if (idGarage > 0) {
             clrscr();
-            System.out.println(idGarage);
             System.out.println("=".repeat(number) + judul + "=".repeat(number));
             garage.detailGarageByID(idGarage);
             System.out.println("=".repeat((number * 2) + judul.length()));
@@ -519,24 +545,35 @@ public class View {
             System.out.print("Tarif Motor : Rp. ");
             int tarifMotor = input.nextInt();
             System.out.print("Jumlah Hari Operasional (Seminggu) : ");
-            int hariOperasi = input.nextInt();
+            hariOperasi = input.nextInt();
+            jamBuka = new int[hariOperasi];
+            jamTutup = new int[hariOperasi];
+            namaHari = new String[hariOperasi];
+            Garage garasi = new Garage();
             while (hariOperasi <= 0 || hariOperasi > 7) {
                 System.out.print("Jumlah Hari Operasional (Seminggu) : ");
                 hariOperasi = input.nextInt();
             }
-            System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
-            int jamBuka = input.nextInt();
-            while (jamBuka < 0 || jamBuka > 24) {
+            for (int j = 0; j < hariOperasi; j++) {
+                System.out.print("Nama Hari : ");
+                namaHari[j] = input.next();
                 System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
-                jamBuka = input.nextInt();
+                jamBuka[j] = input.nextInt();
+                while (jamBuka[j] < 0 || jamBuka[j] > 24) {
+                    System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
+                    jamBuka[j] = input.nextInt();
+                }
+                System.out.print("Jam Tutup (Format Waktu 24 Jam) : ");
+                jamTutup[j] = input.nextInt();
+                while (jamTutup[j] < 0 || jamTutup[j] > 24) {
+                    System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
+                    jamBuka[j] = input.nextInt();
+                }
+                System.out.println("");
             }
-            System.out.print("Jam Tutup (Format Waktu 24 Jam) : ");
-            int jamTutup = input.nextInt();
-            while (jamTutup < 0 || jamTutup > 24) {
-                System.out.print("Jam Buka (Format Waktu 24 Jam) : ");
-                jamBuka = input.nextInt();
-            }
-            garage.editGarage(idGarage, namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup);
+            garasi = new Garage(namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup, namaHari);
+
+            garage.editGarage(idGarage, garasi);
 
         } else {
             System.out.println("Field id area tidak boleh kosong");
@@ -582,7 +619,7 @@ public class View {
         String judul = " Area Parkir ";
         int number = 20;
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        area.viewArea_();
+        area.viewArea();
         System.out.println("=".repeat((number * 2) + judul.length()));
         System.out.println("[0]\tKembali");
         System.out.println("=".repeat((number * 2) + judul.length()));
@@ -656,7 +693,7 @@ public class View {
         String judul = " Garage " + parkir.getGarage().getNamaGarage() + ", silahkan pilih kendaraan anda ";
         int number = 10;
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
-        kendaraan.viewListKendaraan_(user.getIdPengguna());
+        kendaraan.viewListKendaraan(user.getIdPengguna());
         System.out.println("[0] Tambah kendaraan");
         System.out.print("Pilih ID: ");
         int idKendaraan = input.nextInt();
