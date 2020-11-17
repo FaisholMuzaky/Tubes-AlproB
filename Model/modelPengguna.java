@@ -5,23 +5,30 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import Controller.Pengguna;
+
 import java.sql.SQLException;
 
 public class modelPengguna {
 
-    public ResultSet login(String email, String password) {
-        ResultSet rs = null;
+    public void login(String email, String password, Pengguna pengguna) {
+        // Pengguna pengguna = new Pengguna();
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
             String query = "SELECT * FROM pengguna WHERE email ='" + email + "' and password ='" + password + "'";
-            rs = state.executeQuery(query);
+            ResultSet rs = state.executeQuery(query);
+            while (rs.next()) {
+                pengguna.setIdPengguna(rs.getInt("idPengguna"));
+                pengguna.setNama(rs.getString("nama"));
+                pengguna.setAlamat(rs.getString("alamat"));
+                pengguna.setSubscription(rs.getString("subscription"));
+            }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         } catch (Exception e) {
             System.out.println(e);
         }
-        return rs;
     }
 
     public void insertDataPengguna(String nama, String email, String alamat, String password, String subscription) {

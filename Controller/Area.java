@@ -17,6 +17,10 @@ public class Area {
         this.garages = new Garage();
     }
 
+    public Area(String namaArea) {
+        this.namaArea = namaArea;
+    }
+
     public String getNamaArea() {
         return this.namaArea;
     }
@@ -33,12 +37,8 @@ public class Area {
         this.idArea = idArea;
     }
 
-    public void addArea(String namaArea) {
-        if (isValidnamaArea(namaArea)) {
-            a.insertArea(namaArea);
-        } else {
-            System.out.println("Maaf, nama area sudah digunakan");
-        }
+    public void addArea(Area area[]) {
+        a.insertArea(area);
     }
 
     public void editArea(int idArea, String newNamaArea) {
@@ -47,35 +47,21 @@ public class Area {
             System.out.println("Update Data Berhasil");
         } else {
             System.out.println("Update Data Gagal");
+            System.out.println("ID Area tidak ditemukan");
         }
     }
 
-    // public void viewArea() {
-    // try {
-    // ResultSet data = a.listArea();
-    // if (data != null && data.isBeforeFirst()) {
-    // int i = 0;
-    // while (data.next()) {
-    // System.out.println(i + 1 + ". Nama Area : " + data.getString("namaArea"));
-    // i++;
-    // }
-    // } else {
-    // System.out.println("Data area parkir tidak ada");
-    // System.out.println("Silahkan melakukan pendaftaran data area parkir");
-    // }
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // }
-
-    public void viewArea_() {
+    public void viewArea() {
+        Table st = new Table();
+        st.setShowVerticalLines(true);
         try {
             ResultSet data = a.listArea();
             if (data != null && data.isBeforeFirst()) {
-                System.out.println("ID\tNAMA AREA");
+                st.setHeaders("ID Area", "NAMA AREA");
                 while (data.next()) {
-                    System.out.println(data.getInt("idArea") + "\t" + data.getString("namaArea"));
+                    st.addRow(Integer.toString(data.getInt("idArea")), data.getString("namaArea"));
                 }
+                st.print();
             } else if (!p.isAdmin(p.getIdPengguna())) {
                 System.out.println("Maaf data area parkir tidak ada");
             } else {

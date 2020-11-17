@@ -1,7 +1,6 @@
 package Controller;
 
 import Model.modelPengguna;
-import View.View;
 
 import java.sql.ResultSet;
 import java.util.Scanner;
@@ -13,13 +12,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Pengguna {
-    /*
-     * Data test
-     * 
-     * nama = "fadil"; email = "fadil@fadil.com"; alamat = "cikoneng"; username =
-     * "fadil"; password = "Fadil15"; akun admin:superuser
-     */
-
     private String nama;
     private String email;
     private String alamat;
@@ -28,9 +20,6 @@ public class Pengguna {
     private String subscription;
     private int IdPengguna;
     private modelPengguna p;
-    // private boolean isAdmin;
-
-    Scanner input = new Scanner(System.in);
 
     public Pengguna() {
         this.p = new modelPengguna();
@@ -93,20 +82,14 @@ public class Pengguna {
         return this.IdPengguna;
     }
 
-    public void login(String email, String password) {
-        try {
-            ResultSet data = p.login(email, password);
-            if (data.next()) {
-                System.out.println("Login Berhasil");
-                this.IdPengguna = data.getInt("idPengguna");
-                this.nama = data.getString("nama");
-                this.subscription = data.getString("subscription");
-            } else {
-                System.out.println("email atau password salah");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void setIdPengguna(int IdPengguna) {
+        this.IdPengguna = IdPengguna;
+    }
+
+    public int login(String email, String password) {
+        p.login(email, password, this);
+        int idPengguna = getIdPengguna();
+        return idPengguna;
     }
 
     public void registrasi(String nama, String email, String alamat, String password) {
@@ -118,6 +101,13 @@ public class Pengguna {
                 p.insertDataPengguna(nama, email, alamat, password, "easy");
             }
         }
+    }
+
+    public void empty() {
+        this.IdPengguna = 0;
+        this.nama = "";
+        this.alamat = "";
+        this.subscription = "";
     }
 
     public boolean isValidEmail(String email) {
@@ -171,10 +161,10 @@ public class Pengguna {
             ResultSet data = p.searchByID(id);
             if (data != null) {
                 while (data.next()) {
-                    System.out.println("Nama         : " + data.getString("nama"));
-                    System.out.println("Email        : " + data.getString("email"));
-                    System.out.println("Alamat       : " + data.getString("Alamat"));
-                    System.out.println("Subscription : " + data.getString("subscription").toUpperCase());
+                    System.out.println("Nama\t\t: " + data.getString("nama"));
+                    System.out.println("Email\t\t: " + data.getString("email"));
+                    System.out.println("Alamat\t\t: " + data.getString("Alamat"));
+                    System.out.println("Subscription\t: " + data.getString("subscription").toUpperCase());
                 }
             } else {
                 System.out.println("Data tidak ditemukan");
@@ -194,6 +184,7 @@ public class Pengguna {
     }
 
     public boolean subscription() {
+        Scanner input = new Scanner(System.in);
         boolean subs = false;
         System.out.println("Apakah anda ingin menggunakan paket PLUS");
         System.out.println("Rp. 12000/bulan dan dikenakan pada setiap awal bulan ?");
@@ -220,7 +211,4 @@ public class Pengguna {
         return status;
     }
 
-    public void setIdPengguna(int idPengguna) {
-        this.IdPengguna = idPengguna;
-    }
 }

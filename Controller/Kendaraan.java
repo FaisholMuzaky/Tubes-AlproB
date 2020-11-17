@@ -11,9 +11,9 @@ import Model.modelKendaraan;
 public class Kendaraan {
     private String platNomor;
     private String tipeKendaraan;
-    private modelKendaraan k;
     private int idKendaraan;
     private int idPengguna;
+    private modelKendaraan k;
 
     Scanner input = new Scanner(System.in);
 
@@ -42,6 +42,18 @@ public class Kendaraan {
         this.tipeKendaraan = tipeKendaraan;
     }
 
+    public int getIdKendaraan() {
+        return this.idKendaraan;
+    }
+
+    public void setIdKendaraan(int idKendaraan) {
+        this.idKendaraan = idKendaraan;
+    }
+
+    protected void setIdPengguna(int idPengguna) {
+        this.idPengguna = idPengguna;
+    }
+
     public void addKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
         if (tipeKendaraan.toLowerCase().equals("mobil") && cekNomorKendaraanMobil(platNomor)) {
             if (validasiNomorKendaraan(platNomor)) {
@@ -60,17 +72,18 @@ public class Kendaraan {
         }
     }
 
-    public void viewListKendaraan(int id) {
+    public void viewListKendaraan(int idPengguna) {
+        Table st = new Table();
+        st.setShowVerticalLines(true);
         try {
-            ResultSet data = k.searchKendaraan(id);
-            if (data != null && data.isBeforeFirst()) {
-                int i = 0;
-                while (data.next()) {
-                    System.out.println(i + 1 + ". Nomor Kendaraan  : " + data.getString("nomorKendaraan"));
-                    System.out.println(" ".repeat(3) + "Jenis Kendaraan  : " + data.getString("tipeKendaraan"));
-                    System.out.println();
-                    i++;
+            ArrayList<Kendaraan> kendaraans = searchKendaraan(idPengguna);
+            if (kendaraans.size() > 0) {
+                st.setHeaders("ID Kendaraan", "JENIS KENDARAAN", "NOMOR KENDARAAN");
+                for (Kendaraan kendaraan : kendaraans) {
+                    st.addRow(Integer.toString(kendaraan.getIdKendaraan()), kendaraan.getTipeKendaraan(),
+                            kendaraan.getPlatNomor());
                 }
+                st.print();
             } else {
                 System.out.println("Data kendaraan tidak ada");
                 System.out.println("Silahkan melakukan pendaftaran data kendaraan");
@@ -78,7 +91,6 @@ public class Kendaraan {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }
 
     public boolean cekNomorKendaraanMotor(String platNomor) {
@@ -122,13 +134,13 @@ public class Kendaraan {
                 }
             }
         } catch (Exception e) {
-            //TODO: handle exception
+            System.out.println(e);
         }
         return kendaraan;
     }
 
     public ArrayList<Kendaraan> searchKendaraan(int idPengguna) {
-        ArrayList<Kendaraan> kendaraans = new ArrayList<Kendaraan>();
+        ArrayList<Kendaraan> listKendaraan = new ArrayList<Kendaraan>();
         try {
             ResultSet rs = k.searchKendaraan(idPengguna);
             while (rs.next()) {
@@ -137,42 +149,12 @@ public class Kendaraan {
                 kendaraan.setPlatNomor(rs.getString("nomorKendaraan"));
                 kendaraan.setTipeKendaraan(rs.getString("tipeKendaraan"));
                 kendaraan.setIdPengguna(rs.getInt("idPengguna"));
-                kendaraans.add(kendaraan);
+                listKendaraan.add(kendaraan);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return kendaraans;
+        return listKendaraan;
     }
 
-    public void viewListKendaraan_(int idPengguna) {
-        try {
-            ArrayList<Kendaraan> kendaraans = searchKendaraan(idPengguna);
-            if (kendaraans != null) {
-                System.out.println("ID\tJENIS KENDARAAN\tPLAT NOMOR");
-                for (Kendaraan kendaraan : kendaraans) {
-                    System.out.println(kendaraan.getIdKendaraan()+ "\t" + kendaraan.getTipeKendaraan() + "\t" + 
-                    kendaraan.getPlatNomor());
-                }
-            } else {
-                System.out.println("Data kendaraan tidak ada");
-                System.out.println("Silahkan melakukan pendaftaran data kendaraan");
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-
-    public int getIdKendaraan() {
-        return this.idKendaraan;
-    }
-
-    public void setIdKendaraan(int idKendaraan) {
-        this.idKendaraan = idKendaraan;
-    }
-
-    protected void setIdPengguna(int idPengguna) {
-        this.idPengguna = idPengguna;
-    }
 }
