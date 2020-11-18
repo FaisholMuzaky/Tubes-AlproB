@@ -35,7 +35,7 @@ public class modelArea {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM area WHERE idArea ='" + idArea + "'";
+            String query = "SELECT * FROM area WHERE IdArea =" + idArea;
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());

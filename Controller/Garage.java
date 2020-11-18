@@ -158,8 +158,17 @@ public class Garage {
         this.hariOperasional = hariOperasional;
     }
 
-    public Garage getGarage(int idGarage, int idArea) {
-        return g.getGarage(idGarage, idArea);
+    public Garage getGarage(int idGarage, int idArea, int hari) {
+        Map<Integer, String> value = new HashMap<Integer, String>();
+        value.put(1, "senin");
+        value.put(2, "selasa");
+        value.put(3, "rabu");
+        value.put(4, "kamis");
+        value.put(5, "jumat");
+        value.put(6, "sabtu");
+        value.put(7, "minggu");
+        String dayParkir = value.get(hari);
+        return g.getGarage(idGarage, idArea, dayParkir);
     }
 
     public void addGarage(int IdArea, Garage garage[]) {
@@ -221,12 +230,12 @@ public class Garage {
         try {
             ResultSet data = g.listAllGarage();
             if (data != null && data.isBeforeFirst()) {
-                st.setHeaders("ID Garasi", "Nama Garasi", "Jumlah Hari Operasional", "Tarif Mobil (Rp.)",
+                st.setHeaders("ID Garasi", "Nama Area", "Nama Garasi", "Jumlah Hari Operasional", "Tarif Mobil (Rp.)",
                         "Tarif Motor (Rp.)");
                 while (data.next()) {
-                    st.addRow(Integer.toString(data.getInt("IdGarage")), data.getString("namaGarage"),
-                            Integer.toString(data.getInt("hariOperasi")), Integer.toString(data.getInt("tarifMobil")),
-                            Integer.toString(data.getInt("tarifMotor")));
+                    st.addRow(Integer.toString(data.getInt("IdGarage")), data.getString("namaArea"),
+                            data.getString("namaGarage"), Integer.toString(data.getInt("hariOperasi")),
+                            Integer.toString(data.getInt("tarifMobil")), Integer.toString(data.getInt("tarifMotor")));
                 }
                 st.print();
             } else {
@@ -237,21 +246,6 @@ public class Garage {
             System.out.println(e);
         }
     }
-
-    // public int getIdGarage(String namaGarage) {
-    // int idGarasi = 0;
-    // try {
-    // ResultSet data = g.searchGarageByName(namaGarage);
-    // if (data.next()) {
-    // idGarasi = data.getInt("idGarage");
-    // } else {
-    // System.out.println("Nama garasi tidak terdaftar");
-    // }
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // return idGarasi;
-    // }
 
     public int getIdArea() {
         setIdArea();
@@ -329,13 +323,22 @@ public class Garage {
         }
     }
 
-    public int listGarage(int idArea) {
+    public int listGarage(int idArea, int hari) {
         int countGarage = 0;
+        Map<Integer, String> value = new HashMap<Integer, String>();
+        value.put(1, "senin");
+        value.put(2, "selasa");
+        value.put(3, "rabu");
+        value.put(4, "kamis");
+        value.put(5, "jumat");
+        value.put(6, "sabtu");
+        value.put(7, "minggu");
+        String dayParkir = value.get(hari);
 
         Table st = new Table();
         st.setShowVerticalLines(true);
         try {
-            ResultSet data = g.searchGarageByIdArea(idArea);
+            ResultSet data = g.searchGarageByHari(idArea, dayParkir);
             if (data != null && data.isBeforeFirst()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 System.out.println("Waktu : " + LocalDateTime.now().format(formatter));

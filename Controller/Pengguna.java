@@ -178,6 +178,8 @@ public class Pengguna {
         int status = p.updateDataPengguna(id, nama, alamat);
         if (status == 1) {
             System.out.println("Update Data Berhasil");
+            setNama(nama);
+            setAlamat(alamat);
         } else {
             System.out.println("Update Data Gagal");
         }

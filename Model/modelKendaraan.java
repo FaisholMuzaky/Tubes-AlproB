@@ -17,9 +17,9 @@ public class modelKendaraan {
 
             int rs = state.executeUpdate(query);
             if (rs == 1) {
-                System.out.println("Pendaftaran data kendaraan berhasil dilakukan");
+                System.out.println("Pendaftaran nomor kendaraan " + platNomor + " berhasil dilakukan");
             } else {
-                System.out.println("Pendaftaran data kendaraan gagal dilakukan");
+                System.out.println("Pendaftaran nomor kendaraan " + platNomor + " gagal dilakukan");
             }
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -63,5 +63,27 @@ public class modelKendaraan {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
         }
         return rs;
+    }
+
+    public boolean hapusKendaraan(int idKendaraan) {
+        boolean status = false;
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT COUNT(*) FROM kendaraan JOIN PARKIR USING(idKendaraan) WHERE kendaraan.idKendaraan = "
+                    + idKendaraan;
+            rs = state.executeQuery(query);
+            if (rs.next()) {
+                if (rs.getInt("COUNT(*)") == 0) {
+                    query = "DELETE FROM kendaraan WHERE idKendaraan = " + idKendaraan;
+                    state.executeUpdate(query);
+                    status = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return status;
     }
 }

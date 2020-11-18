@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.DayOfWeek;
 
 public class View {
     private int idPengguna = 0;
@@ -199,11 +200,10 @@ public class View {
                 clrscr();
                 tambahKendaraan();
                 break;
-            // case 0:
-            // clrscr();
-            // mainPengguna();
-            // break;
-
+            case 2:
+                clrscr();
+                hapusKendaraan();
+                break;
             default:
                 clrscr();
                 mainPengguna();
@@ -239,30 +239,50 @@ public class View {
     public void tambahKendaraan() {
         Scanner sc = new Scanner(System.in);
         int number = 20;
+        String nomorKendaraan;
         String judul = " Tambah Kendaraan ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         System.out.println("Contoh Format Mobil :  DC 1234 Z");
         System.out.println("Contoh Format Motor :  DC 123 ZR");
         System.out.println("=".repeat((number * 2) + judul.length()));
-        System.out.println("Tipe Kendaraan : ");
-        System.out.println("1. Mobil");
-        System.out.println("2. Motor");
-        System.out.print("Pilihan : ");
-        String tipe = sc.nextLine();
-        System.out.print("Nomor kendaraan : ");
-        String nomorKendaraan = sc.nextLine().toUpperCase();
+        System.out.print("Jumlah Kendaraan\t: ");
+        int jumKendaraan = input.nextInt();
         System.out.println("=".repeat((number * 2) + judul.length()));
-        if (tipe.equals("1")) {
-            kendaraan.addKendaraan(idPengguna, nomorKendaraan, "Mobil");
-            pressAnyKey();
-            clrscr();
-            viewKendaraan();
-        } else {
-            kendaraan.addKendaraan(idPengguna, nomorKendaraan, "Motor");
-            pressAnyKey();
-            clrscr();
-            viewKendaraan();
+        Kendaraan[] kd = new Kendaraan[jumKendaraan];
+        for (int i = 0; i < jumKendaraan; i++) {
+            System.out.println("Tipe Kendaraan : ");
+            System.out.println("1. Mobil");
+            System.out.println("2. Motor");
+            System.out.print("Pilihan : ");
+            String tipe = sc.nextLine();
+            System.out.print("Nomor kendaraan : ");
+            nomorKendaraan = sc.nextLine().toUpperCase();
+            System.out.println("=".repeat((number * 2) + judul.length()));
+            if (tipe.equals("1")) {
+                kd[i] = new Kendaraan(nomorKendaraan, "Mobil");
+            } else {
+                kd[i] = new Kendaraan(nomorKendaraan, "Motor");
+            }
         }
+        kendaraan.addKendaraan(idPengguna, kd);
+        pressAnyKey();
+        clrscr();
+        viewKendaraan();
+    }
+
+    public void hapusKendaraan() {
+        int number = 20;
+        String judul = " Daftar Kendaraan ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        kendaraan.viewListKendaraan(user.getIdPengguna());
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        System.out.print("Masukan ID Kendaraan : ");
+        int idKendaraan = input.nextInt();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        kendaraan.hapusKendaraan(idKendaraan);
+        pressAnyKey();
+        clrscr();
+        viewKendaraan();
     }
 
     public void editAccount() {
@@ -415,7 +435,7 @@ public class View {
             area.detailArea(idArea);
             System.out.println("=".repeat((number * 2) + judul.length()));
         } else {
-            System.out.println("Field nama area tidak boleh kosong");
+            System.out.println("Inputan field ID Area salah");
             System.out.println("=".repeat((number * 2) + judul.length()));
         }
         pressAnyKey();
@@ -492,6 +512,7 @@ public class View {
                     hariOperasi = input.nextInt();
                 }
                 for (int j = 0; j < hariOperasi; j++) {
+                    System.out.println("");
                     System.out.print(" ".repeat(3) + "Nama Hari : ");
                     namaHari[j] = input.next();
                     System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
@@ -506,9 +527,7 @@ public class View {
                         System.out.print(" ".repeat(3) + "Jam Buka (Format Waktu 24 Jam) : ");
                         jamBuka[j] = input.nextInt();
                     }
-                    System.out.println("");
                 }
-                System.out.println();
                 garasi[i] = new Garage(namaGarage, tarifMobil, tarifMotor, hariOperasi, jamBuka, jamTutup, namaHari);
             }
             garage.addGarage(IdArea, garasi);
@@ -651,7 +670,9 @@ public class View {
         int number = 20;
         System.out.println("=".repeat(number) + judul.toUpperCase() + "=".repeat(number));
         System.out.println("Daftar Garasi : ");
-        int countGarage = garage.listGarage(idArea);
+        DayOfWeek dayOfWeek = LocalDateTime.now().getDayOfWeek();
+        int dayLocal = dayOfWeek.getValue();
+        int countGarage = garage.listGarage(idArea, dayLocal);
         if (countGarage == 0) {
             System.out.println("=".repeat((number * 2) + judul.length()));
             pressAnyKey();
@@ -663,7 +684,7 @@ public class View {
             System.out.println("=".repeat((number * 2) + judul.length()));
             System.out.print("Pilih ID: ");
             int idGarage = input.nextInt();
-            Garage newGarage = garage.getGarage(idGarage, idArea);
+            Garage newGarage = garage.getGarage(idGarage, idArea, dayLocal);
             if (newGarage.getNamaGarage() != null) {
                 if (newGarage.isGarageOpen()) {
                     parkir.setGarage(newGarage);
@@ -788,44 +809,44 @@ public class View {
         System.out.print("Pilihan : ");
         int pil = input.nextInt();
         clrscr();
-        if(pil==0) {
+        if (pil == 0) {
             mainAdmin();
-        } else if(pil>0 && pil<=3) {
-            history.showLaporan(pil-1);
+        } else if (pil > 0 && pil <= 3) {
+            history.showLaporan(pil - 1);
         } else {
             menuLaporan();
         }
         // switch (pil) {
-        //     case 1:
-        //         laporanHarian();
-        //         break;
-        //     case 2:
-        //         laporanMingguan();
-        //         break;
-        //     case 3:
-        //         laporanBulanan();
-        //         break;
-        //     default:
-        //         mainAdmin();
-        //         break;
+        // case 1:
+        // laporanHarian();
+        // break;
+        // case 2:
+        // laporanMingguan();
+        // break;
+        // case 3:
+        // laporanBulanan();
+        // break;
+        // default:
+        // mainAdmin();
+        // break;
         // }
     }
 
     // private void laporanBulanan() {
-    //     history.showLaporanBulanan();
-    //     pressAnyKey();
-    //     menuLaporan();
+    // history.showLaporanBulanan();
+    // pressAnyKey();
+    // menuLaporan();
     // }
 
     // private void laporanMingguan() {
-    //     history.showLaporanMingguan();
-    //     pressAnyKey();
-    //     menuLaporan();
+    // history.showLaporanMingguan();
+    // pressAnyKey();
+    // menuLaporan();
     // }
 
     // private void laporanHarian() {
-    //     history.showLaporanHarian();
-    //     pressAnyKey();
-    //     menuLaporan();
+    // history.showLaporanHarian();
+    // pressAnyKey();
+    // menuLaporan();
     // }
 }
