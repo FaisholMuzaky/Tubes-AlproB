@@ -8,9 +8,12 @@ public class Database {
 
     public static Connection getKoneksi() {
         try {
-            String url = "jdbc:mysql://103.129.220.10:3306/parkir?serverTimezone=Asia/Jakarta";
-            String user = "user123";
-            String password = "22v4mt@Z";
+            // String url = "jdbc:mysql://103.129.220.10:3306/parkir?serverTimezone=Asia/Jakarta";
+            // String user = "user123";
+            // String password = "22v4mt@Z";
+            String url = "jdbc:mysql://127.0.0.1:3306/parkir?serverTimezone=Asia/Jakarta";
+            String user = "root";
+            String password = "Rahas1a!";
             con = DriverManager.getConnection(url, user, password);
             if (con == null) {
                 System.out.println("Failed to make connection!");
