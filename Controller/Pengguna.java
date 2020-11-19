@@ -5,7 +5,6 @@ import Model.modelPengguna;
 import java.sql.ResultSet;
 import java.util.Scanner;
 import java.util.regex.*;
-import java.sql.SQLException;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

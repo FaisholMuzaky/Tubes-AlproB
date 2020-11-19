@@ -169,9 +169,9 @@ public class modelParkir implements modelGeneric<Parkir> {
                 System.out.println("SUBSCRIPTION\t"+rs.getString("subscription"));
                 System.out.println("GARAGE\t\t"+rs.getString("namaGarage"));
                 if (tipeKendaraan.equals("Mobil")) {
-                    System.out.println("TARIF MOBIL\t"+"Rp"+nf.format(rs.getString("tarifMobil")));
+                    System.out.println("TARIF MOBIL\t"+"Rp"+nf.format(rs.getDouble("tarifMobil"))) ;
                 } else if(tipeKendaraan.equals("Motor")) {
-                    System.out.println("TARIF MOTOR\t"+"Rp"+nf.format(rs.getString("tarifMotor")));
+                    System.out.println("TARIF MOTOR\t"+"Rp"+nf.format(rs.getDouble("tarifMotor")));
                 } 
                 System.out.println("AREA\t\t"+rs.getString("namaArea"));
                 System.out.println("WAKTU MULAI\t"+rs.getString("timeStart"));
