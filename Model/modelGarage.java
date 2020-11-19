@@ -91,7 +91,21 @@ public class modelGarage {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM garage JOIN harioperasional using(IdGarage) WHERE IdArea ='" + idArea + "'";
+            String query = "SELECT * FROM garage JOIN harioperasional using(IdGarage) WHERE IdArea =" + idArea;
+            rs = state.executeQuery(query);
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return rs;
+    }
+
+    public ResultSet searchGarageByHari(int idArea, String namaHari) {
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String query = "SELECT * FROM garage JOIN harioperasional using(IdGarage) WHERE IdArea ='" + idArea
+                    + "'AND namaHari = '" + namaHari + "'";
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -117,7 +131,7 @@ public class modelGarage {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM garage";
+            String query = "Select * From garage Join area using(IdArea)";
             rs = state.executeQuery(query);
         } catch (SQLException e) {
             System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
@@ -185,13 +199,13 @@ public class modelGarage {
         return namaGarage;
     }
 
-    public Garage getGarage(int idGarage, int idArea) {
+    public Garage getGarage(int idGarage, int idArea, String namahari) {
         Garage garage = new Garage();
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             String query = "SELECT * FROM garage JOIN harioperasional using(IdGarage) WHERE IdArea =" + idArea
-                    + " AND IdGarage =" + idGarage;
+                    + " AND IdGarage =" + idGarage + " AND namaHari = '" + namahari + "'";
             // String query = "SELECT idGarage, idArea, namaGarage, tarifMotor, tarifMobil,
             // hariOperasi, jamBuka, jamTutup"
             // + " FROM garage WHERE idGarage =" + idGarage + " AND idArea=" + idArea;

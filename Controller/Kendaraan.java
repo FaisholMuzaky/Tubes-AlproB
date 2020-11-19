@@ -54,21 +54,26 @@ public class Kendaraan {
         this.idPengguna = idPengguna;
     }
 
-    public void addKendaraan(int idPengguna, String platNomor, String tipeKendaraan) {
-        if (tipeKendaraan.toLowerCase().equals("mobil") && cekNomorKendaraanMobil(platNomor)) {
-            if (validasiNomorKendaraan(platNomor)) {
-                k.insertDataKendaraan(idPengguna, platNomor, "Mobil");
+    public void addKendaraan(int idPengguna, Kendaraan[] kendaraan) {
+        for (int i = 0; i < kendaraan.length; i++) {
+            if (kendaraan[i].getTipeKendaraan().toLowerCase().equals("mobil")
+                    && cekNomorKendaraanMobil(kendaraan[i].getPlatNomor())) {
+                if (validasiNomorKendaraan(kendaraan[i].getPlatNomor())) {
+                    k.insertDataKendaraan(idPengguna, kendaraan[i].getPlatNomor(), "Mobil");
+                } else {
+                    System.out.println("Maaf, nomor Kendaraan " + kendaraan[i].getPlatNomor() + " sudah terdaftar");
+                }
+            } else if (kendaraan[i].getTipeKendaraan().toLowerCase().equals("motor")
+                    && cekNomorKendaraanMotor(kendaraan[i].getPlatNomor())) {
+                if (validasiNomorKendaraan(kendaraan[i].getPlatNomor())) {
+                    k.insertDataKendaraan(idPengguna, kendaraan[i].getPlatNomor(), "Motor");
+                } else {
+                    System.out.println("Maaf, nomor Kendaraan " + kendaraan[i].getPlatNomor() + " sudah terdaftar");
+                }
             } else {
-                System.out.println("Maaf, nomor Kendaraan sudah ada");
+                System.out.println("Maaf, format nomor kendaraan " + kendaraan[i].getPlatNomor()
+                        + " dengan tipe kendaraan " + kendaraan[i].getTipeKendaraan().toUpperCase() + "  salah");
             }
-        } else if (tipeKendaraan.toLowerCase().equals("motor") && cekNomorKendaraanMotor(platNomor)) {
-            if (validasiNomorKendaraan(platNomor)) {
-                k.insertDataKendaraan(idPengguna, platNomor, "Motor");
-            } else {
-                System.out.println("Maaf, nomor Kendaraan sudah ada");
-            }
-        } else {
-            System.out.println("Maaf, format nomor kendaraan salah");
         }
     }
 
@@ -155,6 +160,15 @@ public class Kendaraan {
             System.out.println(e.getMessage());
         }
         return listKendaraan;
+    }
+
+    public void hapusKendaraan(int idKendaraan) {
+        boolean status = k.hapusKendaraan(idKendaraan);
+        if (status) {
+            System.out.println("Penghapusan data kendaraan berhasil dilakukan");
+        } else {
+            System.out.println("Maaf, Penghapusan data kendaraan gagal dilakukan");
+        }
     }
 
 }
