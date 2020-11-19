@@ -781,7 +781,7 @@ public class View {
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         if (i == 0) {
             System.out.println("1. Start parking");
-            System.out.println("0. Start manually");
+            // System.out.println("0. Start manually");
         } else {
             System.out.println("2. Stop parking");
         }
@@ -850,7 +850,17 @@ public class View {
         if (pil == 0) {
             mainAdmin();
         } else if (pil > 0 && pil <= 3) {
-            history.showLaporan(pil - 1);
+            switch (pil) {
+                case 1:
+                    history.showLaporanHarian();
+                    break;
+                case 2:
+                    history.showLaporanMingguan();
+                    break;
+                case 3:
+                    history.showLaporanBulanan();
+                    break;
+            }
             pressAnyKey();
         } else {
             menuLaporan();

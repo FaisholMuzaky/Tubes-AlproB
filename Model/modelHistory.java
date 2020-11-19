@@ -7,25 +7,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Controller.Area;
-import Controller.Garage;
-import Controller.History;
-import Controller.Kendaraan;
-import Controller.Parkir;
-import Controller.Pengguna;
+import Controller.*;
 import Database.Database;
 
 public class modelHistory {
-    private ResultSet rs = null;
-    private Connection con = Database.getKoneksi();
-    private Statement state = null;
+    public modelHistory() {
+    }
+
 
     public History getHistory(int idPengguna) {
+        Connection con = null;
+        Statement state = null;
+        ResultSet rsPengguna = null;
+        ResultSet rs = null;
         History history = null;
         try {
             history = new History();
             ArrayList<Parkir> parkirs = new ArrayList<>();
             String sql = "CALL getHistory("+idPengguna+")";
+            con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
             long totalDurasi = 0;
@@ -65,7 +65,7 @@ public class modelHistory {
             history.setTotalDurasi(totalDurasi);
             history.setTotalTransaksi(totalTransaksi);
             modelPengguna m = new modelPengguna();
-            ResultSet rsPengguna = m.searchByID(idPengguna);
+            rsPengguna = m.searchByID(idPengguna);
             Pengguna p = new Pengguna();
             while(rsPengguna.next()) {
                 p.setIdPengguna(rs.getInt("idPengguna"));
@@ -74,15 +74,26 @@ public class modelHistory {
             history.setPengguna(p);
         } catch (SQLException e) {
             // System.out.println(e.getMessage());
+        } finally {
+            try { if (rs!=null) rs.close(); } catch (Exception e) { }
+            try { if (rsPengguna!=null) rsPengguna.close(); } catch (Exception e) { }
+            try { if (state!=null) state.close(); } catch (Exception e) { }
+            try { if (con!=null) con.close(); } catch (Exception e) { }
         }
 		return history;
     }
     
     private void setHariOperasional(Garage garage, int idGarage) {
+        Connection con = null;
+        Statement state_count = null;
+        Statement state_ = null;
+        ResultSet rs_count = null;
+        ResultSet rs_ = null;
         try {
+            con = Database.getKoneksi();
             String sql_count = "CALL getCountHariOperasional(" + idGarage + ")";
-            Statement state_count = con.createStatement();
-            ResultSet rs_count = state_count.executeQuery(sql_count);
+            state_count = con.createStatement();
+            rs_count = state_count.executeQuery(sql_count);
             rs_count.next();
             int count = rs_count.getInt("JUMLAH");
             if (count > 0) {
@@ -92,8 +103,8 @@ public class modelHistory {
                 int i = 0;
 
                 String sql_ = "CALL getHariOperasional(" + idGarage + ")";
-                Statement state_ = con.createStatement();
-                ResultSet rs_ = state_.executeQuery(sql_);
+                state_ = con.createStatement();
+                rs_ = state_.executeQuery(sql_);
                 while (rs_.next()) {
                     namaHari[i] = rs_.getString("namaHari");
                     jamBuka[i] = rs_.getInt("jamBuka");
@@ -106,17 +117,104 @@ public class modelHistory {
             }
         } catch (Exception e) {
             //System.out.println(e.getMessage());
+        } finally {
+            try { if (rs_count!=null) rs_count.close(); } catch (Exception e) { }
+            try { if (state_count!=null) state_count.close(); } catch (Exception e) { }
+            try { if (rs_!=null) rs_.close(); } catch (Exception e) { }
+            try { if (state_!=null) state_.close(); } catch (Exception e) { }
+            try { if (con!=null) con.close(); } catch (Exception e) { }
         }
     }
-
-	public ResultSet getLaporan(int i) {
+    
+    public ArrayList<LaporanHarian> getLaporanHarian() {
+        Connection con = null;
+        Statement state = null;
+        ResultSet rs = null;
+        ArrayList<LaporanHarian> lh = new ArrayList<>();
         try {
-            String sql = "CALL laporanTransaksi("+i+")";
+            String sql = "CALL laporanTransaksi(0)";
+            con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
+            while(rs.next()) {
+                LaporanHarian l = new LaporanHarian();
+                l.setTanggal(rs.getDate("tanggal"));
+                l.setNamaPengguna(rs.getString("nama"));
+                l.setNamaArea(rs.getString("namaArea"));
+                l.setNamaGarage(rs.getString("namaGarage"));
+                l.setDurasi(rs.getInt("durasi"));
+                l.setTotalTransaksi(rs.getDouble("totalTransaksi"));
+                lh.add(l);
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            try { if (rs!=null) rs.close(); } catch (Exception e) { }
+            try { if (state!=null) state.close(); } catch (Exception e) { }
+            try { if (con!=null) con.close(); } catch (Exception e) { }
         }
-        return rs;
+        return lh;
+    }
+    
+    public ArrayList<LaporanMingguan> getLaporanMingguan() {
+        Connection con = null;
+        Statement state = null;
+        ResultSet rs = null;
+        ArrayList<LaporanMingguan> lh = new ArrayList<>();
+        try {
+            String sql = "CALL laporanTransaksi(1)";
+            con = Database.getKoneksi();
+            state = con.createStatement();
+            rs = state.executeQuery(sql);
+            while(rs.next()) {
+                LaporanMingguan l = new LaporanMingguan();
+                l.setTahun(rs.getInt("tahun"));
+                l.setMinggu(rs.getInt("minggu"));
+                l.setNamaPengguna(rs.getString("nama"));
+                l.setNamaArea(rs.getString("namaArea"));
+                l.setNamaGarage(rs.getString("namaGarage"));
+                l.setDurasi(rs.getInt("durasi"));
+                l.setTotalTransaksi(rs.getDouble("totalTransaksi"));
+                lh.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try { if (rs!=null) rs.close(); } catch (Exception e) { }
+            try { if (state!=null) state.close(); } catch (Exception e) { }
+            try { if (con!=null) con.close(); } catch (Exception e) { }
+        }
+        return lh;
+    }
+    
+    public ArrayList<LaporanBulanan> getLaporanBulanan() {
+        Connection con = null;
+        Statement state = null;
+        ResultSet rs = null;
+        ArrayList<LaporanBulanan> lh = new ArrayList<>();
+        try {
+            String sql = "CALL laporanTransaksi(2)";
+            con = Database.getKoneksi();
+            state = con.createStatement();
+            rs = state.executeQuery(sql);
+            while(rs.next()) {
+                LaporanBulanan l = new LaporanBulanan();
+                l.setTahun(rs.getInt("tahun"));
+                l.setBulan(rs.getInt("bulan"));
+                l.setNamaPengguna(rs.getString("nama"));
+                l.setNamaArea(rs.getString("namaArea"));
+                l.setNamaGarage(rs.getString("namaGarage"));
+                l.setDurasi(rs.getInt("durasi"));
+                l.setTotalTransaksi(rs.getDouble("totalTransaksi"));
+                lh.add(l);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try { if (rs!=null) rs.close(); } catch (Exception e) { }
+            try { if (state!=null) state.close(); } catch (Exception e) { }
+            try { if (con!=null) con.close(); } catch (Exception e) { }
+        }
+        return lh;
 	}
 }

@@ -5,20 +5,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import View.Coloring;
 import View.Table;
 import Model.modelHistory;
 import java.text.NumberFormat;
 
-public class History implements Laporan {
+public class History implements ILaporan {
     private ArrayList<Parkir> parkirs;
     private Pengguna pengguna;
-    private modelHistory model = new modelHistory();
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private modelHistory model;
+    private DateTimeFormatter formatter;
     private long totalDurasi;
     private double totalTransaksi;
-    private NumberFormat nf = NumberFormat.getInstance(new Locale("id", "ID"));
+    private NumberFormat nf;
 
     public History() {
+        model = new modelHistory();
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        nf = NumberFormat.getInstance(new Locale("id", "ID"));
     }
 
     public History(ArrayList<Parkir> parkirs, Pengguna pengguna) {
@@ -79,79 +83,61 @@ public class History implements Laporan {
         st.print();
     }
     
-    private void showLaporanHarian() {
+    @Override
+    public void showLaporanHarian() {
         Table st = new Table();
+        ArrayList<LaporanHarian> lh = new ArrayList<>();
         try {
-            ResultSet rs = model.getLaporan(0);
+            lh = model.getLaporanHarian();
             st.setShowVerticalLines(true);
             st.setHeaders("TANGGAL","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
             int durasi = 0;
             double totalTransaksi = 0;
-            while (rs.next()) {
-                st.addRow(rs.getDate("tanggal").toString(),
-                        rs.getString("nama"),
-                        rs.getString("namaArea"),
-                        rs.getString("namaGarage"),
-                        Parkir.konversiDurasi(rs.getLong("durasi")),
-                        "Rp"+nf.format(rs.getDouble("totalTransaksi"))
-                        // Integer.toString(rs.getInt("totalTransaksi"))
+            for (LaporanHarian laporanHarian : lh) {
+                st.addRow(laporanHarian.getTanggal().toString(),
+                        laporanHarian.getNamaPengguna(),
+                        laporanHarian.getNamaArea(),
+                        laporanHarian.getNamaGarage(),
+                        Parkir.konversiDurasi(laporanHarian.getDurasi()),
+                        "Rp"+nf.format(laporanHarian.getTotalTransaksi())
                     );
-                durasi += rs.getInt("durasi");
-                totalTransaksi += rs.getDouble("totalTransaksi");
+                durasi += laporanHarian.getDurasi();
+                totalTransaksi += laporanHarian.getTotalTransaksi();
             }
-            st.addTotal("","","","",Parkir.konversiDurasi(durasi),"Rp"+nf.format(totalTransaksi));
+            if (durasi>0 || totalTransaksi>0) {
+                st.addTotal("","","","",Parkir.konversiDurasi(durasi),"Rp"+nf.format(totalTransaksi));
+            } else { 
+                st.addTotal("","","","","","");
+                System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Tidak ada transaksi parkir hari ini" + Coloring.ANSI_RESET);
+            }
             st.printWithTotal();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void showLaporanMingguan() {
+    @Override
+    public void showLaporanMingguan() {
         Table st = new Table();
+        ArrayList<LaporanMingguan> lh = new ArrayList<>();
         try {
-            ResultSet rsM = model.getLaporan(1);
+            lh = model.getLaporanMingguan();
             st.setShowVerticalLines(true);
             st.setHeaders("TAHUN","MINGGU","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
             int durasi = 0;
             double totalTransaksi = 0;
-            while (rsM.next()) {
-                st.addRow(Integer.toString(rsM.getInt("tahun")),
-                        Integer.toString(rsM.getInt("minggu")),
-                        rsM.getString("nama"),
-                        rsM.getString("namaArea"),
-                        rsM.getString("namaGarage"),
-                        Parkir.konversiDurasi(rsM.getLong("durasi")),
-                        "Rp"+nf.format(rsM.getDouble("totalTransaksi"))
+            for (LaporanMingguan laporanMingguan : lh) {
+                st.addRow(
+                        Integer.toString(laporanMingguan.getTahun()),
+                        Integer.toString(laporanMingguan.getMinggu()),
+                        laporanMingguan.getNamaPengguna(),
+                        laporanMingguan.getNamaArea(),
+                        laporanMingguan.getNamaGarage(),
+                        Parkir.konversiDurasi(laporanMingguan.getDurasi()),
+                        "Rp"+nf.format(laporanMingguan.getTotalTransaksi())
                     );
-                durasi += rsM.getInt("durasi");
-                totalTransaksi += rsM.getDouble("totalTransaksi");
-            }
-            st.addTotal("","","","","",Parkir.konversiDurasi(durasi),"Rp"+nf.format(totalTransaksi));
-            st.printWithTotal();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void showLaporanBulanan() {
-        Table st = new Table();
-        try {
-            ResultSet rsB = model.getLaporan(2);
-            st.setShowVerticalLines(true);
-            st.setHeaders("TAHUN","BULAN","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
-            int durasi = 0;
-            double totalTransaksi = 0;
-            while (rsB.next()) {
-                st.addRow(Integer.toString(rsB.getInt("tahun")),
-                        Integer.toString(rsB.getInt("bulan")),
-                        rsB.getString("nama"),
-                        rsB.getString("namaArea"),
-                        rsB.getString("namaGarage"),
-                        Parkir.konversiDurasi(rsB.getLong("durasi")),
-                        "Rp"+nf.format(rsB.getDouble("totalTransaksi"))
-                    );
-                durasi += rsB.getInt("durasi");
-                totalTransaksi += rsB.getDouble("totalTransaksi");
+                durasi += laporanMingguan.getDurasi();
+                totalTransaksi += laporanMingguan.getTotalTransaksi();
             }
             st.addTotal("","","","","",Parkir.konversiDurasi(durasi),"Rp"+nf.format(totalTransaksi));
             st.printWithTotal();
@@ -161,17 +147,32 @@ public class History implements Laporan {
     }
 
     @Override
-    public void showLaporan(int i) {
-        switch (i) {
-            case 0:
-                showLaporanHarian();
-                break;
-            case 1:
-                showLaporanMingguan();
-                break;
-            case 2:
-                showLaporanBulanan();
-                break;
+    public void showLaporanBulanan() {
+        Table st = new Table();
+        ArrayList<LaporanBulanan> lh = new ArrayList<>();
+        try {
+            lh = model.getLaporanBulanan();
+            st.setShowVerticalLines(true);
+            st.setHeaders("TAHUN","BULAN","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
+            int durasi = 0;
+            double totalTransaksi = 0;
+            for (LaporanBulanan laporanBulanan : lh) {
+                st.addRow(
+                        Integer.toString(laporanBulanan.getTahun()),
+                        Integer.toString(laporanBulanan.getBulan()),
+                        laporanBulanan.getNamaPengguna(),
+                        laporanBulanan.getNamaArea(),
+                        laporanBulanan.getNamaGarage(),
+                        Parkir.konversiDurasi(laporanBulanan.getDurasi()),
+                        "Rp"+nf.format(laporanBulanan.getTotalTransaksi())
+                    );
+                durasi += laporanBulanan.getDurasi();
+                totalTransaksi += laporanBulanan.getTotalTransaksi();
+            }
+            st.addTotal("","","","","",Parkir.konversiDurasi(durasi),"Rp"+nf.format(totalTransaksi));
+            st.printWithTotal();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
