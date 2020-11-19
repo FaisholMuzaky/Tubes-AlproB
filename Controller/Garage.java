@@ -1,11 +1,12 @@
 package Controller;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import View.Table;
+import View.Coloring;
 
 import Model.modelGarage;
 
@@ -40,14 +41,14 @@ public class Garage {
     // this.namaHari = namaHari;
     // }
 
-    public Garage(String namaGarage, int tarifMobil, int tarifMotor, int hariOperasi, int[] jamBuka, int[] jamTutup,
+    public Garage(String namaGarage, int tarifMobil, int tarifMotor, int hariOperasi, int[] jamBuka2, int[] jamTutup2,
             String[] namaHari) {
         this.namaGarage = namaGarage;
         this.tarifMobil = tarifMobil;
         this.tarifMotor = tarifMotor;
         this.hariOperasi = hariOperasi;
-        this.jamBuka = jamBuka;
-        this.jamTutup = jamTutup;
+        this.jamBuka = jamBuka2;
+        this.jamTutup = jamTutup2;
         this.namaHari = namaHari;
     }
 

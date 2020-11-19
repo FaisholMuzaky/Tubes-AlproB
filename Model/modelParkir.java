@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Controller.Coloring;
+import View.Coloring;
 import Controller.Garage;
 import Controller.Parkir;
 import Controller.Pengguna;
@@ -21,7 +21,7 @@ public class modelParkir implements modelGeneric<Parkir> {
             Statement state = con.createStatement();
             String query = "SELECT idParkir FROM parkir " + "WHERE idKendaraan = '"
                     + parkir.getKendaraan().getIdKendaraan() + "' AND " + "idGarage = '"
-                    + parkir.getGarage().getIdGarage_() + "' AND " + "timeStart = '" + parkir.getTimeStart() + "'";
+                    + parkir.getGarage().getIdGarage() + "' AND " + "timeStart = '" + parkir.getTimeStart() + "'";
             ResultSet rs = state.executeQuery(query);
             if (rs.next()) {
                 return true;
@@ -55,7 +55,7 @@ public class modelParkir implements modelGeneric<Parkir> {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
             String queryIdParkir = "SELECT idParkir FROM parkir " + "WHERE idKendaraan = "
-                    + p.getKendaraan().getIdKendaraan() + " AND " + "idGarage = " + p.getGarage().getIdGarage_()
+                    + p.getKendaraan().getIdKendaraan() + " AND " + "idGarage = " + p.getGarage().getIdGarage()
                     + " AND timeStart='" + p.getTimeStart().format(formatter) + "'";
             ResultSet rs = state.executeQuery(queryIdParkir);
 
@@ -82,7 +82,7 @@ public class modelParkir implements modelGeneric<Parkir> {
             // u.getTimeStart().format(formatter)+"','"+
             // u.getTimeStop().format(formatter)+"')";
             String query = "INSERT INTO parkir" + "(idKendaraan,idGarage,timeStart,timeStop,durasi,totalTransaksi)"
-                    + "VALUES" + "(" + u.getKendaraan().getIdKendaraan() + "," + u.getGarage().getIdGarage_() + ","
+                    + "VALUES" + "(" + u.getKendaraan().getIdKendaraan() + "," + u.getGarage().getIdGarage() + ","
                     + "'" + u.getTimeStart().format(formatter) + "'," + "'" + u.getTimeStop().format(formatter) + "',"
                     + u.getDurasi() + "," + u.getTotalTransaksi() + ");";
             state.execute(query);
@@ -105,7 +105,7 @@ public class modelParkir implements modelGeneric<Parkir> {
             Statement state = con.createStatement();
 
             String query = "CALL updateParkir " + getIdParkir(u) + ", " + u.getKendaraan().getIdKendaraan() + ", "
-                    + u.getGarage().getIdGarage_() + "'" + u.getTimeStop() + "'";
+                    + u.getGarage().getIdGarage() + "'" + u.getTimeStop() + "'";
             result = state.execute(query);
 
         } catch (Exception e) {
@@ -142,13 +142,12 @@ public class modelParkir implements modelGeneric<Parkir> {
             System.out.println("=".repeat(40));
             System.out.println(Coloring.ANSI_BG_BLUE + Coloring.ANSI_WHITE + "PARKIR SUMMARY" + Coloring.ANSI_RESET);
             System.out.println("=".repeat(40));
-<<<<<<< HEAD
-            int durasi = rs.getInt("durasi")%60;
-            int jam = u.convertToHour(rs.getInt("durasi"));
-            if (durasi>0) {
-                jam += 1;
-            } 
             while(rs.next()) {
+                int durasi = rs.getInt("durasi")%60;
+                int jam = u.convertToHour(rs.getInt("durasi"));
+                if (durasi>0) {
+                    jam += 1;
+                } 
                 System.out.println("PLAT NOMOR\t"+rs.getString("nomorKendaraan"));
                 System.out.println("TIPE KENDARAAN\t"+rs.getString("tipeKendaraan"));
                 System.out.println("PEMILIK\t\t"+rs.getString("nama"));
@@ -161,25 +160,10 @@ public class modelParkir implements modelGeneric<Parkir> {
                 System.out.println("WAKTU SELESAI\t"+rs.getString("timeStop"));
                 System.out.println("DURASI\t\t"+ jam + " JAM");
                 System.out.println("TOTAL (Rp)\t"+rs.getInt("totalTransaksi"));
-=======
-            while (rs.next()) {
-                System.out.println("PLAT NOMOR\t" + rs.getString("nomorKendaraan"));
-                System.out.println("TIPE KENDARAAN\t" + rs.getString("tipeKendaraan"));
-                System.out.println("PEMILIK\t\t" + rs.getString("nama"));
-                System.out.println("SUBSCRIPTION\t" + rs.getString("subscription"));
-                System.out.println("GARAGE\t\t" + rs.getString("namaGarage"));
-                System.out.println("TARIF MOTOR\t" + rs.getString("tarifMotor"));
-                System.out.println("TARIF MOBIL\t" + rs.getString("tarifMobil"));
-                System.out.println("AREA\t\t" + rs.getString("namaArea"));
-                System.out.println("WAKTU MULAI\t" + rs.getString("timeStart"));
-                System.out.println("WAKTU SELESAI\t" + rs.getString("timeStop"));
-                System.out.println("DURASI\t\t" + rs.getInt("durasi") + " JAM");
-                System.out.println("TOTAL (Rp)\t" + rs.getInt("totalTransaksi"));
->>>>>>> 047e2af0a51c05157d37c9dcc2d3fac509e0e8d9
             }
             System.out.println("=".repeat(40));
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
         }
     }
 

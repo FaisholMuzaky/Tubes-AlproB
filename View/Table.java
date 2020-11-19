@@ -4,7 +4,7 @@ diakses pada tanggal 2020/11/7 20:10:00 GMT+7
 dilakukan perubahan secukupnya
 */
 
-package Controller;
+package View;
 
 import java.util.ArrayList;
 import java.util.Arrays;

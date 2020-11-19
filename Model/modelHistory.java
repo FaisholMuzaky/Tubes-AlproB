@@ -41,11 +41,9 @@ public class modelHistory {
                 Garage garage = new Garage();
                 garage.setIdGarage(rs.getInt("idGarage"));
                 garage.setNamaGarage(rs.getString("namaGarage"));
-                garage.setHasilOperasi(rs.getInt("hariOperasi"));
                 garage.setTarifMobil(rs.getInt("tarifMobil"));
                 garage.setTarifMotor(rs.getInt("tarifMotor"));
-                garage.setJamBuka(rs.getInt("jamBuka"));
-                garage.setJamTutup(rs.getInt("jamTutup"));
+                setHariOperasional(garage, rs.getInt("idGarage"));
                 Pengguna pengguna = new Pengguna();
                 pengguna.setIdPengguna(rs.getInt("idPengguna"));
                 pengguna.setNama(rs.getString("nama"));
@@ -74,7 +72,38 @@ public class modelHistory {
             //TODO: handle exception
         }
 		return history;
-	}
+    }
+    
+    private void setHariOperasional(Garage garage, int idGarage) {
+        try {
+            String sql_count = "CALL getCountHariOperasional(" + idGarage + ")";
+            Statement state_count = con.createStatement();
+            ResultSet rs_count = state_count.executeQuery(sql_count);
+            rs_count.next();
+            int count = rs_count.getInt("JUMLAH");
+            if (count > 0) {
+                String[] namaHari = new String[count];
+                int[] jamBuka = new int[count];
+                int[] jamTutup = new int[count];
+                int i = 0;
+
+                String sql_ = "CALL getHariOperasional(" + idGarage + ")";
+                Statement state_ = con.createStatement();
+                ResultSet rs_ = state_.executeQuery(sql_);
+                while (rs_.next()) {
+                    namaHari[i] = rs_.getString("namaHari");
+                    jamBuka[i] = rs_.getInt("jamBuka");
+                    jamTutup[i] = rs_.getInt("jamTutup");
+                    i++;
+                }
+                garage.setNamaHari(namaHari);
+                garage.setJamBuka(jamBuka);
+                garage.setJamTutup(jamTutup);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
 
 	public ResultSet getLaporan(int i) {
         try {

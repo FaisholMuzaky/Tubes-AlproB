@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.regex.*;
 
 import java.sql.ResultSet;
-
+import View.Table;
 import Model.modelKendaraan;
 
 public class Kendaraan {

@@ -3,7 +3,7 @@ package Controller;
 import java.sql.ResultSet;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
+import View.Table;
 import Model.modelHistory;
 
 public class History implements Laporan {

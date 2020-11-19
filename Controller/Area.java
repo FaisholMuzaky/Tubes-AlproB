@@ -1,7 +1,7 @@
 package Controller;
 
 import java.sql.ResultSet;
-
+import View.Table;
 import Model.modelArea;
 
 public class Area {

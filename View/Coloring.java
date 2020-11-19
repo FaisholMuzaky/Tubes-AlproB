@@ -2,7 +2,7 @@
 // https://dev.to/awwsmm/coloured-terminal-output-with-java-57l3
 // diakses pada 6/11/2020 08:36:00
 
-package Controller;
+package View;
 
 public class Coloring {
     public static final String ANSI_RESET  = "\u001B[0m";
