@@ -4,6 +4,8 @@ import Controller.*;
 
 import java.util.Scanner;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.DayOfWeek;
@@ -357,6 +359,9 @@ public class View {
             case 2:
                 editArea();
                 break;
+            case 3:
+                hapusArea();
+                break;
             case 4:
                 tambahGarage();
                 break;
@@ -419,6 +424,21 @@ public class View {
         mainArea();
     }
 
+    public void hapusArea() {
+        int number = 20;
+        String judul = " Daftar Area ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        area.viewArea();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        System.out.print("Masukan ID Area : ");
+        int idArea = input.nextInt();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        area.hapusArea(idArea);
+        pressAnyKey();
+        clrscr();
+        mainGarage();
+    }
+
     public void detailArea() {
         Scanner input = new Scanner(System.in);
         int number = 20;
@@ -462,6 +482,9 @@ public class View {
                 break;
             case 2:
                 editGarage();
+                break;
+            case 3:
+                hapusGarage();
                 break;
             case 4:
                 detailGarage();
@@ -600,6 +623,21 @@ public class View {
         mainGarage();
     }
 
+    public void hapusGarage() {
+        int number = 20;
+        String judul = " Daftar Garasi ";
+        System.out.println("=".repeat(number) + judul + "=".repeat(number));
+        garage.listAllGarage();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        System.out.print("Masukan ID Garage : ");
+        int idGarage = input.nextInt();
+        System.out.println("=".repeat((number * 2) + judul.length()));
+        garage.hapusGarage(idGarage);
+        pressAnyKey();
+        clrscr();
+        mainGarage();
+    }
+
     public void detailGarage() {
         int number = 20;
         String judul = " Detail Garasi ";
@@ -627,6 +665,7 @@ public class View {
         history.pengguna(user);
         history.showParkirs();
         pressAnyKey();
+        clrscr();
         mainPengguna();
     }
 
@@ -725,7 +764,7 @@ public class View {
                     parkir.setKendaraan(newKendaraan);
                     toggleParkir(user, parkir, 0);
                 } catch (Exception e) {
-                    // TODO: handle exception
+                    System.out.println(e);
                 }
             } else {
                 System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Data kendaraan tidak tersedia"
@@ -742,7 +781,7 @@ public class View {
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         if (i == 0) {
             System.out.println("1. Start parking");
-            // System.out.println("0. Start manually");
+            System.out.println("0. Start manually");
         } else {
             System.out.println("2. Stop parking");
         }
@@ -773,6 +812,7 @@ public class View {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        clrscr();
                         mainPengguna();
                     } else {
                         System.out.println("Simpan data parkir gagal");
@@ -811,12 +851,26 @@ public class View {
             mainAdmin();
         } else if (pil > 0 && pil <= 3) {
             history.showLaporan(pil - 1);
+            pressAnyKey();
         } else {
-            System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Pilihan tidak tersedia"
-            + Coloring.ANSI_RESET);
+            menuLaporan();
         }
-        pressAnyKey();
+        clrscr();
         menuLaporan();
+        // switch (pil) {
+        // case 1:
+        // laporanHarian();
+        // break;
+        // case 2:
+        // laporanMingguan();
+        // break;
+        // case 3:
+        // laporanBulanan();
+        // break;
+        // default:
+        // mainAdmin();
+        // break;
+        // }
     }
 
     // private void laporanBulanan() {

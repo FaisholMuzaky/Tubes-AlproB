@@ -243,4 +243,26 @@ public class modelGarage {
         }
         return idArea;
     }
+
+    public boolean hapusGarage(int idGarage) {
+        boolean status = false;
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT COUNT(*) FROM garage JOIN parkir USING(idGarage) WHERE garage.idGarage = "
+                    + idGarage;
+            rs = state.executeQuery(query);
+            if (rs.next()) {
+                if (rs.getInt("COUNT(*)") == 0) {
+                    query = "DELETE FROM garage WHERE idGarage = " + idGarage;
+                    state.executeUpdate(query);
+                    status = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return status;
+    }
 }

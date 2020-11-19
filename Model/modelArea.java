@@ -129,6 +129,28 @@ public class modelArea {
         return rs;
     }
 
+    public boolean hapusArea(int idArea) {
+        boolean status = false;
+        ResultSet rs = null;
+        try {
+            Connection con = Database.getKoneksi();
+            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT COUNT(*) FROM area JOIN Garage USING(IdArea) JOIN parkir using(idGarage) WHERE area.IdArea = "
+                    + idArea;
+            rs = state.executeQuery(query);
+            if (rs.next()) {
+                if (rs.getInt("COUNT(*)") == 0) {
+                    query = "DELETE FROM area WHERE idArea = " + idArea;
+                    state.executeUpdate(query);
+                    status = true;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+        }
+        return status;
+    }
+
     public static ResultSet searchIdArea() {
         ResultSet rs = null;
         try {

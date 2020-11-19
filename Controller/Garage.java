@@ -301,19 +301,6 @@ public class Garage {
         }
     }
 
-    // public boolean cekNamaGarage(String namaGarage) {
-    // boolean valid = false;
-    // try {
-    // boolean status = g.searchGarageByName(namaGarage).next();
-    // if (status) {
-    // valid = true;
-    // }
-    // } catch (Exception e) {
-    // System.out.println(e);
-    // }
-    // return valid;
-    // }
-
     public void editGarage(int idGarage, Garage garasi) {
         int status = g.updateGarage(idGarage, garasi);
         if (status == 1) {
@@ -406,4 +393,12 @@ public class Garage {
             return "Close";
     }
 
+    public void hapusGarage(int idGarage) {
+        boolean status = g.hapusGarage(idGarage);
+        if (status) {
+            System.out.println("Penghapusan data garasi berhasil dilakukan");
+        } else {
+            System.out.println("Maaf, Penghapusan data garasi gagal dilakukan");
+        }
+    }
 }

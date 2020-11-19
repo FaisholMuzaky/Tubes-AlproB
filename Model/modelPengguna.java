@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class modelPengguna {
 
     public void login(String email, String password, Pengguna pengguna) {
-        // Pengguna pengguna = new Pengguna();
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();

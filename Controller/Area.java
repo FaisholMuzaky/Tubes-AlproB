@@ -148,4 +148,13 @@ public class Area {
         return area;
     }
 
+    public void hapusArea(int idArea) {
+        boolean status = a.hapusArea(idArea);
+        if (status) {
+            System.out.println("Penghapusan data area berhasil dilakukan");
+        } else {
+            System.out.println("Maaf, Penghapusan data area gagal dilakukan");
+        }
+    }
+    
 }
