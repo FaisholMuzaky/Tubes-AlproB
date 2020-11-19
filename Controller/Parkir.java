@@ -116,9 +116,9 @@ public class Parkir {
         }
         // int addition = (int) (this.durasi % 60);
         long jam = convertToHour(this.durasi);
-        // if(addition>0) {
-        //     jam += 1;
-        // } 
+        if(jam==0) {
+            jam += 1;
+        } 
         String subs = this.pengguna.getSubscription();
         switch (subs) {
             case "easy":

@@ -4,10 +4,12 @@ import Database.Database;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 import View.Coloring;
 import Controller.Parkir;
@@ -15,6 +17,7 @@ import Controller.Pengguna;
 
 public class modelParkir implements modelGeneric<Parkir> {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private NumberFormat nf = NumberFormat.getInstance(new Locale("id", "ID"));
 
     public boolean isParking(Parkir parkir) {
         try {
@@ -149,7 +152,7 @@ public class modelParkir implements modelGeneric<Parkir> {
                 System.out.println("WAKTU MULAI\t"+rs.getString("timeStart"));
                 System.out.println("WAKTU SELESAI\t"+rs.getString("timeStop"));
                 System.out.println("DURASI\t\t"+ jam + " JAM " + menit + " MENIT");
-                System.out.println("TOTAL (Rp)\t"+rs.getInt("totalTransaksi"));
+                System.out.println("TOTAL\t\t"+"Rp"+nf.format(u.getTotalTransaksi()));
             }
             System.out.println("=".repeat(40));
         } catch (Exception e) {

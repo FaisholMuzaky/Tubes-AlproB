@@ -72,7 +72,7 @@ public class History implements Laporan {
                         parkir.getTimeStart().format(formatter).toString(),
                         parkir.getTimeStop().format(formatter).toString(),
                         parkir.getStringDurasi(),
-                        Double.toString(parkir.getTotalTransaksi())
+                        "Rp"+nf.format(parkir.getTotalTransaksi())
                           );
             }
         }
