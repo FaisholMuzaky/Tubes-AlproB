@@ -5,10 +5,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import View.Coloring;
-import Controller.Garage;
 import Controller.Parkir;
 import Controller.Pengguna;
 
@@ -30,23 +31,6 @@ public class modelParkir implements modelGeneric<Parkir> {
             // TODO: handle exception
         }
         return false;
-    }
-
-    private int getIdGarage(Garage g) {
-        int idGarage = 0;
-        try {
-            Connection con = Database.getKoneksi();
-            Statement state = con.createStatement();
-            String queryIdGarage = "SELECT idGarage FROM garage " + "WHERE namaGarage = '" + g.getNamaGarage() + "'";
-            ResultSet rs = state.executeQuery(queryIdGarage);
-            rs = state.executeQuery(queryIdGarage);
-            while (rs.next()) {
-                idGarage = rs.getInt("idGarage");
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        return idGarage;
     }
 
     private int getIdParkir(Parkir p) {
@@ -133,6 +117,7 @@ public class modelParkir implements modelGeneric<Parkir> {
 
     @Override
     public void view(Parkir u) {
+        String tipeKendaraan = u.getKendaraan().getTipeKendaraan();
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -143,22 +128,27 @@ public class modelParkir implements modelGeneric<Parkir> {
             System.out.println(Coloring.ANSI_BG_BLUE + Coloring.ANSI_WHITE + "PARKIR SUMMARY" + Coloring.ANSI_RESET);
             System.out.println("=".repeat(40));
             while(rs.next()) {
-                int durasi = rs.getInt("durasi")%60;
-                int jam = u.convertToHour(rs.getInt("durasi"));
-                if (durasi>0) {
-                    jam += 1;
-                } 
+                LocalDateTime startFrom = LocalDateTime.from(LocalDateTime.parse(rs.getString("timeStart"),formatter));
+                long minutes = startFrom.until(LocalDateTime.parse(rs.getString("timeStop"),formatter), ChronoUnit.MINUTES);
+                long menit = minutes%60;
+                long jam = startFrom.until(LocalDateTime.parse(rs.getString("timeStop"),formatter), ChronoUnit.HOURS);
                 System.out.println("PLAT NOMOR\t"+rs.getString("nomorKendaraan"));
                 System.out.println("TIPE KENDARAAN\t"+rs.getString("tipeKendaraan"));
                 System.out.println("PEMILIK\t\t"+rs.getString("nama"));
                 System.out.println("SUBSCRIPTION\t"+rs.getString("subscription"));
                 System.out.println("GARAGE\t\t"+rs.getString("namaGarage"));
-                System.out.println("TARIF MOTOR\t"+rs.getString("tarifMotor"));
-                System.out.println("TARIF MOBIL\t"+rs.getString("tarifMobil"));
+                if (tipeKendaraan.equals("Mobil")) {
+                    System.out.println("TARIF MOBIL\t"+rs.getString("tarifMobil"));
+                } else if(tipeKendaraan.equals("Motor")) {
+                    System.out.println("TARIF MOTOR\t"+rs.getString("tarifMotor"));
+                } else {
+                    System.out.println("TARIF MOTOR\t"+rs.getString("tarifMotor"));
+                    System.out.println("TARIF MOBIL\t"+rs.getString("tarifMobil"));
+                }
                 System.out.println("AREA\t\t"+rs.getString("namaArea"));
                 System.out.println("WAKTU MULAI\t"+rs.getString("timeStart"));
                 System.out.println("WAKTU SELESAI\t"+rs.getString("timeStop"));
-                System.out.println("DURASI\t\t"+ jam + " JAM");
+                System.out.println("DURASI\t\t"+ jam + " JAM " + menit + " MENIT");
                 System.out.println("TOTAL (Rp)\t"+rs.getInt("totalTransaksi"));
             }
             System.out.println("=".repeat(40));

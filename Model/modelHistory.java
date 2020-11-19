@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 
 import Controller.Area;
@@ -30,6 +28,8 @@ public class modelHistory {
             String sql = "CALL getHistory("+idPengguna+")";
             state = con.createStatement();
             rs = state.executeQuery(sql);
+            long totalDurasi = 0;
+            double totalTransaksi = 0;
             while(rs.next()) {
                 Kendaraan kendaraan = new Kendaraan();
                 kendaraan.setIdKendaraan(rs.getInt("idKendaraan"));
@@ -58,8 +58,12 @@ public class modelHistory {
                 parkir.setDurasi(rs.getInt("durasi"));
                 parkir.setTotalTransaksi(rs.getDouble("totalTransaksi"));
                 parkirs.add(parkir);
+                totalDurasi += rs.getInt("durasi");
+                totalTransaksi += rs.getDouble("totalTransaksi");
             }
             history.setParkirs(parkirs);
+            history.setTotalDurasi(totalDurasi);
+            history.setTotalTransaksi(totalTransaksi);
             modelPengguna m = new modelPengguna();
             ResultSet rsPengguna = m.searchByID(idPengguna);
             Pengguna p = new Pengguna();
@@ -69,7 +73,7 @@ public class modelHistory {
             }
             history.setPengguna(p);
         } catch (SQLException e) {
-            //TODO: handle exception
+            // System.out.println(e.getMessage());
         }
 		return history;
     }
@@ -101,7 +105,7 @@ public class modelHistory {
                 garage.setJamTutup(jamTutup);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            //System.out.println(e.getMessage());
         }
     }
 

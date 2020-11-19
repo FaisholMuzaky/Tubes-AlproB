@@ -79,13 +79,6 @@ public class Parkir {
         LocalDateTime startFrom = LocalDateTime.from(this.timeStart);
         long minutes = startFrom.until(this.timeStop, ChronoUnit.MINUTES);
         this.durasi = (int)minutes;
-        // int addition = (int) (minutes % 60);
-        // long jam = convertToHour(minutes);
-        // if(addition>0) {
-        //     this.durasi = (int) (jam + 1);
-        // } else {
-        //     this.durasi = (int) jam;
-        // }
     }
 
     public int getDurasi() {
@@ -140,12 +133,29 @@ public class Parkir {
         }
     }
 
-    public int convertToHour(long durasiMinutes) {
-        double durasiJam = Math.ceil(durasiMinutes/60);
-        if (durasiJam<1.0) {
-            durasiJam += 1;
+    public static int convertToHour(long durasiMinutes) {
+        double hours = Math.floor(durasiMinutes / 60);
+        long minutes = durasiMinutes % 60;
+        if (minutes > 0) {
+            hours += 1;
         }
-        return (int)durasiJam;
+        return (int) hours;
+    }
+
+    public String getStringDurasi() {
+        String durasi = null;
+        int jam = convertToHour(this.durasi);
+        long minute = this.durasi % 60;
+        durasi = jam + " JAM " + minute + " MENIT";
+        return durasi;
+    }
+
+    public static String konversiDurasi(long minutes) {
+        String durasi = null;
+        long jam = convertToHour(minutes);
+        long minute = minutes%60;
+        durasi = jam + " JAM " + minute + " MENIT";
+        return durasi;
     }
 
     private boolean checkThisMonth() {

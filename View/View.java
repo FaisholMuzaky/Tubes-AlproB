@@ -4,8 +4,6 @@ import Controller.*;
 
 import java.util.Scanner;
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.DayOfWeek;
@@ -744,7 +742,7 @@ public class View {
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         if (i == 0) {
             System.out.println("1. Start parking");
-            System.out.println("0. Start manually");
+            // System.out.println("0. Start manually");
         } else {
             System.out.println("2. Stop parking");
         }
@@ -814,22 +812,11 @@ public class View {
         } else if (pil > 0 && pil <= 3) {
             history.showLaporan(pil - 1);
         } else {
-            menuLaporan();
+            System.out.println(Coloring.ANSI_BG_RED + Coloring.ANSI_WHITE + "Pilihan tidak tersedia"
+            + Coloring.ANSI_RESET);
         }
-        // switch (pil) {
-        // case 1:
-        // laporanHarian();
-        // break;
-        // case 2:
-        // laporanMingguan();
-        // break;
-        // case 3:
-        // laporanBulanan();
-        // break;
-        // default:
-        // mainAdmin();
-        // break;
-        // }
+        pressAnyKey();
+        menuLaporan();
     }
 
     // private void laporanBulanan() {

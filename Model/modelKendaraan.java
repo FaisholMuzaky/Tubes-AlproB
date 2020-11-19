@@ -12,7 +12,7 @@ public class modelKendaraan {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "INSERT INTO KENDARAAN (IDPENGGUNA, NOMORKENDARAAN, TIPEKENDARAAN) " + "VALUES ('"
+            String query = "INSERT INTO kendaraan (IdPengguna, NomorKendaraan, TipeKendaraan) " + "VALUES ('"
                     + idPengguna + "','" + platNomor + "','" + tipeKendaraan + "')";
 
             int rs = state.executeUpdate(query);
