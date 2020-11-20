@@ -11,7 +11,7 @@ import Controller.Garage;
 import java.sql.SQLException;
 
 public class modelGarage {
-    public void insertGarage(int IdArea, Garage garage[]) {
+    public void insertGarage(int IdArea, Garage[] garage) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
@@ -55,10 +55,6 @@ public class modelGarage {
             query = "DELETE FROM harioperasional WHERE IdGarage = '" + idGarage + "'";
             state.executeUpdate(query);
             for (int i = 0; i < garasi.getHariOperasi(); i++) {
-                System.out.println(garasi.getHariOperasi());
-                System.out.println(garasi.getNamaHari()[i]);
-                System.out.println(garasi.getJamBuka()[i]);
-                System.out.println(garasi.getJamTutup()[i]);
                 query = "INSERT INTO harioperasional (IdGarage, namaHari, jamBuka, jamTutup)" + "VALUES('" + idGarage
                         + "','" + garasi.getNamaHari()[i] + "','" + garasi.getJamBuka()[i] + "','"
                         + garasi.getJamTutup()[i] + "')";

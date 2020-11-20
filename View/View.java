@@ -779,7 +779,6 @@ public class View {
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         if (i == 0) {
             System.out.println("1. Start parking");
-            // System.out.println("0. Start manually");
         } else {
             System.out.println("2. Stop parking");
         }
@@ -865,37 +864,5 @@ public class View {
         }
         clrscr();
         menuLaporan();
-        // switch (pil) {
-        // case 1:
-        // laporanHarian();
-        // break;
-        // case 2:
-        // laporanMingguan();
-        // break;
-        // case 3:
-        // laporanBulanan();
-        // break;
-        // default:
-        // mainAdmin();
-        // break;
-        // }
     }
-
-    // private void laporanBulanan() {
-    // history.showLaporanBulanan();
-    // pressAnyKey();
-    // menuLaporan();
-    // }
-
-    // private void laporanMingguan() {
-    // history.showLaporanMingguan();
-    // pressAnyKey();
-    // menuLaporan();
-    // }
-
-    // private void laporanHarian() {
-    // history.showLaporanHarian();
-    // pressAnyKey();
-    // menuLaporan();
-    // }
 }

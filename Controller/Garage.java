@@ -29,18 +29,6 @@ public class Garage {
         this.g = new modelGarage();
     }
 
-    // public Garage(String namaGarage, int tarifMobil, int tarifMotor, int
-    // hariOperasi, int jamBuka, int jamTutup,
-    // String[] namaHari) {
-    // this.namaGarage = namaGarage;
-    // this.tarifMobil = tarifMobil;
-    // this.tarifMotor = tarifMotor;
-    // this.hariOperasi = hariOperasi;
-    // this.jamBuka = jamBuka;
-    // this.jamTutup = jamTutup;
-    // this.namaHari = namaHari;
-    // }
-
     public Garage(String namaGarage, int tarifMobil, int tarifMotor, int hariOperasi, int[] jamBuka2, int[] jamTutup2,
             String[] namaHari) {
         this.namaGarage = namaGarage;
@@ -62,14 +50,6 @@ public class Garage {
         this.jamTutupOperasional = jamTutupOperasional;
         this.hariOperasional = hariOperasional;
     }
-
-    // public Garage(String namaGarage, int tarifMobil, int tarifMotor, int
-    // hariOperasi) {
-    // this.namaGarage = namaGarage;
-    // this.tarifMobil = tarifMobil;
-    // this.tarifMotor = tarifMotor;
-    // this.hariOperasi = hariOperasi;
-    // }
 
     public void setIdGarage(int idGarage) {
         this.idGarage = idGarage;
@@ -172,7 +152,7 @@ public class Garage {
         return g.getGarage(idGarage, idArea, dayParkir);
     }
 
-    public void addGarage(int IdArea, Garage garage[]) {
+    public void addGarage(int IdArea, Garage[] garage) {
         g.insertGarage(IdArea, garage);
     }
 

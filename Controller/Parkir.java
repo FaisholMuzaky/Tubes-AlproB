@@ -21,11 +21,9 @@ public class Parkir {
     private int durasi;
     private modelParkir m;
 
-
     public Parkir() {
         m = new modelParkir();
     }
-
 
     public Pengguna getPengguna() {
         return this.pengguna;
@@ -35,7 +33,6 @@ public class Parkir {
         this.pengguna = pengguna;
     }
 
-
     public LocalDate getTanggal() {
         return this.tanggal;
     }
@@ -43,7 +40,6 @@ public class Parkir {
     public void setTanggal(LocalDate tanggal) {
         this.tanggal = tanggal;
     }
-
 
     public Kendaraan getKendaraan() {
         return this.kendaraan;
@@ -69,7 +65,6 @@ public class Parkir {
         this.garage = garage;
     }
 
-
     public LocalDateTime getTimeStart() {
         return this.timeStart;
     }
@@ -81,7 +76,7 @@ public class Parkir {
     private void setDurasi() {
         LocalDateTime startFrom = LocalDateTime.from(this.timeStart);
         long minutes = startFrom.until(this.timeStop, ChronoUnit.MINUTES);
-        this.durasi = (int)minutes;
+        this.durasi = (int) minutes;
     }
 
     public int getDurasi() {
@@ -117,18 +112,17 @@ public class Parkir {
         } else if (this.kendaraan.getTipeKendaraan().equals("Mobil")) {
             tarifGarage = this.getGarage().getTarifMobil();
         }
-        // int addition = (int) (this.durasi % 60);
         long jam = convertToHour(this.durasi);
-        if(jam==0) {
+        if (jam == 0) {
             jam += 1;
-        } 
+        }
         String subs = this.pengguna.getSubscription();
         switch (subs) {
             case "easy":
                 this.totalTransaksi = jam * tarifGarage + 2000;
                 break;
             case "plus":
-                if(checkThisMonth())
+                if (checkThisMonth())
                     this.totalTransaksi = jam * tarifGarage + 12000;
                 else
                     this.totalTransaksi = jam * tarifGarage;
@@ -156,21 +150,21 @@ public class Parkir {
     public static String konversiDurasi(long minutes) {
         String durasi = null;
         long jam = convertToHour(minutes);
-        long minute = minutes%60;
+        long minute = minutes % 60;
         durasi = jam + " JAM " + minute + " MENIT";
         return durasi;
     }
 
     private boolean checkThisMonth() {
         int t = m.getCountMonthly(LocalDate.now(), this.pengguna);
-        if(t>0)
+        if (t > 0)
             return false;
         else
             return true;
     }
 
     public boolean addParkir() {
-        if(m.save(this))
+        if (m.save(this))
             return true;
         else
             return false;
@@ -194,9 +188,10 @@ public class Parkir {
         return false;
     }
 
-	public void setTimeStart(LocalDateTime timeStart) {
+    public void setTimeStart(LocalDateTime timeStart) {
         this.timeStart = timeStart;
     }
+
     public void setTimeStop(LocalDateTime timeStop) {
         this.timeStop = timeStop;
     }

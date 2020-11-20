@@ -17,7 +17,6 @@ public class modelHistory {
     public modelHistory() {
     }
 
-
     public History getHistory(int idPengguna) {
         Connection con = null;
         Statement state = null;
@@ -27,13 +26,13 @@ public class modelHistory {
         try {
             history = new History();
             ArrayList<Parkir> parkirs = new ArrayList<>();
-            String sql = "CALL getHistory("+idPengguna+")";
+            String sql = "CALL getHistory(" + idPengguna + ")";
             con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
             long totalDurasi = 0;
             double totalTransaksi = 0;
-            while(rs.next()) {
+            while (rs.next()) {
                 Kendaraan kendaraan = new Kendaraan();
                 kendaraan.setIdKendaraan(rs.getInt("idKendaraan"));
                 kendaraan.setPlatNomor(rs.getString("nomorKendaraan"));
@@ -70,22 +69,38 @@ public class modelHistory {
             modelPengguna m = new modelPengguna();
             rsPengguna = m.searchByID(idPengguna);
             Pengguna p = new Pengguna();
-            while(rsPengguna.next()) {
+            while (rsPengguna.next()) {
                 p.setIdPengguna(rs.getInt("idPengguna"));
                 p.setNama(rs.getString("nama"));
             }
             history.setPengguna(p);
         } catch (SQLException e) {
-            // System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
-            try { if (rs!=null) rs.close(); } catch (Exception e) { }
-            try { if (rsPengguna!=null) rsPengguna.close(); } catch (Exception e) { }
-            try { if (state!=null) state.close(); } catch (Exception e) { }
-            try { if (con!=null) con.close(); } catch (Exception e) { }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (rsPengguna != null)
+                    rsPengguna.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state != null)
+                    state.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+            }
         }
-		return history;
+        return history;
     }
-    
+
     private void setHariOperasional(Garage garage, int idGarage) {
         Connection con = null;
         Statement state_count = null;
@@ -119,16 +134,36 @@ public class modelHistory {
                 garage.setJamTutup(jamTutup);
             }
         } catch (Exception e) {
-            //System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
-            try { if (rs_count!=null) rs_count.close(); } catch (Exception e) { }
-            try { if (state_count!=null) state_count.close(); } catch (Exception e) { }
-            try { if (rs_!=null) rs_.close(); } catch (Exception e) { }
-            try { if (state_!=null) state_.close(); } catch (Exception e) { }
-            try { if (con!=null) con.close(); } catch (Exception e) { }
+            try {
+                if (rs_count != null)
+                    rs_count.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state_count != null)
+                    state_count.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (rs_ != null)
+                    rs_.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state_ != null)
+                    state_.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+            }
         }
     }
-    
+
     public ArrayList<LaporanHarian> getLaporanHarian() {
         Connection con = null;
         Statement state = null;
@@ -139,7 +174,7 @@ public class modelHistory {
             con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 LaporanHarian l = new LaporanHarian();
                 l.setTanggal(rs.getDate("tanggal"));
                 l.setNamaPengguna(rs.getString("nama"));
@@ -152,13 +187,25 @@ public class modelHistory {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
-            try { if (rs!=null) rs.close(); } catch (Exception e) { }
-            try { if (state!=null) state.close(); } catch (Exception e) { }
-            try { if (con!=null) con.close(); } catch (Exception e) { }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state != null)
+                    state.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+            }
         }
         return lh;
     }
-    
+
     public ArrayList<LaporanMingguan> getLaporanMingguan() {
         Connection con = null;
         Statement state = null;
@@ -169,7 +216,7 @@ public class modelHistory {
             con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 LaporanMingguan l = new LaporanMingguan();
                 l.setTahun(rs.getInt("tahun"));
                 l.setMinggu(rs.getInt("minggu"));
@@ -183,13 +230,25 @@ public class modelHistory {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
-            try { if (rs!=null) rs.close(); } catch (Exception e) { }
-            try { if (state!=null) state.close(); } catch (Exception e) { }
-            try { if (con!=null) con.close(); } catch (Exception e) { }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state != null)
+                    state.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+            }
         }
         return lh;
     }
-    
+
     public ArrayList<LaporanBulanan> getLaporanBulanan() {
         Connection con = null;
         Statement state = null;
@@ -200,7 +259,7 @@ public class modelHistory {
             con = Database.getKoneksi();
             state = con.createStatement();
             rs = state.executeQuery(sql);
-            while(rs.next()) {
+            while (rs.next()) {
                 LaporanBulanan l = new LaporanBulanan();
                 l.setTahun(rs.getInt("tahun"));
                 l.setBulan(rs.getInt("bulan"));
@@ -214,10 +273,22 @@ public class modelHistory {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
-            try { if (rs!=null) rs.close(); } catch (Exception e) { }
-            try { if (state!=null) state.close(); } catch (Exception e) { }
-            try { if (con!=null) con.close(); } catch (Exception e) { }
+            try {
+                if (rs != null)
+                    rs.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (state != null)
+                    state.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+            }
         }
         return lh;
-	}
+    }
 }

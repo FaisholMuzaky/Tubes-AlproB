@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class modelArea {
 
-    public void insertArea(Area area[]) {
+    public void insertArea(Area[] area) {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();

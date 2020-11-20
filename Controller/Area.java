@@ -37,7 +37,7 @@ public class Area {
         this.idArea = idArea;
     }
 
-    public void addArea(Area area[]) {
+    public void addArea(Area[] area) {
         a.insertArea(area);
     }
 
@@ -156,5 +156,5 @@ public class Area {
             System.out.println("Maaf, Penghapusan data area gagal dilakukan");
         }
     }
-    
+
 }
