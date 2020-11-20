@@ -1,3 +1,6 @@
+// Nama: Walim Abdul Somad
+// NIM : 23520026 
+
 package Model;
 
 import Database.Database;

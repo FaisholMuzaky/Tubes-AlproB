@@ -1,3 +1,6 @@
+// Nama: Walim Abdul Somad
+// NIM : 23520026 
+
 package Controller;
 
 import java.time.format.DateTimeFormatter;
@@ -17,11 +20,17 @@ public class History implements ILaporan {
     private long totalDurasi;
     private double totalTransaksi;
     private NumberFormat nf;
+    ArrayList<LaporanHarian> lh;
+    ArrayList<LaporanMingguan> lm;
+    ArrayList<LaporanBulanan> lb;
 
     public History() {
         model = new modelHistory();
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         nf = NumberFormat.getInstance(new Locale("id", "ID"));
+        lh = new ArrayList<LaporanHarian>();
+        lm = new ArrayList<LaporanMingguan>();
+        lb = new ArrayList<LaporanBulanan>();
     }
 
     public History(ArrayList<Parkir> parkirs, Pengguna pengguna) {
@@ -85,7 +94,6 @@ public class History implements ILaporan {
     @Override
     public void showLaporanHarian() {
         Table st = new Table();
-        ArrayList<LaporanHarian> lh = new ArrayList<>();
         try {
             lh = model.getLaporanHarian();
             st.setShowVerticalLines(true);
@@ -118,14 +126,13 @@ public class History implements ILaporan {
     @Override
     public void showLaporanMingguan() {
         Table st = new Table();
-        ArrayList<LaporanMingguan> lh = new ArrayList<>();
         try {
-            lh = model.getLaporanMingguan();
+            lm = model.getLaporanMingguan();
             st.setShowVerticalLines(true);
-            st.setHeaders("TAHUN","MINGGU","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
+            st.setHeaders("TAHUN", "MINGGU", "NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
             int durasi = 0;
             double totalTransaksi = 0;
-            for (LaporanMingguan laporanMingguan : lh) {
+            for (LaporanMingguan laporanMingguan : lm) {
                 st.addRow(
                         Integer.toString(laporanMingguan.getTahun()),
                         Integer.toString(laporanMingguan.getMinggu()),
@@ -148,14 +155,13 @@ public class History implements ILaporan {
     @Override
     public void showLaporanBulanan() {
         Table st = new Table();
-        ArrayList<LaporanBulanan> lh = new ArrayList<>();
         try {
-            lh = model.getLaporanBulanan();
+            lb = model.getLaporanBulanan();
             st.setShowVerticalLines(true);
-            st.setHeaders("TAHUN","BULAN","NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
+            st.setHeaders("TAHUN", "BULAN", "NAMA PENGGUNA", "AREA", "GARAGE", "DURASI", "TOTAL");
             int durasi = 0;
             double totalTransaksi = 0;
-            for (LaporanBulanan laporanBulanan : lh) {
+            for (LaporanBulanan laporanBulanan : lb) {
                 st.addRow(
                         Integer.toString(laporanBulanan.getTahun()),
                         Integer.toString(laporanBulanan.getBulan()),
