@@ -71,7 +71,7 @@ public class modelKendaraan {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String query = "SELECT COUNT(*) FROM kendaraan JOIN PARKIR USING(idKendaraan) WHERE kendaraan.idKendaraan = "
+            String query = "SELECT COUNT(*) FROM kendaraan JOIN parkir USING(idKendaraan) WHERE kendaraan.idKendaraan = "
                     + idKendaraan;
             rs = state.executeQuery(query);
             if (rs.next()) {

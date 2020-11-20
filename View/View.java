@@ -112,19 +112,19 @@ public class View {
         String judul = " Sistem Parkir ";
         System.out.println("=".repeat(number) + judul + "=".repeat(number));
         System.out.print("Nama\t\t: ");
-        String nama = input.nextLine();
+        String nama = input.next();
         System.out.print("Alamat\t\t: ");
-        String alamat = input.nextLine();
+        String alamat = input.next();
         System.out.print("Email\t\t: ");
-        String email = input.nextLine().toLowerCase();
+        String email = input.next().toLowerCase();
         System.out.print("Password\t: ");
-        String password = input.nextLine();
+        String password = input.next();
         System.out.println("=".repeat((number * 2) + judul.length()));
         if (!nama.isEmpty() && !email.isEmpty() && !alamat.isEmpty() && !password.isEmpty()) {
             if (user.isValidPassword(password) && user.isValidEmail(email)) {
                 user.registrasi(nama, email, alamat, password);
             } else if (!user.isValidEmail(email)) {
-                System.out.println("email sudah digunakan");
+                System.out.println("emai tidak sesuai atau sudah pernah digunakan");
                 pressAnyKey();
                 clrscr();
                 registrasi();
@@ -434,7 +434,7 @@ public class View {
         area.hapusArea(idArea);
         pressAnyKey();
         clrscr();
-        mainGarage();
+        mainArea();
     }
 
     public void detailArea() {

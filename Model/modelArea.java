@@ -135,7 +135,7 @@ public class modelArea {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String query = "SELECT COUNT(*) FROM area JOIN Garage USING(IdArea) JOIN parkir using(idGarage) WHERE area.IdArea = "
+            String query = "SELECT COUNT(*) FROM area JOIN garage USING(IdArea) JOIN parkir using(idGarage) WHERE area.IdArea = "
                     + idArea;
             rs = state.executeQuery(query);
             if (rs.next()) {

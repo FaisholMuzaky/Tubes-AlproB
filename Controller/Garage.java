@@ -179,6 +179,7 @@ public class Garage {
                     System.out.println(" ".repeat(3) + "Tarif Mobil             : Rp. " + data.getInt("tarifMobil"));
                     System.out.println(" ".repeat(3) + "Tarif Motor             : Rp. " + data.getInt("tarifMotor"));
                     System.out.println(" ".repeat(3) + "Jumlah Hari Operasional : " + data.getInt("hariOperasi"));
+                    System.out.println(" ".repeat(3) + "Nama Hari               : " + data.getString("namaHari"));
                     System.out.println(" ".repeat(3) + "Jam Buka                : " + jamBuka);
                     System.out.println(" ".repeat(3) + "Jam Tutup               : " + jamTutup);
                     System.out.println("");

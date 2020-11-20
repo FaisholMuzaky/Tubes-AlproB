@@ -135,22 +135,6 @@ public class modelGarage {
         return rs;
     }
 
-    // tidak digunakan
-    public ResultSet searchGarageByName(String namaGarage) {
-        ResultSet rs = null;
-        try {
-            Connection con = Database.getKoneksi();
-            Statement state = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            String query = "SELECT * FROM garage WHERE namaGarage ='" + namaGarage + "'";
-            rs = state.executeQuery(query);
-        } catch (SQLException e) {
-            System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return rs;
-    }
-
     public ResultSet getNamaArea(int idArea) {
         ResultSet rs = null;
         try {

@@ -34,7 +34,7 @@ public class modelPengguna {
         try {
             Connection con = Database.getKoneksi();
             Statement state = con.createStatement();
-            String query = "INSERT INTO PENGGUNA (NAMA, EMAIL, ALAMAT, PASSWORD, SUBSCRIPTION) " + "VALUES ('" + nama
+            String query = "INSERT INTO pengguna (NAMA, EMAIL, ALAMAT, PASSWORD, SUBSCRIPTION) " + "VALUES ('" + nama
                     + "','" + email + "','" + alamat + "','" + password + "','" + subscription + "')";
 
             int rs = state.executeUpdate(query);
