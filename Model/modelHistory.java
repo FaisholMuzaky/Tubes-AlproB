@@ -134,7 +134,7 @@ public class modelHistory {
                 garage.setJamTutup(jamTutup);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         } finally {
             try {
                 if (rs_count != null)
@@ -185,7 +185,7 @@ public class modelHistory {
                 lh.add(l);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         } finally {
             try {
                 if (rs != null)

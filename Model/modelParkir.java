@@ -118,7 +118,7 @@ public class modelParkir implements modelGeneric<Parkir> {
                 result = true;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            // System.out.println(e);
         } finally {
             try {
                 if (state != null)
@@ -232,7 +232,7 @@ public class modelParkir implements modelGeneric<Parkir> {
             }
             System.out.println("=".repeat(40));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
         } finally {
             try {
                 if (rs != null)
@@ -273,7 +273,7 @@ public class modelParkir implements modelGeneric<Parkir> {
                 jumlah = rs.getInt("JUMLAH");
             }
         } catch (Exception e) {
-            System.out.println(e);
+            // System.out.println(e);
         } finally {
             try {
                 if (rs != null)
